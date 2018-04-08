@@ -5,6 +5,8 @@ import android.os.Bundle;
 
 public class LoginActivity extends AppCompatActivity {
 
+    // testing git (Ryan)
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
