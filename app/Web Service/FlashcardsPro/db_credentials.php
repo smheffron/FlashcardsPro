@@ -1,6 +1,7 @@
 <?php
-$servername = "sql208.epizy.com";
-$username = "epiz_21493325";
-$password = "R6MgyZhBEXkv";
-$dbname = "epiz_21493325_flashcards_pro";
-?>
+  $servername = "sql9.freemysqlhosting.net";
+  $username = "sql9231722";
+  $password = "Q2kYifK62B";
+  $dbname = "sql9231722";
+  $port = 3306;
+  ?>

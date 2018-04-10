@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 
 public class SetViewActivity extends AppCompatActivity {
     public ArrayList<String> mDataset;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +39,17 @@ public class SetViewActivity extends AppCompatActivity {
         mDataset.add("pie");
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        RecyclerAdapter radapter = new RecyclerAdapter(mDataset);
+        RecyclerAdapter radapter = new RecyclerAdapter(mDataset, this){
+
+        };
         recyclerView.setAdapter(radapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+
+
+    }
+
+    public void onLongClickofCard(Integer position){
+        Log.d("sdjlkfnlkasjdf", position.toString());
     }
 }
