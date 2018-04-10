@@ -17,7 +17,7 @@ $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
 
 require('db_credentials.php');
 
-$mysqli = new mysqli($servername, $username, $password, $dbname);
+$mysqli = new mysqli($servername, $username, $password, $dbname, $port);
 if($mysqli->connect_error){
     $response['status'] = 'failed';
     exit(json_encode($response));

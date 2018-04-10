@@ -9,6 +9,10 @@
             name="activity"
             type="com.merlinsbeard.flashcardspro.LoginActivity" />
 
+        <variable
+            name="user"
+            type="com.merlinsbeard.flashcardspro.User" />
+
         <import type="android.view.View" />
 
     </data>
@@ -29,6 +33,7 @@
             android:ems="10"
             android:hint="Username"
             android:inputType="textPersonName"
+            android:text="@={user.username}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.503"
             app:layout_constraintStart_toStartOf="parent"
@@ -46,6 +51,7 @@
             android:ems="10"
             android:hint="Password"
             android:inputType="textPassword"
+            android:text="@={user.password}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.503"
             app:layout_constraintStart_toStartOf="parent"
