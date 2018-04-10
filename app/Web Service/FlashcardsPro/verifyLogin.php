@@ -1,4 +1,8 @@
 <?php
+if($data = json_decode(file_get_contents("php://input"), true)){
+    $_POST = $data;
+}
+
 $response = array("status" => "success", "login" => "failed");
 
 $userLogin = $_POST['username'];
@@ -15,7 +19,7 @@ if(!($userPassword)){
 
 require('db_credentials.php');
 
-$mysqli = new mysqli($servername, $username, $password, $dbname);
+$mysqli = new mysqli($servername, $username, $password, $dbname, $port);
 if($mysqli->connect_error){
     $response['status'] = 'failed';
     exit(json_encode($response));
