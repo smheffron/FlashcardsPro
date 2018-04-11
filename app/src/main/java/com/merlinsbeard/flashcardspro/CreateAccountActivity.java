@@ -1,7 +1,9 @@
 package com.merlinsbeard.flashcardspro;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -64,15 +66,18 @@ public class CreateAccountActivity extends AppCompatActivity {
         params.put("password", newUser.getPassword());
 
         final Activity thisActivity = this;
+        final SharedPreferences preferences = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(params), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
                     if(response.getString("status").equals("succeeded")){
-                        // get new id and login
-                        // for now just go back to login page
-                        Intent intent = new Intent(thisActivity, LoginActivity.class);
+                        SharedPreferences.Editor editor = preferences.edit();
+                        editor.putString("username",newUser.getUsername());
+                        editor.putInt("userId",response.getInt("userId"));
+                        editor.commit();
+                        Intent intent = new Intent(thisActivity, SetViewActivity.class);
                         startActivity(intent);
                     }
                     else {
