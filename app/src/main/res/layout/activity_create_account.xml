@@ -9,6 +9,11 @@
             name="activity"
             type="com.merlinsbeard.flashcardspro.CreateAccountActivity" />
 
+        <variable
+            name="newUser"
+            type="com.merlinsbeard.flashcardspro.NewUser" />
+
+
         <import type="android.view.View" />
 
     </data>
@@ -29,13 +34,14 @@
             android:ems="10"
             android:hint="Username"
             android:inputType="textPersonName"
+            android:text="@={newUser.username}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.503"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/newUserUserPassword"
+            android:id="@+id/newUserPassword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
@@ -46,10 +52,29 @@
             android:ems="10"
             android:hint="Password"
             android:inputType="textPassword"
+            android:text="@={newUser.password}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.503"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/newUserUsername" />
+
+        <EditText
+            android:id="@+id/newUserConfirmPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="28dp"
+            android:ems="10"
+            android:hint="Confirm Password"
+            android:inputType="textPassword"
+            android:text="@={newUser.confirmPassword}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.503"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/newUserPassword" />
 
         <Button
             android:id="@+id/newUserCreateAccountButton"
@@ -61,9 +86,10 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="28dp"
             android:text="Create Account"
+            android:onClick="@{activity::onClickCreateAccountButton}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/newUserUserPassword" />
+            app:layout_constraintTop_toBottomOf="@+id/newUserConfirmPassword" />
 
     </android.support.constraint.ConstraintLayout>
 
