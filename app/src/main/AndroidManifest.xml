@@ -11,15 +11,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LoginActivity">
+        <activity android:name=".LaunchActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CreateAccountActivity" />
-        <activity android:name=".SetViewActivity"></activity>
+        <activity android:name=".LoginActivity"
+                  android:label="Login"/>
+        <activity android:name=".CreateAccountActivity"
+                  android:label="Create Account"/>
+        <activity android:name=".SetViewActivity"
+                  android:label="Sets"/>
     </application>
 
 </manifest>
