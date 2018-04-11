@@ -24,5 +24,12 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.4" />
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="No sets to display"
+        android:gravity="center"
+        android:id="@+id/emptyView"/>
+
 
 </android.support.constraint.ConstraintLayout>

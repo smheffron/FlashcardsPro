@@ -35,9 +35,6 @@ public class LoginActivity extends AppCompatActivity {
         binding.setActivity(this);
         binding.setUser(user);
 
-
-
-
     }
 
     public void onClickCreateAccount(View view){
