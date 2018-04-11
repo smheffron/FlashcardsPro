@@ -17,8 +17,10 @@
         }
     }
 
+    $resultString = '';
+
     foreach($testArray as $row){
-        $resultString .= "username: " . $row['username'] . " password: " . $row['password'] . "<br>";
+        $resultString .= "username: " . $row['username'] . " password: " . $row['password'] . " id: " . $row['id'] . "<br>";
     }
 
     print($resultString);

@@ -5,13 +5,13 @@ if($data = json_decode(file_get_contents("php://input"), true)){
 
 $response = array("status" => "success", "login" => "failed");
 
-$userLogin = $_POST['username'];
+$userLogin = $_POST['username'] ? $_POST['username'] : '';
 if(!($userLogin)){
     $response['status'] = 'failed';
     exit(json_encode($response));
 }
 
-$userPassword= $_POST['password'];
+$userPassword= $_POST['password'] ? $_POST['password'] : '';
 if(!($userPassword)){
     $response['status'] = 'failed';
     exit(json_encode($response));

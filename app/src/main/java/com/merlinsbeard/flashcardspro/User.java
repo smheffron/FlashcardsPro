@@ -35,4 +35,8 @@ public class User extends BaseObservable{
         this.password = password;
         notifyPropertyChanged(BR.password);
     }
+
+    public void setUserId(final int id){
+        this.userId = id;
+    }
 }
