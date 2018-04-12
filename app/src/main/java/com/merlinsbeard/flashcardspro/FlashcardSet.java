@@ -1,17 +1,17 @@
 package com.merlinsbeard.flashcardspro;
 
 public class FlashcardSet {
-    private int userId;
+    private int setId;
     private String name;
 
 
-    FlashcardSet(int userId, String name){
+    FlashcardSet(int setId, String name){
         this.name=name;
-        this.userId=userId;
+        this.setId=setId;
     }
 
-    public int getUserId() {
-        return userId;
+    public int getSetId() {
+        return setId;
     }
 
     public String getName() {
@@ -22,7 +22,7 @@ public class FlashcardSet {
         this.name = name;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setId(int setId) {
+        this.setId = setId;
     }
 }
