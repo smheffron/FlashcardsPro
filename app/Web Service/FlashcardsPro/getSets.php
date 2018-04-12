@@ -32,11 +32,6 @@ if(!($result = $stmt->get_result())){
     exit(json_encode($response));
 }
 
-if($result->num_rows <= 0){
-    $response['status'] = 'failed';
-    exit(json_encode($response));
-}
-
 $sets = array();
     
 while($row = $result->fetch_assoc()) {

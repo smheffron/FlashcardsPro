@@ -19,11 +19,14 @@
             </intent-filter>
         </activity>
         <activity android:name=".LoginActivity"
-                  android:label="Login"/>
+                  android:label="Login"
+                  android:screenOrientation="portrait"/>
         <activity android:name=".CreateAccountActivity"
-                  android:label="Create Account"/>
+                  android:label="Create Account"
+                  android:screenOrientation="portrait"/>
         <activity android:name=".SetViewActivity"
-                  android:label="Sets"/>
+                  android:label="Sets"
+                  android:screenOrientation="portrait"/>
     </application>
 
 </manifest>
