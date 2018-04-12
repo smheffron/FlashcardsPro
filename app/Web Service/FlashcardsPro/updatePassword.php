@@ -1,11 +1,15 @@
 <?php
-$userId = $_GET['id'] ? $_GET['id'] : -1;
-
 if($data = json_decode(file_get_contents("php://input"), true)){
     $_POST = $data;
 }
 
 $response = array("status" => "success");
+
+$userId = $_GET['id'] ? $_GET['id'] : -1;
+if($userId == -1){
+    $response['status'] = 'failed';
+    exit(json_encode($response));
+}
 
 $oldPassword = $_POST['oldPassword'] ? $_POST['oldPassword'] : '';
 if(!($oldPassword)){
