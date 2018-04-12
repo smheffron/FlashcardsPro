@@ -92,8 +92,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                             case R.id.popupMenuOptions1:
 
                                 setViewActivity.handleDeleteClick(position);
-
                                 break;
+
+                            case R.id.popupMenuOptions2:
+
+                                setViewActivity.handleRenameClick(position);
+                                break;
+
                         }
                         return false;
                     }
