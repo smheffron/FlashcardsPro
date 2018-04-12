@@ -2,23 +2,16 @@ package com.merlinsbeard.flashcardspro;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -45,7 +38,7 @@ public class SetViewActivity extends AppCompatActivity {
         emptyView = findViewById(R.id.emptyView);
         emptyView.setVisibility(View.INVISIBLE);
 
-        if(mDataset == null){
+        if(mDataset == null || mDataset.isEmpty()){
             emptyView.setVisibility(View.VISIBLE);
         }
         else if(recyclerAdapter == null){
@@ -73,6 +66,9 @@ public class SetViewActivity extends AppCompatActivity {
 
         Log.d("The values left are: ", mDataset.toString());
 
+        if(mDataset.isEmpty()){
+            emptyView.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -126,6 +122,7 @@ public class SetViewActivity extends AppCompatActivity {
 
                         }
                         recyclerAdapter.notifyDataSetChanged();
+                        emptyView.setVisibility(View.INVISIBLE);
                         dialog.dismiss();
                     }
                 }

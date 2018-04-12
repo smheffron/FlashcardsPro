@@ -72,6 +72,7 @@ public class CreateAccountActivity extends AppCompatActivity {
             @Override
             public void onResponse(JSONObject response) {
                 try {
+
                     if(response.getString("status").equals("succeeded")){
                         SharedPreferences.Editor editor = preferences.edit();
                         editor.putString("username",newUser.getUsername());
