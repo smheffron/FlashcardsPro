@@ -55,7 +55,7 @@ if(!password_verify($userPassword, $hashedPassword)){
     exit(json_encode($response));
 }
 
-// set username
+// delete user
 $stmt = $mysqli->prepare("DELETE FROM users WHERE id = ?");
 
 if(!($stmt->bind_param("i", $userId))){

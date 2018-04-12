@@ -103,22 +103,44 @@ public class SetViewActivity extends AppCompatActivity {
     }
 
 
-    public void handleDeleteClick(Integer i){
+    public void handleDeleteClick(final Integer i){
+        int idToRemove = mDataset.get(i).getSetId();
 
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = "http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/deleteCardSet.php?id=" + idToRemove;
 
-        // add DB deletion logic here
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    if(response.getString("status").equals("succeeded")){
+                        mDataset.remove(mDataset.get(i));
 
-        mDataset.remove(mDataset.get(i));
+                        recyclerView.removeViewAt(i);
+                        recyclerAdapter.notifyItemRemoved(i);
+                        recyclerAdapter.notifyItemRangeChanged(i, mDataset.size());
 
-        recyclerView.removeViewAt(i);
-        recyclerAdapter.notifyItemRemoved(i);
-        recyclerAdapter.notifyItemRangeChanged(i, mDataset.size());
+                        Log.d("The values left are: ", mDataset.toString());
 
-        Log.d("The values left are: ", mDataset.toString());
+                        if(mDataset.isEmpty()){
+                            emptyView.setVisibility(View.VISIBLE);
+                        }
+                    }
+                    else {
+                        Toast.makeText(getApplicationContext(), "Could not connect to server", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("LOGIN ERROR", error.toString());
+            }
+        });
 
-        if(mDataset.isEmpty()){
-            emptyView.setVisibility(View.VISIBLE);
-        }
+        queue.add(request);
     }
 
     @Override

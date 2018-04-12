@@ -66,6 +66,8 @@ public class LoginActivity extends AppCompatActivity {
         final Activity thisActivity = this;
         final SharedPreferences preferences = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
 
+        binding.loginButton.setEnabled(false);
+
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(params), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -77,14 +79,17 @@ public class LoginActivity extends AppCompatActivity {
                             editor.putInt("userId",response.getInt("userId"));
                             editor.commit();
                             Intent intent = new Intent(thisActivity, SetViewActivity.class);
+                            binding.loginButton.setEnabled(true);
                             startActivity(intent);
                         }
                         else {
                             Toast.makeText(getApplicationContext(), "Incorrect username/password", Toast.LENGTH_SHORT).show();
+                            binding.loginButton.setEnabled(true);
                         }
                     }
                     else {
                         Toast.makeText(getApplicationContext(), "Could not connect to server", Toast.LENGTH_SHORT).show();
+                        binding.loginButton.setEnabled(true);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
