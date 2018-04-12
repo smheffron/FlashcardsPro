@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">Flashcards Pro</string>
+    <string name="popupLabel">Set Name</string>
+    <string name="buttonCancel">Cancel</string>
+    <string name="buttonCreate">Create</string>
+    <string name="userName">Username</string>
+    <string name="password">Password</string>
+    <string name="confirmPW">Confirm Password</string>
+    <string name="createAccount">Create Account</string>
+    <string name="no_sets_to_display">No sets to display</string>
+    <string name="more_options">more options</string>
+    <string name="login">Login</string>
 </resources>

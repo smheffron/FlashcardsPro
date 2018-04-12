@@ -27,7 +27,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="No sets to display"
+        android:text="@string/no_sets_to_display"
         android:gravity="center"
         android:id="@+id/emptyView"/>
 
