@@ -2,6 +2,7 @@ package com.merlinsbeard.flashcardspro;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,7 +17,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 public class SetViewActivity extends AppCompatActivity {
-    private ArrayList<String> mDataset;
+    private ArrayList<FlashcardSet> mDataset;
     private RecyclerView recyclerView;
     private RecyclerAdapter recyclerAdapter;
     private TextView emptyView;
@@ -77,7 +78,6 @@ public class SetViewActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-    // handle button activities
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -108,9 +108,15 @@ public class SetViewActivity extends AppCompatActivity {
                         Toast.makeText(context, "Give your set a name", Toast.LENGTH_LONG).show();
                     } else {
 
+                        SharedPreferences preferences = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
+
+                        int userId = preferences.getInt("userId", -1);
+
+                        FlashcardSet flashcardSet = new FlashcardSet(userId,name);
+                        
                         //add DB insertion logic here
 
-                        mDataset.add(name);
+                        mDataset.add(flashcardSet);
 
                         if (recyclerAdapter == null) {
 

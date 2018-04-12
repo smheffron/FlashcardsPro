@@ -46,12 +46,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     }
 
-    private ArrayList<String> mDataset;
+    private ArrayList<FlashcardSet> mDataset;
     private Context context;
     private SetViewActivity setViewActivity;
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public RecyclerAdapter(ArrayList<String> myDataset, Context context, SetViewActivity s) {
+    public RecyclerAdapter(ArrayList<FlashcardSet> myDataset, Context context, SetViewActivity s) {
         this.mDataset = myDataset;
         this.context = context;
         this.setViewActivity=s;
@@ -74,7 +74,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
-        holder.mTextView.setText(mDataset.get(position));
+        holder.mTextView.setText(mDataset.get(position).getName());
 
         holder.threeDots.setOnClickListener(new View.OnClickListener(){
 
