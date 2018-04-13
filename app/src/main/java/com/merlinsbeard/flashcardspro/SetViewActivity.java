@@ -141,6 +141,91 @@ public class SetViewActivity extends AppCompatActivity {
         });
 
         queue.add(request);
+
+    }
+
+    public void handleRenameClick(final Integer i){
+        final int idToRename = mDataset.get(i).getSetId();
+
+        final Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.rename_set_popup);
+        dialog.setTitle("Rename set");
+        dialog.show();
+
+        final TextView setName = (TextView) dialog.findViewById(R.id.newSetNameFromPopup);
+        setName.setHint(mDataset.get(i).getName());
+
+
+        dialog.findViewById(R.id.dialogButtonCancelFromRename).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.findViewById(R.id.dialogButtonOKFromRename).setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+
+                final String name = String.valueOf(setName.getText());
+
+                if (name.isEmpty()) {
+                    Toast.makeText(context, "Give your set a name", Toast.LENGTH_LONG).show();
+                } else {
+
+                    RequestQueue queue = Volley.newRequestQueue(setViewActivity);
+                    String url = "http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/updateSetName.php?id=";
+
+                    url+=idToRename;
+
+                    Map<String,String> params = new HashMap<>();
+                    params.put("title", name);
+
+                    JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(params), new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            try {
+                                if(response.getString("status").equals("succeeded")){
+
+                                    mDataset.get(i).setName(name);
+
+                                    if (recyclerAdapter == null) {
+
+                                        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+                                        recyclerAdapter = new RecyclerAdapter(mDataset, context, setViewActivity) {
+                                        };
+                                        recyclerView.setAdapter(recyclerAdapter);
+                                        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+
+                                    }
+                                    recyclerAdapter.notifyDataSetChanged();
+                                    emptyView.setVisibility(View.INVISIBLE);
+                                }
+                                else {
+                                    Toast.makeText(getApplicationContext(), "Could not connect to server", Toast.LENGTH_SHORT).show();
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.d("LOGIN ERROR", error.toString());
+                        }
+                    });
+
+                    queue.add(request);
+
+                    dialog.dismiss();
+                }
+            }
+        });
+
+
+
+
     }
 
     @Override
