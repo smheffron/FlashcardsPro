@@ -106,7 +106,7 @@ public class SetViewActivity extends AppCompatActivity {
         });
 
         queue.add(request);
-        
+
     }
 
 
