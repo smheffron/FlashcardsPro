@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -29,17 +30,19 @@ public class LoginActivity extends AppCompatActivity {
 
     private LoginActivityBinding binding;
     private User user = new User();
+    private ProgressBar loadingAnimation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-
         binding = DataBindingUtil.setContentView(this, R.layout.login_activity);
         binding.setActivity(this);
         binding.setUser(user);
 
+        //bind in future version
+        loadingAnimation = (ProgressBar) findViewById(R.id.loadingAnimation);
+        loadingAnimation.setVisibility(View.INVISIBLE);
     }
 
     public void onClickCreateAccount(View view){
@@ -80,6 +83,7 @@ public class LoginActivity extends AppCompatActivity {
                             editor.commit();
                             Intent intent = new Intent(thisActivity, SetViewActivity.class);
                             binding.loginButton.setEnabled(true);
+                            loadingAnimation.setVisibility(ProgressBar.INVISIBLE);
                             startActivity(intent);
                         }
                         else {
@@ -102,6 +106,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        loadingAnimation.setVisibility(ProgressBar.VISIBLE);
         queue.add(request);
     }
 
