@@ -12,6 +12,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,7 +39,7 @@ public class SetViewActivity extends AppCompatActivity {
     private RecyclerAdapter recyclerAdapter;
     private TextView emptyView;
     private Context context;
-    private FloatingActionButton floatingActionButton;
+    private FloatingActionButton addSetButton;
 
     private SetViewActivity setViewActivity;
 
@@ -45,9 +48,22 @@ public class SetViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set_view);
 
+        addSetButton = findViewById(R.id.addSetButton);
+        Animation growAnimation = AnimationUtils.loadAnimation(this, R.anim.grow);
+        addSetButton.startAnimation(growAnimation);
 
-        floatingActionButton = findViewById(R.id.addSetButton);
         recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.addOnScrollListener(new RecyclerScrollAnimator() {
+            @Override
+            public void hide() {
+                addSetButton.animate().translationY(addSetButton.getHeight() + 50).setInterpolator(new DecelerateInterpolator(2)).start();
+            }
+
+            @Override
+            public void show() {
+                addSetButton.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
+            }
+        });
 
         setViewActivity = this;
 
@@ -83,7 +99,6 @@ public class SetViewActivity extends AppCompatActivity {
                             emptyView.setVisibility(View.VISIBLE);
                         }
                         else if(recyclerAdapter == null){
-                            recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
                             recyclerAdapter = new RecyclerAdapter(mDataset, context, setViewActivity) {
 
                             };
@@ -198,8 +213,6 @@ public class SetViewActivity extends AppCompatActivity {
                                     mDataset.get(i).setName(name);
 
                                     if (recyclerAdapter == null) {
-
-                                        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
                                         recyclerAdapter = new RecyclerAdapter(mDataset, context, setViewActivity) {
                                         };
                                         recyclerView.setAdapter(recyclerAdapter);
@@ -299,8 +312,6 @@ public class SetViewActivity extends AppCompatActivity {
                                     mDataset.add(flashcardSet);
 
                                     if (recyclerAdapter == null) {
-
-                                        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
                                         recyclerAdapter = new RecyclerAdapter(mDataset, context, setViewActivity) {
                                         };
                                         recyclerView.setAdapter(recyclerAdapter);
