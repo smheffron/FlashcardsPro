@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -35,6 +36,7 @@ public class SetViewActivity extends AppCompatActivity {
     private RecyclerAdapter recyclerAdapter;
     private TextView emptyView;
     private Context context;
+    private FloatingActionButton floatingActionButton;
 
     private SetViewActivity setViewActivity;
 
@@ -42,6 +44,10 @@ public class SetViewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set_view);
+
+
+        floatingActionButton = findViewById(R.id.addSetButton);
+        recyclerView = findViewById(R.id.recyclerView);
 
         setViewActivity = this;
 
@@ -100,6 +106,7 @@ public class SetViewActivity extends AppCompatActivity {
         });
 
         queue.add(request);
+        
     }
 
 
@@ -238,85 +245,92 @@ public class SetViewActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.plusButton) {
 
-            final Dialog dialog = new Dialog(this);
-            dialog.setContentView(R.layout.add_set_popup);
-            dialog.setTitle("Create a new set");
-            dialog.show();
+        //write user account info logic here
 
-            dialog.findViewById(R.id.dialogButtonCancel).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    dialog.dismiss();
-                }
-            });
 
-            dialog.findViewById(R.id.dialogButtonOK).setOnClickListener(new View.OnClickListener() {
 
-                @Override
-                public void onClick(View view) {
-
-                    TextView setName = (TextView) dialog.findViewById(R.id.setNameFromPopup);
-                    final String name = String.valueOf(setName.getText());
-
-                    if (name.isEmpty()) {
-                        Toast.makeText(context, "Give your set a name", Toast.LENGTH_LONG).show();
-                    } else {
-
-                        RequestQueue queue = Volley.newRequestQueue(setViewActivity);
-                        String url = "http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/newCardSet.php?id=";
-
-                        final SharedPreferences preferences = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
-                        int userId = preferences.getInt("userId", -1);
-                        url += userId;
-
-                        Map<String,String> params = new HashMap<>();
-                        params.put("title", name);
-
-                        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(params), new Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                try {
-                                    if(response.getString("status").equals("succeeded")){
-                                        int newSetId = response.getInt("newSetId");
-                                        FlashcardSet flashcardSet = new FlashcardSet(newSetId, name);
-
-                                        mDataset.add(flashcardSet);
-
-                                        if (recyclerAdapter == null) {
-
-                                            recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-                                            recyclerAdapter = new RecyclerAdapter(mDataset, context, setViewActivity) {
-                                            };
-                                            recyclerView.setAdapter(recyclerAdapter);
-                                            recyclerView.setLayoutManager(new LinearLayoutManager(context));
-
-                                        }
-                                        recyclerAdapter.notifyDataSetChanged();
-                                        emptyView.setVisibility(View.INVISIBLE);
-                                    }
-                                    else {
-                                        Toast.makeText(getApplicationContext(), "Could not connect to server", Toast.LENGTH_SHORT).show();
-                                    }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }, new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Log.d("LOGIN ERROR", error.toString());
-                            }
-                        });
-
-                        queue.add(request);
-
-                        dialog.dismiss();
-                    }
-                }
-            });
-        }
         return super.onOptionsItemSelected(item);
     }
+
+    public void onClickPlusButton(View view){
+        final Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.add_set_popup);
+        dialog.setTitle("Create a new set");
+        dialog.show();
+
+        dialog.findViewById(R.id.dialogButtonCancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.findViewById(R.id.dialogButtonOK).setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+
+                TextView setName = (TextView) dialog.findViewById(R.id.setNameFromPopup);
+                final String name = String.valueOf(setName.getText());
+
+                if (name.isEmpty()) {
+                    Toast.makeText(context, "Give your set a name", Toast.LENGTH_LONG).show();
+                } else {
+
+                    RequestQueue queue = Volley.newRequestQueue(setViewActivity);
+                    String url = "http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/newCardSet.php?id=";
+
+                    final SharedPreferences preferences = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
+                    int userId = preferences.getInt("userId", -1);
+                    url += userId;
+
+                    Map<String,String> params = new HashMap<>();
+                    params.put("title", name);
+
+                    JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(params), new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            try {
+                                if(response.getString("status").equals("succeeded")){
+                                    int newSetId = response.getInt("newSetId");
+                                    FlashcardSet flashcardSet = new FlashcardSet(newSetId, name);
+
+                                    mDataset.add(flashcardSet);
+
+                                    if (recyclerAdapter == null) {
+
+                                        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+                                        recyclerAdapter = new RecyclerAdapter(mDataset, context, setViewActivity) {
+                                        };
+                                        recyclerView.setAdapter(recyclerAdapter);
+                                        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+
+                                    }
+                                    recyclerAdapter.notifyDataSetChanged();
+                                    emptyView.setVisibility(View.INVISIBLE);
+                                }
+                                else {
+                                    Toast.makeText(getApplicationContext(), "Could not connect to server", Toast.LENGTH_SHORT).show();
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.d("LOGIN ERROR", error.toString());
+                        }
+                    });
+
+                    queue.add(request);
+
+                    dialog.dismiss();
+                }
+            }
+        });
+    }
+
+
 }
