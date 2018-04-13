@@ -4,6 +4,11 @@
     >
 
     <item
+        android:id="@+id/popupMenuOptions2"
+        android:title="@string/rename_string"
+        />
+
+    <item
         android:id="@+id/popupMenuOptions1"
         android:title="Delete" />
 
