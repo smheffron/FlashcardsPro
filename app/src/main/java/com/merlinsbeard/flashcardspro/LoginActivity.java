@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -29,17 +30,18 @@ public class LoginActivity extends AppCompatActivity {
 
     private LoginActivityBinding binding;
     private User user = new User();
+    private ProgressBar loadingAnimation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-
         binding = DataBindingUtil.setContentView(this, R.layout.login_activity);
         binding.setActivity(this);
         binding.setUser(user);
 
+        loadingAnimation = binding.loadingAnimation;
+        loadingAnimation.setVisibility(View.INVISIBLE);
     }
 
     public void onClickCreateAccount(View view){
@@ -79,19 +81,23 @@ public class LoginActivity extends AppCompatActivity {
                             editor.putInt("userId",response.getInt("userId"));
                             editor.commit();
                             Intent intent = new Intent(thisActivity, SetViewActivity.class);
-                            binding.loginButton.setEnabled(true);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            loadingAnimation.setVisibility(ProgressBar.INVISIBLE);
                             startActivity(intent);
                         }
                         else {
                             Toast.makeText(getApplicationContext(), "Incorrect username/password", Toast.LENGTH_SHORT).show();
                             binding.loginButton.setEnabled(true);
+                            loadingAnimation.setVisibility(ProgressBar.INVISIBLE);
                         }
                     }
                     else {
                         Toast.makeText(getApplicationContext(), "Could not connect to server", Toast.LENGTH_SHORT).show();
                         binding.loginButton.setEnabled(true);
+                        loadingAnimation.setVisibility(ProgressBar.INVISIBLE);
                     }
                 } catch (JSONException e) {
+                    //handle this better
                     e.printStackTrace();
                 }
             }
@@ -102,6 +108,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        loadingAnimation.setVisibility(ProgressBar.VISIBLE);
         queue.add(request);
     }
 

@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -29,6 +30,7 @@ public class CreateAccountActivity extends AppCompatActivity {
 
     private ActivityCreateAccountBinding binding;
     private NewUser newUser = new NewUser();
+    private ProgressBar loadingAnimation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +38,9 @@ public class CreateAccountActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_create_account);
         binding.setActivity(this);
         binding.setNewUser(newUser);
+
+        loadingAnimation = binding.loadingAnimation;
+        loadingAnimation.setVisibility(View.INVISIBLE);
     }
 
     public void onClickCreateAccountButton(View view){
@@ -68,6 +73,8 @@ public class CreateAccountActivity extends AppCompatActivity {
         final Activity thisActivity = this;
         final SharedPreferences preferences = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
 
+        binding.newUserCreateAccountButton.setEnabled(false);
+
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(params), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -79,6 +86,8 @@ public class CreateAccountActivity extends AppCompatActivity {
                         editor.putInt("userId",response.getInt("userId"));
                         editor.commit();
                         Intent intent = new Intent(thisActivity, SetViewActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        loadingAnimation.setVisibility(ProgressBar.INVISIBLE);
                         startActivity(intent);
                     }
                     else {
@@ -89,8 +98,12 @@ public class CreateAccountActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "Could not connect to server", Toast.LENGTH_SHORT).show();
                             Log.d("WEB SERVICE ERROR", "problem with web serivce");
                         }
+
+                        binding.newUserCreateAccountButton.setEnabled(true);
+                        loadingAnimation.setVisibility(ProgressBar.INVISIBLE);
                     }
                 } catch (JSONException e) {
+                    //handle this better
                     Log.d("JSON ERROR", "error in json response");
                 }
             }
@@ -101,6 +114,7 @@ public class CreateAccountActivity extends AppCompatActivity {
             }
         });
 
+        loadingAnimation.setVisibility(ProgressBar.VISIBLE);
         queue.add(request);
     }
 }
