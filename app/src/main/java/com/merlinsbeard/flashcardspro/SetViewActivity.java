@@ -56,7 +56,7 @@ public class SetViewActivity extends AppCompatActivity {
         recyclerView.addOnScrollListener(new RecyclerScrollAnimator() {
             @Override
             public void hide() {
-                addSetButton.animate().translationY(addSetButton.getHeight() + 50).setInterpolator(new DecelerateInterpolator(2)).start();
+                addSetButton.animate().translationY(addSetButton.getHeight() + 100).setInterpolator(new DecelerateInterpolator(2)).start();
             }
 
             @Override
