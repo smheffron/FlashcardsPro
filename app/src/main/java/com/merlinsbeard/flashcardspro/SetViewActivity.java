@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -40,6 +41,7 @@ public class SetViewActivity extends AppCompatActivity {
     private TextView emptyView;
     private Context context;
     private FloatingActionButton addSetButton;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     private SetViewActivity setViewActivity;
 
@@ -51,6 +53,15 @@ public class SetViewActivity extends AppCompatActivity {
         addSetButton = findViewById(R.id.addSetButton);
         Animation growAnimation = AnimationUtils.loadAnimation(this, R.anim.grow);
         addSetButton.startAnimation(growAnimation);
+
+        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mDataset.clear();
+                initializeSetList();
+            }
+        });
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.addOnScrollListener(new RecyclerScrollAnimator() {
@@ -74,54 +85,8 @@ public class SetViewActivity extends AppCompatActivity {
         emptyView = findViewById(R.id.emptyView);
         emptyView.setVisibility(View.INVISIBLE);
 
-        RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/getSets.php?id=";
 
-        final SharedPreferences preferences = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
-        int userId = preferences.getInt("userId", -1);
-
-        url += userId;
-
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    if(response.getString("status").equals("succeeded")){
-                        JSONArray sets = response.getJSONArray("sets");
-
-                        for(int i = 0; i < sets.length(); i++){
-                            JSONObject set = sets.getJSONObject(i);
-                            FlashcardSet cardSet = new FlashcardSet(set.getInt("setId"), set.getString("setName"));
-                            mDataset.add(cardSet);
-                        }
-
-                        if(mDataset == null || mDataset.isEmpty()){
-                            emptyView.setVisibility(View.VISIBLE);
-                        }
-                        else if(recyclerAdapter == null){
-                            recyclerAdapter = new RecyclerAdapter(mDataset, context, setViewActivity) {
-
-                            };
-                            recyclerView.setAdapter(recyclerAdapter);
-                            recyclerView.setLayoutManager(new LinearLayoutManager(setViewActivity));
-                        }
-                    }
-                    else {
-                        Toast.makeText(getApplicationContext(), "Could not connect to server", Toast.LENGTH_SHORT).show();
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d("LOGIN ERROR", error.toString());
-            }
-        });
-
-        queue.add(request);
-        
+        initializeSetList();
     }
 
 
@@ -250,7 +215,7 @@ public class SetViewActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.add_set_button, menu);
+        getMenuInflater().inflate(R.menu.account_button, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -258,8 +223,9 @@ public class SetViewActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-
-        //write user account info logic here
+        if(id == R.id.accountButton){
+            //goto account view
+        }
 
 
 
@@ -344,4 +310,56 @@ public class SetViewActivity extends AppCompatActivity {
     }
 
 
+    private void initializeSetList(){
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = "http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/getSets.php?id=";
+
+        final SharedPreferences preferences = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
+        int userId = preferences.getInt("userId", -1);
+
+        url += userId;
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    if(response.getString("status").equals("succeeded")){
+                        JSONArray sets = response.getJSONArray("sets");
+
+                        for(int i = 0; i < sets.length(); i++){
+                            JSONObject set = sets.getJSONObject(i);
+                            FlashcardSet cardSet = new FlashcardSet(set.getInt("setId"), set.getString("setName"));
+                            mDataset.add(cardSet);
+                        }
+
+                        if(mDataset == null || mDataset.isEmpty()){
+                            emptyView.setVisibility(View.VISIBLE);
+                        }
+                        else if(recyclerAdapter == null){
+                            recyclerAdapter = new RecyclerAdapter(mDataset, context, setViewActivity) {
+
+                            };
+                            recyclerView.setAdapter(recyclerAdapter);
+                            recyclerView.setLayoutManager(new LinearLayoutManager(setViewActivity));
+                        }
+
+                        recyclerAdapter.notifyDataSetChanged();
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+                    else {
+                        Toast.makeText(getApplicationContext(), "Could not connect to server", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("LOGIN ERROR", error.toString());
+            }
+        });
+
+        queue.add(request);
+    }
 }
