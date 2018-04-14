@@ -2,6 +2,7 @@ package com.merlinsbeard.flashcardspro;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -224,7 +225,8 @@ public class SetViewActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if(id == R.id.accountButton){
-            //goto account view
+            Intent intent = new Intent(this, AccountViewActivity.class);
+            startActivity(intent);
         }
 
 
@@ -335,7 +337,7 @@ public class SetViewActivity extends AppCompatActivity {
                         if(mDataset == null || mDataset.isEmpty()){
                             emptyView.setVisibility(View.VISIBLE);
                         }
-                        else if(recyclerAdapter == null){
+                        if(recyclerAdapter == null){
                             recyclerAdapter = new RecyclerAdapter(mDataset, context, setViewActivity) {
 
                             };

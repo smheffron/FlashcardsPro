@@ -40,8 +40,7 @@ public class LoginActivity extends AppCompatActivity {
         binding.setActivity(this);
         binding.setUser(user);
 
-        //bind in future version
-        loadingAnimation = (ProgressBar) findViewById(R.id.loadingAnimation);
+        loadingAnimation = binding.loadingAnimation;
         loadingAnimation.setVisibility(View.INVISIBLE);
     }
 
@@ -82,20 +81,23 @@ public class LoginActivity extends AppCompatActivity {
                             editor.putInt("userId",response.getInt("userId"));
                             editor.commit();
                             Intent intent = new Intent(thisActivity, SetViewActivity.class);
-                            binding.loginButton.setEnabled(true);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             loadingAnimation.setVisibility(ProgressBar.INVISIBLE);
                             startActivity(intent);
                         }
                         else {
                             Toast.makeText(getApplicationContext(), "Incorrect username/password", Toast.LENGTH_SHORT).show();
                             binding.loginButton.setEnabled(true);
+                            loadingAnimation.setVisibility(ProgressBar.INVISIBLE);
                         }
                     }
                     else {
                         Toast.makeText(getApplicationContext(), "Could not connect to server", Toast.LENGTH_SHORT).show();
                         binding.loginButton.setEnabled(true);
+                        loadingAnimation.setVisibility(ProgressBar.INVISIBLE);
                     }
                 } catch (JSONException e) {
+                    //handle this better
                     e.printStackTrace();
                 }
             }
