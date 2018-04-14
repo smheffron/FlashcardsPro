@@ -56,6 +56,7 @@ public class SetViewActivity extends AppCompatActivity {
         addSetButton.startAnimation(growAnimation);
 
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -208,10 +209,6 @@ public class SetViewActivity extends AppCompatActivity {
                 }
             }
         });
-
-
-
-
     }
 
     @Override
@@ -228,8 +225,6 @@ public class SetViewActivity extends AppCompatActivity {
             Intent intent = new Intent(this, AccountViewActivity.class);
             startActivity(intent);
         }
-
-
 
         return super.onOptionsItemSelected(item);
     }
