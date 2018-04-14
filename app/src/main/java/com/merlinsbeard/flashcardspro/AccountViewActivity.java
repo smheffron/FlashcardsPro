@@ -12,11 +12,19 @@ import com.merlinsbeard.flashcardspro.databinding.ActivityAccountViewBinding;
 
 public class AccountViewActivity extends Activity {
     private ActivityAccountViewBinding binding;
-    private User user = new User();
+    private User user;
+    private SharedPreferences preferences;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+
+        user =  new User();
+
+        preferences = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
+
+        user.setUsername(preferences.getString("username", ""));
+        user.setUserId(preferences.getInt("userId", -1));
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_account_view);
         binding.setActivity(this);
@@ -24,7 +32,6 @@ public class AccountViewActivity extends Activity {
     }
 
     public void onClickLogout(View view){
-        final SharedPreferences preferences = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.remove("userId");
         editor.commit();

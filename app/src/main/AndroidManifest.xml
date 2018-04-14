@@ -18,18 +18,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity"
-                  android:label="Login"
-                  android:screenOrientation="portrait"/>
-        <activity android:name=".CreateAccountActivity"
-                  android:label="Create Account"
-                  android:screenOrientation="portrait"/>
-        <activity android:name=".SetViewActivity"
-                  android:label="Sets"
-                  android:screenOrientation="portrait"/>
-        <activity android:name=".AccountViewActivity"
-                  android:label="Account"
-                  android:screenOrientation="portrait"/>
+        <activity
+            android:name=".LoginActivity"
+            android:label="Login"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".CreateAccountActivity"
+            android:label="Create Account"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SetViewActivity"
+            android:label="Sets"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".AccountViewActivity"
+            android:label="Account"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

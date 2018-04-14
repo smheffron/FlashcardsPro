@@ -15,19 +15,59 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/accountInfo"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_margin="20dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:background="@drawable/ic_account_circle_grey_125dp" />
+
+            <TextView
+                android:id="@+id/accountName"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="15dp"
+                android:gravity="center_vertical"
+                android:text="@={user.username}"
+                android:textSize="36sp" />
+
+        </LinearLayout>
+
 
         <Button
             android:id="@+id/logoutButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Logout"
+            android:layout_width="match_parent"
+            android:layout_height="151dp"
+            android:layout_margin="10dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+
+            android:layout_marginLeft="56dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="56dp"
             android:onClick="@{activity::onClickLogout}"
+            android:text="Logout"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toBottomOf="@+id/accountInfo"
+            app:layout_constraintVertical_bias="0.521" />
+
     </android.support.constraint.ConstraintLayout>
 </layout>
 
