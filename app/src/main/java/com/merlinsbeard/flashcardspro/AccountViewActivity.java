@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,7 +26,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AccountViewActivity extends Activity {
+public class AccountViewActivity extends AppCompatActivity {
     private ActivityAccountViewBinding binding;
     private User user;
     private SharedPreferences preferences;
