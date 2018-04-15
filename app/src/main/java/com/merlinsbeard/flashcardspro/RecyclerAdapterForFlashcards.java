@@ -80,18 +80,18 @@ public class RecyclerAdapterForFlashcards extends RecyclerView.Adapter<RecyclerA
 
                 PopupMenu popup = new PopupMenu(context, holder.threeDots);
                 //inflating menu from xml resource
-                popup.inflate(R.menu.popup_menu_options);
+                popup.inflate(R.menu.popup_menu_options_edit_flashcard);
                 //adding click listener
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
-                            case R.id.popupMenuOptions1:
+                            case R.id.popupDelete:
 
                                 flashCardView.handleDeleteClick(position);
                                 break;
 
-                            case R.id.popupMenuOptions2:
+                            case R.id.popupEdit:
 
                                 flashCardView.handleRenameClick(position);
                                 break;

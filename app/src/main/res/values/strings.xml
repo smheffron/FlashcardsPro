@@ -11,4 +11,6 @@
     <string name="more_options">more options</string>
     <string name="login">Login</string>
     <string name="rename_string">Rename</string>
+    <string name="ok">Ok</string>
+    <string name="edit">Edit</string>
 </resources>

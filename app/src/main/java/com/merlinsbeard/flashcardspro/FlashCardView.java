@@ -93,10 +93,92 @@ public class FlashCardView extends AppCompatActivity {
         initializeFlashcardList();
     }
 
-    public void handleDeleteClick(int position) {
+    public void handleDeleteClick(final int i) {
+
     }
 
-    public void handleRenameClick(int position) {
+    public void handleRenameClick(final int i ) {
+        final int idToRename = mDataset.get(i).getFlashcardId();
+
+        final Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.edit_card_popup);
+        dialog.setTitle("Edit card");
+        dialog.show();
+
+        final TextView frontTextView = (TextView) dialog.findViewById(R.id.newFrontText);
+        frontTextView.setHint(mDataset.get(i).getFrontText());
+
+        final TextView backTextView = (TextView) dialog.findViewById(R.id.newBackText);
+        backTextView.setHint(mDataset.get(i).getBackText());
+
+
+        dialog.findViewById(R.id.dialogButtonCancelForFlashcardEdit).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.findViewById(R.id.dialogButtonOKForFlashcardEdit).setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+
+                final String newFrontText = String.valueOf(frontTextView.getText());
+                final String newBackText = String.valueOf(backTextView.getText());
+
+                if (newBackText.isEmpty() || newFrontText.isEmpty()) {
+                    Toast.makeText(context, "Give your flashcard a front and back", Toast.LENGTH_LONG).show();
+                } else {
+
+                    RequestQueue queue = Volley.newRequestQueue(flashCardView);
+                    String url = "http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/updateFlashcard.php?cardId=";
+
+                    url+=idToRename;
+
+                    Map<String,String> params = new HashMap<>();
+                    params.put("newFront", newFrontText);
+                    params.put("newBack", newBackText);
+
+                    JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(params), new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            try {
+                                if(response.getString("status").equals("succeeded")){
+
+                                    mDataset.get(i).setBackText(newBackText);
+                                    mDataset.get(i).setFrontText(newFrontText);
+
+                                    if (recyclerAdapter == null) {
+                                        recyclerAdapter = new RecyclerAdapterForFlashcards(mDataset, context, flashCardView) {
+                                        };
+                                        recyclerView.setAdapter(recyclerAdapter);
+                                        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+
+                                    }
+                                    recyclerAdapter.notifyDataSetChanged();
+                                    emptyView.setVisibility(View.INVISIBLE);
+                                }
+                                else {
+                                    Toast.makeText(getApplicationContext(), "Could not connect to server", Toast.LENGTH_SHORT).show();
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.d("LOGIN ERROR", error.toString());
+                        }
+                    });
+
+                    queue.add(request);
+
+                    dialog.dismiss();
+                }
+            }
+        });
     }
 
     private void initializeFlashcardList(){
