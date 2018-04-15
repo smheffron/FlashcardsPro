@@ -84,7 +84,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                         SharedPreferences.Editor editor = preferences.edit();
                         editor.putString("username",newUser.getUsername());
                         editor.putInt("userId",response.getInt("userId"));
-                        editor.commit();
+                        editor.apply();
                         Intent intent = new Intent(thisActivity, SetViewActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         loadingAnimation.setVisibility(ProgressBar.INVISIBLE);
@@ -103,18 +103,27 @@ public class CreateAccountActivity extends AppCompatActivity {
                         loadingAnimation.setVisibility(ProgressBar.INVISIBLE);
                     }
                 } catch (JSONException e) {
-                    //handle this better
-                    Log.d("JSON ERROR", "error in json response");
+                    Toast.makeText(getApplicationContext(), "Incorrect username/password", Toast.LENGTH_SHORT).show();
+                    binding.newUserCreateAccountButton.setEnabled(true);
+                    loadingAnimation.setVisibility(ProgressBar.INVISIBLE);
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("LOGIN ERROR", error.toString());
+                Toast.makeText(getApplicationContext(), "Incorrect username/password", Toast.LENGTH_SHORT).show();
+                binding.newUserCreateAccountButton.setEnabled(true);
+                loadingAnimation.setVisibility(ProgressBar.INVISIBLE);
             }
         });
 
         loadingAnimation.setVisibility(ProgressBar.VISIBLE);
         queue.add(request);
+    }
+
+    @Override
+    protected void onDestroy(){
+        binding = null;
+        super.onDestroy();
     }
 }

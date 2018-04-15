@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -79,7 +78,7 @@ public class LoginActivity extends AppCompatActivity {
                             SharedPreferences.Editor editor = preferences.edit();
                             editor.putString("username",user.getUsername());
                             editor.putInt("userId",response.getInt("userId"));
-                            editor.commit();
+                            editor.apply();
                             Intent intent = new Intent(thisActivity, SetViewActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             loadingAnimation.setVisibility(ProgressBar.INVISIBLE);
@@ -97,14 +96,17 @@ public class LoginActivity extends AppCompatActivity {
                         loadingAnimation.setVisibility(ProgressBar.INVISIBLE);
                     }
                 } catch (JSONException e) {
-                    //handle this better
-                    e.printStackTrace();
+                    Toast.makeText(getApplicationContext(), "Incorrect username/password", Toast.LENGTH_SHORT).show();
+                    binding.loginButton.setEnabled(true);
+                    loadingAnimation.setVisibility(ProgressBar.INVISIBLE);
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("LOGIN ERROR", error.toString());
+                Toast.makeText(getApplicationContext(), "Incorrect username/password", Toast.LENGTH_SHORT).show();
+                binding.loginButton.setEnabled(true);
+                loadingAnimation.setVisibility(ProgressBar.INVISIBLE);
             }
         });
 
