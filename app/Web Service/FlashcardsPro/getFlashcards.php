@@ -32,17 +32,17 @@ if(!($result = $stmt->get_result())){
     exit(json_encode($response));
 }
 
-$sets = array();
+$cards = array();
     
 while($row = $result->fetch_assoc()) {
     $cardId = $row['id'];
     $frontText = $row['frontText'];
     $backText = $row['backText'];
-    $set = array("cardId" => $cardId, "frontText" => $frontText, "backText" => $backText);
-    array_push($sets, $set);
+    $card = array("cardId" => $cardId, "frontText" => $frontText, "backText" => $backText);
+    array_push($cards, $card);
 }
 
 $response['status'] = 'succeeded';
-$response['sets'] = $sets;
+$response['cards'] = $cards;
 print(json_encode($response));
 ?>
