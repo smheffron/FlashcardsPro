@@ -104,7 +104,6 @@ public class FlashCardView extends AppCompatActivity {
         String url = "http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/getFlashcards.php?setId=";
 
         final SharedPreferences preferences = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
-        int setId = preferences.getInt("setId", -1);
 
         url += setId;
 
