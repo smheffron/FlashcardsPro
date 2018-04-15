@@ -359,4 +359,13 @@ public class SetViewActivity extends AppCompatActivity {
 
         queue.add(request);
     }
+
+    public void handleItemClick(Integer i) {
+
+        Intent intent = new Intent(this,FlashCardView.class);
+        intent.putExtra("setId", mDataset.get(i).getSetId());
+        startActivity(intent);
+
+
+    }
 }
