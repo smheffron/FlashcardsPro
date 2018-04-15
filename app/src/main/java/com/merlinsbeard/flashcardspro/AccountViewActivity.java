@@ -47,7 +47,6 @@ public class AccountViewActivity extends Activity {
     }
 
     public void onClickChangeUsername(View view){
-        final Activity thisActivity = this;
         final RequestQueue queue = Volley.newRequestQueue(this);
         final String url = "http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/updateUsername.php?id=" + user.getUserId();
 
@@ -69,6 +68,15 @@ public class AccountViewActivity extends Activity {
         dialog.findViewById(R.id.dialogButtonRenameFromChangeUsername).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(newUsername.getText().length() < 1){
+                    Toast.makeText(getApplicationContext(), "Enter new username", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                else if(password.getText().length() < 1){
+                    Toast.makeText(getApplicationContext(), "Enter password", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 Map<String,String> params = new HashMap<>();
                 params.put("password", String.valueOf(password.getText()));
                 params.put("newUsername", String.valueOf(newUsername.getText()));
@@ -109,7 +117,83 @@ public class AccountViewActivity extends Activity {
     }
 
     public void onClickChangePassword(View view){
+        final RequestQueue queue = Volley.newRequestQueue(this);
+        final String url = "http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/updatePassword.php?id=" + user.getUserId();
 
+        final Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.change_password_popup);
+        dialog.setTitle("Change password");
+        dialog.show();
+
+        final TextView oldPassword = dialog.findViewById(R.id.oldPasswordFromChangePassword);
+        final TextView newPassword = dialog.findViewById(R.id.passwordFromChangePassword);
+        final TextView confirmNewPassword = dialog.findViewById(R.id.confirmPasswordFromChangePassword);
+
+        dialog.findViewById(R.id.dialogButtonCancelFromChangePassword).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.findViewById(R.id.dialogButtonChangePasswordFromChangePassword).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(oldPassword.getText().length() < 1){
+                    Toast.makeText(getApplicationContext(), "Enter old password", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                else if(newPassword.getText().length() < 1){
+                    Toast.makeText(getApplicationContext(), "Enter new password", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                else if(confirmNewPassword.getText().length() < 1){
+                    Toast.makeText(getApplicationContext(), "Confirm new password", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                String newPasswordString = String.valueOf(newPassword.getText());
+                String confirmNewPasswordString = String.valueOf(confirmNewPassword.getText());
+
+                if(!newPasswordString.equals(confirmNewPasswordString)){
+                    Toast.makeText(getApplicationContext(), "New passwords do not match", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                Map<String,String> params = new HashMap<>();
+                params.put("oldPassword", String.valueOf(oldPassword.getText()));
+                params.put("newPassword", String.valueOf(newPassword.getText()));
+
+                final SharedPreferences preferences = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
+
+                JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(params), new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            if(response.getString("status").equals("succeeded")){
+                                Toast.makeText(getApplicationContext(), "Password changed", Toast.LENGTH_SHORT).show();
+                            }
+                            else if(response.has("reason") && response.getString("resaon").equals("authentication failure")){
+                                Toast.makeText(getApplicationContext(), "Incorrect password", Toast.LENGTH_SHORT).show();
+                            }
+                            else {
+                                Toast.makeText(getApplicationContext(), "Could not connect to server", Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            Toast.makeText(getApplicationContext(), "Could not connect to server", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getApplicationContext(), "Could not connect to server", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                queue.add(request);
+                dialog.dismiss();
+            }
+        });
     }
 
     public void onClickLogout(View view){
@@ -144,6 +228,11 @@ public class AccountViewActivity extends Activity {
         dialog.findViewById(R.id.dialogButtonDeleteFromDeleteAccount).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(password.getText().length() < 1){
+                    Toast.makeText(getApplicationContext(), "Enter password", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 Map<String,String> params = new HashMap<>();
                 params.put("password", String.valueOf(password.getText()));
 
@@ -161,6 +250,9 @@ public class AccountViewActivity extends Activity {
                                 Intent intent = new Intent(thisActivity, LoginActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(intent);
+                            }
+                            else if(response.has("reason") && response.getString("resaon").equals("authentication failure")){
+                                Toast.makeText(getApplicationContext(), "Incorrect password", Toast.LENGTH_SHORT).show();
                             }
                             else {
                                 Toast.makeText(getApplicationContext(), "Could not connect to server", Toast.LENGTH_SHORT).show();

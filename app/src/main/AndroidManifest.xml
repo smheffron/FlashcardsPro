@@ -34,7 +34,10 @@
             android:name=".AccountViewActivity"
             android:label="Account"
             android:screenOrientation="portrait" />
-        <activity android:name=".FlashCardView"></activity>
+        <activity
+            android:name=".FlashCardView"
+            android:label="Flashcards"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>
