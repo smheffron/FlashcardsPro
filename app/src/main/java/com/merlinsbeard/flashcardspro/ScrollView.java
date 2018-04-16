@@ -122,6 +122,10 @@ public class ScrollView extends AppCompatActivity implements GestureDetector.OnG
             }
         }
 
+        if(motionEvent.getY() - motionEvent1.getY() < 0 && Math.abs(motionEvent.getY() - motionEvent1.getY())>150){
+            NavUtils.navigateUpFromSameTask(this);
+        }
+
 
         return true;
     }
