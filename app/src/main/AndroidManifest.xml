@@ -39,10 +39,7 @@
             android:label="Flashcards"
             android:screenOrientation="portrait" />
         <activity android:name=".ScrollView"
-            android:label="Flashcard"
-            android:screenOrientation="portrait">
-
-        </activity>
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class ScrollView extends FragmentActivity implements GestureDetector.OnGestureListener{
+public class ScrollView extends AppCompatActivity implements GestureDetector.OnGestureListener{
 
     private ArrayList<FlashCard> mDataSet;
     private Integer positionClicked;
@@ -98,7 +98,7 @@ public class ScrollView extends FragmentActivity implements GestureDetector.OnGe
     public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
 
 
-        if(motionEvent.getX() - motionEvent1.getX()<0){
+        if(motionEvent.getX() - motionEvent1.getX()<0 && Math.abs(motionEvent.getX() - motionEvent1.getX())>150){
             if(positionClicked - 1 >= 0){
                 cardText.setText(mDataSet.get(--positionClicked).getFrontText());
                 isFront=true;
@@ -106,7 +106,7 @@ public class ScrollView extends FragmentActivity implements GestureDetector.OnGe
         }
 
 
-        if(motionEvent.getX() - motionEvent1.getX()>0){
+        if(motionEvent.getX() - motionEvent1.getX()>0 && Math.abs(motionEvent.getX() - motionEvent1.getX())>150){
             //right swipe
             if(positionClicked + 1 < mDataSet.size()){
                 cardText.setText(mDataSet.get(++positionClicked).getFrontText());
@@ -130,3 +130,4 @@ public class ScrollView extends FragmentActivity implements GestureDetector.OnGe
         return super.dispatchTouchEvent(ev);
     }
 }
+
