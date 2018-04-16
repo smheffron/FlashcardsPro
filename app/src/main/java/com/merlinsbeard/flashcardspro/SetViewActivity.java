@@ -141,7 +141,7 @@ public class SetViewActivity extends AppCompatActivity {
         dialog.setTitle("Rename set");
         dialog.show();
 
-        final TextView setName = (TextView) dialog.findViewById(R.id.newSetNameFromPopup);
+        final TextView setName = dialog.findViewById(R.id.newSetNameFromPopup);
         setName.setHint(mDataset.get(i).getName());
 
 
@@ -247,7 +247,7 @@ public class SetViewActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                TextView setName = (TextView) dialog.findViewById(R.id.setNameFromPopup);
+                TextView setName = dialog.findViewById(R.id.setNameFromPopup);
                 final String name = String.valueOf(setName.getText());
 
                 if (name.isEmpty()) {
@@ -364,6 +364,7 @@ public class SetViewActivity extends AppCompatActivity {
 
         Intent intent = new Intent(this,FlashCardView.class);
         intent.putExtra("setId", mDataset.get(i).getSetId());
+        intent.putExtra("setName",mDataset.get(i).getName());
         startActivity(intent);
 
 

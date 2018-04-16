@@ -1,16 +1,15 @@
 package com.merlinsbeard.flashcardspro;
 
+import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.NavUtils;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
@@ -26,6 +25,8 @@ public class ScrollView extends AppCompatActivity implements GestureDetector.OnG
     private int numberElements;
     TextView cardText;
     ConstraintLayout constraintLayout;
+    String setName;
+    int setId;
 
     boolean isFront = true;
     private GestureDetectorCompat detector;
@@ -36,15 +37,22 @@ public class ScrollView extends AppCompatActivity implements GestureDetector.OnG
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scroll_view);
 
+        if(getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
         mDataSet = getIntent().getParcelableArrayListExtra("data");
         positionClicked = getIntent().getIntExtra("position", -1);
 
         cardText = findViewById(R.id.flashcardText);
         constraintLayout = findViewById(R.id.individualCardView);
 
+        setName = String.valueOf(getIntent().getCharSequenceExtra("setName"));
+        setTitle(setName);
 
+        setId = getIntent().getIntExtra("setId", -1);
 
-
+        Log.d("SET ID:", String.valueOf(setId));
 
         cardText.setText(mDataSet.get(positionClicked).getFrontText());
 
@@ -128,6 +136,17 @@ public class ScrollView extends AppCompatActivity implements GestureDetector.OnG
     public boolean dispatchTouchEvent(MotionEvent ev) {
         detector.onTouchEvent(ev);
         return super.dispatchTouchEvent(ev);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if(id == R.id.homeAsUp){
+            NavUtils.navigateUpFromSameTask(this);
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
 

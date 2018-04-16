@@ -4,13 +4,16 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.NavUtils;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -28,7 +31,6 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -45,13 +47,19 @@ public class FlashCardView extends AppCompatActivity {
     private SwipeRefreshLayout swipeRefreshLayout;
     private FlashCardView flashCardView;
     private int setId;
+    private String setName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_flash_card_view);
+        if(getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         setId = getIntent().getIntExtra("setId",-1);
+        setName = getIntent().getStringExtra("setName");
+        setTitle(setName);
 
         Log.d("SET ID: ", String.valueOf(setId));
 
@@ -144,10 +152,10 @@ public class FlashCardView extends AppCompatActivity {
         dialog.setTitle("Edit card");
         dialog.show();
 
-        final TextView frontTextView = (TextView) dialog.findViewById(R.id.newFrontText);
+        final TextView frontTextView = dialog.findViewById(R.id.newFrontText);
         frontTextView.setHint(mDataset.get(i).getFrontText());
 
-        final TextView backTextView = (TextView) dialog.findViewById(R.id.newBackText);
+        final TextView backTextView = dialog.findViewById(R.id.newBackText);
         backTextView.setHint(mDataset.get(i).getBackText());
 
 
@@ -228,6 +236,8 @@ public class FlashCardView extends AppCompatActivity {
 
         url += setId;
 
+        Log.d("URL:", url);
+
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -290,8 +300,8 @@ public class FlashCardView extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                TextView frontText = (TextView) dialog.findViewById(R.id.frontText);
-                TextView backText  = (TextView) dialog.findViewById(R.id.backText);
+                TextView frontText = dialog.findViewById(R.id.frontText);
+                TextView backText  = dialog.findViewById(R.id.backText);
                 final String frontString = String.valueOf(frontText.getText());
                 final String backString = String.valueOf(backText.getText());
 
@@ -356,7 +366,30 @@ public class FlashCardView extends AppCompatActivity {
         Intent intent = new Intent(this, ScrollView.class);
         intent.putParcelableArrayListExtra("data",mDataset);
         intent.putExtra("position",position);
+        intent.putExtra("setName", setName);
+        intent.putExtra("setId", setId);
         startActivity(intent);
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.account_button, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if(id == R.id.accountButton){
+            Intent intent = new Intent(this, AccountViewActivity.class);
+            startActivity(intent);
+        }
+        else if(id == R.id.homeAsUp){
+            NavUtils.navigateUpFromSameTask(this);
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
