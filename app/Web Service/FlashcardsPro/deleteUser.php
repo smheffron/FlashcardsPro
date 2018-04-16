@@ -28,6 +28,11 @@ if($mysqli->connect_error){
 // Authenticate user
 $stmt = $mysqli->prepare("SELECT * FROM users WHERE id = ?");
 
+if(!$stmt){
+    $response['status'] = 'failed';
+    exit(json_encode($response));
+}
+
 if(!($stmt->bind_param("i", $userId))){
     $response['status'] = 'failed';
     exit(json_encode($response));
@@ -57,6 +62,11 @@ if(!password_verify($userPassword, $hashedPassword)){
 
 // delete user
 $stmt = $mysqli->prepare("DELETE FROM users WHERE id = ?");
+
+if(!$stmt){
+    $response['status'] = 'failed';
+    exit(json_encode($response));
+}
 
 if(!($stmt->bind_param("i", $userId))){
     $response['status'] = 'failed';

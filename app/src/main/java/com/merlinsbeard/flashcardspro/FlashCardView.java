@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.NavUtils;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -35,37 +36,48 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SetViewActivity extends AppCompatActivity {
-    private ArrayList<FlashcardSet> mDataset;
+public class FlashCardView extends AppCompatActivity {
+
+    private ArrayList<FlashCard> mDataset;
     private RecyclerView recyclerView;
-    private RecyclerAdapter recyclerAdapter;
+    private RecyclerAdapterForFlashcards recyclerAdapter;
     private TextView emptyView;
     private Context context;
     private FloatingActionButton addSetButton;
     private SwipeRefreshLayout swipeRefreshLayout;
-
-    private SetViewActivity setViewActivity;
+    private FlashCardView flashCardView;
+    private int setId;
+    private String setName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_set_view);
+        setContentView(R.layout.activity_flash_card_view);
+        if(getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
-        addSetButton = findViewById(R.id.addSetButton);
+        setId = getIntent().getIntExtra("setId",-1);
+        setName = getIntent().getStringExtra("setName");
+        setTitle(setName);
+
+        Log.d("SET ID: ", String.valueOf(setId));
+
+        addSetButton = findViewById(R.id.addSetButtonForflashcards);
         Animation growAnimation = AnimationUtils.loadAnimation(this, R.anim.grow);
         addSetButton.startAnimation(growAnimation);
 
-        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayoutForFlashcards);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 mDataset.clear();
-                initializeSetList();
+                initializeFlashcardList();
             }
         });
 
-        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView = findViewById(R.id.recyclerViewForFlashcards);
         recyclerView.addOnScrollListener(new RecyclerScrollAnimator() {
             @Override
             public void hide() {
@@ -78,25 +90,24 @@ public class SetViewActivity extends AppCompatActivity {
             }
         });
 
-        setViewActivity = this;
+        flashCardView = this;
 
         context = getApplicationContext();
 
         mDataset = new ArrayList<>();
 
-        emptyView = findViewById(R.id.emptyView);
+        emptyView = findViewById(R.id.emptyViewForFlashcards);
         emptyView.setVisibility(View.INVISIBLE);
 
-
-        initializeSetList();
+        initializeFlashcardList();
     }
 
+    public void handleDeleteClick(final int i) {
 
-    public void handleDeleteClick(final Integer i){
-        int idToRemove = mDataset.get(i).getSetId();
+        int idToRemove = mDataset.get(i).getFlashcardId();
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/deleteCardSet.php?id=" + idToRemove;
+        String url = "http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/deleteFlashcard.php?cardId=" + idToRemove;
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
@@ -133,43 +144,48 @@ public class SetViewActivity extends AppCompatActivity {
 
     }
 
-    public void handleRenameClick(final Integer i){
-        final int idToRename = mDataset.get(i).getSetId();
+    public void handleRenameClick(final int i ) {
+        final int idToRename = mDataset.get(i).getFlashcardId();
 
         final Dialog dialog = new Dialog(this);
-        dialog.setContentView(R.layout.rename_set_popup);
-        dialog.setTitle("Rename set");
+        dialog.setContentView(R.layout.edit_card_popup);
+        dialog.setTitle("Edit card");
         dialog.show();
 
-        final TextView setName = dialog.findViewById(R.id.newSetNameFromPopup);
-        setName.setHint(mDataset.get(i).getName());
+        final TextView frontTextView = dialog.findViewById(R.id.newFrontText);
+        frontTextView.setHint(mDataset.get(i).getFrontText());
+
+        final TextView backTextView = dialog.findViewById(R.id.newBackText);
+        backTextView.setHint(mDataset.get(i).getBackText());
 
 
-        dialog.findViewById(R.id.dialogButtonCancelFromRename).setOnClickListener(new View.OnClickListener() {
+        dialog.findViewById(R.id.dialogButtonCancelForFlashcardEdit).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
             }
         });
 
-        dialog.findViewById(R.id.dialogButtonOKFromRename).setOnClickListener(new View.OnClickListener() {
+        dialog.findViewById(R.id.dialogButtonOKForFlashcardEdit).setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
 
-                final String name = String.valueOf(setName.getText());
+                final String newFrontText = String.valueOf(frontTextView.getText());
+                final String newBackText = String.valueOf(backTextView.getText());
 
-                if (name.isEmpty()) {
-                    Toast.makeText(context, "Give your set a name", Toast.LENGTH_LONG).show();
+                if (newBackText.isEmpty() || newFrontText.isEmpty()) {
+                    Toast.makeText(context, "Give your flashcard a front and back", Toast.LENGTH_LONG).show();
                 } else {
 
-                    RequestQueue queue = Volley.newRequestQueue(setViewActivity);
-                    String url = "http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/updateSetName.php?id=";
+                    RequestQueue queue = Volley.newRequestQueue(flashCardView);
+                    String url = "http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/updateFlashcard.php?cardId=";
 
                     url+=idToRename;
 
                     Map<String,String> params = new HashMap<>();
-                    params.put("title", name);
+                    params.put("newFront", newFrontText);
+                    params.put("newBack", newBackText);
 
                     JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(params), new Response.Listener<JSONObject>() {
                         @Override
@@ -177,10 +193,11 @@ public class SetViewActivity extends AppCompatActivity {
                             try {
                                 if(response.getString("status").equals("succeeded")){
 
-                                    mDataset.get(i).setName(name);
+                                    mDataset.get(i).setBackText(newBackText);
+                                    mDataset.get(i).setFrontText(newFrontText);
 
                                     if (recyclerAdapter == null) {
-                                        recyclerAdapter = new RecyclerAdapter(mDataset, context, setViewActivity) {
+                                        recyclerAdapter = new RecyclerAdapterForFlashcards(mDataset, context, flashCardView) {
                                         };
                                         recyclerView.setAdapter(recyclerAdapter);
                                         recyclerView.setLayoutManager(new LinearLayoutManager(context));
@@ -211,133 +228,38 @@ public class SetViewActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.account_button, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if(id == R.id.accountButton){
-            Intent intent = new Intent(this, AccountViewActivity.class);
-            startActivity(intent);
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    public void onClickPlusButton(View view){
-        final Dialog dialog = new Dialog(this);
-        dialog.setContentView(R.layout.add_set_popup);
-        dialog.setTitle("Create a new set");
-        dialog.show();
-
-        dialog.findViewById(R.id.dialogButtonCancel).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
-
-        dialog.findViewById(R.id.dialogButtonOK).setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-
-                TextView setName = dialog.findViewById(R.id.setNameFromPopup);
-                final String name = String.valueOf(setName.getText());
-
-                if (name.isEmpty()) {
-                    Toast.makeText(context, "Give your set a name", Toast.LENGTH_LONG).show();
-                } else {
-
-                    RequestQueue queue = Volley.newRequestQueue(setViewActivity);
-                    String url = "http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/newCardSet.php?id=";
-
-                    final SharedPreferences preferences = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
-                    int userId = preferences.getInt("userId", -1);
-                    url += userId;
-
-                    Map<String,String> params = new HashMap<>();
-                    params.put("title", name);
-
-                    JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(params), new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            try {
-                                if(response.getString("status").equals("succeeded")){
-                                    int newSetId = response.getInt("newSetId");
-                                    FlashcardSet flashcardSet = new FlashcardSet(newSetId, name);
-
-                                    mDataset.add(flashcardSet);
-
-                                    if (recyclerAdapter == null) {
-                                        recyclerAdapter = new RecyclerAdapter(mDataset, context, setViewActivity) {
-                                        };
-                                        recyclerView.setAdapter(recyclerAdapter);
-                                        recyclerView.setLayoutManager(new LinearLayoutManager(context));
-
-                                    }
-                                    recyclerAdapter.notifyDataSetChanged();
-                                    emptyView.setVisibility(View.INVISIBLE);
-                                }
-                                else {
-                                    Toast.makeText(getApplicationContext(), "Could not connect to server", Toast.LENGTH_SHORT).show();
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Log.d("LOGIN ERROR", error.toString());
-                        }
-                    });
-
-                    queue.add(request);
-
-                    dialog.dismiss();
-                }
-            }
-        });
-    }
-
-
-    private void initializeSetList(){
+    private void initializeFlashcardList(){
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/getSets.php?id=";
+        String url = "http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/getFlashcards.php?setId=";
 
         final SharedPreferences preferences = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
-        int userId = preferences.getInt("userId", -1);
 
-        url += userId;
+        url += setId;
+
+        Log.d("URL:", url);
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
                     if(response.getString("status").equals("succeeded")){
-                        JSONArray sets = response.getJSONArray("sets");
+                        JSONArray sets = response.getJSONArray("cards");
 
                         for(int i = 0; i < sets.length(); i++){
                             JSONObject set = sets.getJSONObject(i);
-                            FlashcardSet cardSet = new FlashcardSet(set.getInt("setId"), set.getString("setName"));
-                            mDataset.add(cardSet);
+                            FlashCard flashCard = new FlashCard(set.getString("frontText"),set.getString("backText"), set.getInt("cardId"));
+                            mDataset.add(flashCard);
                         }
 
                         if(mDataset == null || mDataset.isEmpty()){
                             emptyView.setVisibility(View.VISIBLE);
                         }
                         if(recyclerAdapter == null){
-                            recyclerAdapter = new RecyclerAdapter(mDataset, context, setViewActivity) {
+                            recyclerAdapter = new RecyclerAdapterForFlashcards(mDataset, context, flashCardView) {
 
                             };
                             recyclerView.setAdapter(recyclerAdapter);
-                            recyclerView.setLayoutManager(new LinearLayoutManager(setViewActivity));
+                            recyclerView.setLayoutManager(new LinearLayoutManager(flashCardView));
                         }
 
                         recyclerAdapter.notifyDataSetChanged();
@@ -360,13 +282,114 @@ public class SetViewActivity extends AppCompatActivity {
         queue.add(request);
     }
 
-    public void handleItemClick(Integer i) {
+    public void onClickPlusButton(View view){
+        final Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.flashcard_dio);
+        dialog.setTitle("Create a new card");
+        dialog.show();
 
-        Intent intent = new Intent(this,FlashCardView.class);
-        intent.putExtra("setId", mDataset.get(i).getSetId());
-        intent.putExtra("setName",mDataset.get(i).getName());
+        dialog.findViewById(R.id.dialogButtonCancelForFlashcard).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.findViewById(R.id.dialogButtonOKForFlashcard).setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+
+                TextView frontText = dialog.findViewById(R.id.frontText);
+                TextView backText  = dialog.findViewById(R.id.backText);
+                final String frontString = String.valueOf(frontText.getText());
+                final String backString = String.valueOf(backText.getText());
+
+
+                if (frontString.isEmpty() || backString.isEmpty()) {
+                    Toast.makeText(context, "Give your flashcard a front and back", Toast.LENGTH_LONG).show();
+                } else {
+
+                    RequestQueue queue = Volley.newRequestQueue(flashCardView);
+                    String url = "http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/newFlashcard.php?setId=";
+
+                    url += setId;
+
+                    Map<String,String> params = new HashMap<>();
+                    params.put("newCardFront", frontString);
+                    params.put("newCardBack",backString);
+
+                    JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(params), new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            try {
+                                if(response.getString("status").equals("succeeded")){
+                                    int newCardId = response.getInt("newCardId");
+                                    FlashCard flashcard = new FlashCard(frontString,backString, newCardId );
+
+                                    mDataset.add(flashcard);
+
+                                    if (recyclerAdapter == null) {
+                                        recyclerAdapter = new RecyclerAdapterForFlashcards(mDataset, context, flashCardView) {
+                                        };
+                                        recyclerView.setAdapter(recyclerAdapter);
+                                        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+
+                                    }
+                                    recyclerAdapter.notifyDataSetChanged();
+                                    emptyView.setVisibility(View.INVISIBLE);
+                                }
+                                else {
+                                    Toast.makeText(getApplicationContext(), "Could not connect to server", Toast.LENGTH_SHORT).show();
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.d("LOGIN ERROR", error.toString());
+                        }
+                    });
+
+                    queue.add(request);
+
+                    dialog.dismiss();
+                }
+            }
+        });
+    }
+
+    public void handleItemClick(Integer position) {
+
+        Intent intent = new Intent(this, ScrollView.class);
+        intent.putParcelableArrayListExtra("data",mDataset);
+        intent.putExtra("position",position);
+        intent.putExtra("setName", setName);
+        intent.putExtra("setId", setId);
         startActivity(intent);
 
+    }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.account_button, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if(id == R.id.accountButton){
+            Intent intent = new Intent(this, AccountViewActivity.class);
+            startActivity(intent);
+        }
+        else if(id == R.id.homeAsUp){
+            NavUtils.navigateUpFromSameTask(this);
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

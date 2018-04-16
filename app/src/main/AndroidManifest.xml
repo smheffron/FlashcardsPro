@@ -5,7 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
@@ -18,15 +18,43 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity"
-                  android:label="Login"
-                  android:screenOrientation="portrait"/>
-        <activity android:name=".CreateAccountActivity"
-                  android:label="Create Account"
-                  android:screenOrientation="portrait"/>
-        <activity android:name=".SetViewActivity"
-                  android:label="Sets"
-                  android:screenOrientation="portrait"/>
+        <activity
+            android:name=".LoginActivity"
+            android:label="Login"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".CreateAccountActivity"
+            android:label="Create Account"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SetViewActivity"
+            android:label="Sets"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTop"/>
+        <activity
+            android:name=".AccountViewActivity"
+            android:label="Account"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".FlashCardView"
+            android:label="Flashcards"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".SetViewActivity"
+            android:launchMode="singleTop">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".SetViewActivity"/>
+        </activity>
+        <activity
+            android:name=".ScrollView"
+            android:label="Flashcards"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".FlashCardView">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".FlashCardView"/>
+        </activity>
+
     </application>
 
 </manifest>

@@ -1,18 +1,8 @@
 <?php
-if($data = json_decode(file_get_contents("php://input"), true)){
-    $_POST = $data;
-}
-
 $response = array("status" => "success");
 
-$setId = $_GET['id'] ? $_GET['id'] : -1;
-if($setId == -1){
-    $response['status'] = 'failed';
-    exit(json_encode($response));
-}
-
-$newSetTitle = $_POST['title'] ? $_POST['title'] : '';
-if(!$newSetTitle){
+$cardId = $_GET['cardId'] ? $_GET['cardId'] : -1;
+if($cardId == -1){
     $response['status'] = 'failed';
     exit(json_encode($response));
 }
@@ -25,14 +15,14 @@ if($mysqli->connect_error){
     exit(json_encode($response));
 }
 
-$stmt = $mysqli->prepare("UPDATE sets SET name = ? WHERE id = ?");
+$stmt = $mysqli->prepare("DELETE FROM cards WHERE id = ?");
 
 if(!$stmt){
     $response['status'] = 'failed';
     exit(json_encode($response));
 }
 
-if(!($stmt->bind_param("si", $newSetTitle, $setId))){
+if(!($stmt->bind_param("i", $cardId))){
     $response['status'] = 'failed';
     exit(json_encode($response));
 }

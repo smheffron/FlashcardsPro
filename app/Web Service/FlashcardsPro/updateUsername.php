@@ -34,6 +34,11 @@ if($mysqli->connect_error){
 // Authenticate user
 $stmt = $mysqli->prepare("SELECT * FROM users WHERE id = ?");
 
+if(!$stmt){
+    $response['status'] = 'failed';
+    exit(json_encode($response));
+}
+
 if(!($stmt->bind_param("i", $userId))){
     $response['status'] = 'failed';
     exit(json_encode($response));
@@ -64,6 +69,11 @@ if(!password_verify($userPassword, $hashedPassword)){
 // make sure new username is not taken
 $stmt = $mysqli->prepare("SELECT * FROM users WHERE username = ?");
 
+if(!$stmt){
+    $response['status'] = 'failed';
+    exit(json_encode($response));
+}
+
 if(!($stmt->bind_param("s", $newUsername))){
     $response['status'] = 'failed';
     exit(json_encode($response));
@@ -87,6 +97,11 @@ if ($result->num_rows > 0) {
 
 // set username
 $stmt = $mysqli->prepare("UPDATE users SET username = ? WHERE id = ?");
+
+if(!$stmt){
+    $response['status'] = 'failed';
+    exit(json_encode($response));
+}
 
 if(!($stmt->bind_param("si", $newUsername, $userId))){
     $response['status'] = 'failed';

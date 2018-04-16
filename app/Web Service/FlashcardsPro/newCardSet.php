@@ -27,6 +27,11 @@ if($mysqli->connect_error){
 
 $stmt = $mysqli->prepare("INSERT INTO sets(ownerId, name) VALUES(?, ?)");
 
+if(!$stmt){
+    $response['status'] = 'failed';
+    exit(json_encode($response));
+}
+
 if(!($stmt->bind_param("is", $userId, $newSetTitle))){
     $response['status'] = 'failed';
     exit(json_encode($response));

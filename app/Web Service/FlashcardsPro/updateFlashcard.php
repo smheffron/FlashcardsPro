@@ -3,16 +3,22 @@ if($data = json_decode(file_get_contents("php://input"), true)){
     $_POST = $data;
 }
 
-$response = array("status" => "success", "login" => "failed");
+$response = array("status" => "success");
 
-$userLogin = $_POST['username'] ? $_POST['username'] : '';
-if(!($userLogin)){
+$cardId = $_GET['cardId'] ? $_GET['cardId'] : -1;
+if($cardId == -1){
     $response['status'] = 'failed';
     exit(json_encode($response));
 }
 
-$userPassword= $_POST['password'] ? $_POST['password'] : '';
-if(!($userPassword)){
+$newCardFront = $_POST['newFront'] ? $_POST['newFront'] : '';
+if(!$newCardFront){
+    $response['status'] = 'failed';
+    exit(json_encode($response));
+}
+
+$newCardBack = $_POST['newBack'] ? $_POST['newBack'] : '';
+if(!$newCardBack){
     $response['status'] = 'failed';
     exit(json_encode($response));
 }
@@ -25,14 +31,14 @@ if($mysqli->connect_error){
     exit(json_encode($response));
 }
 
-$stmt = $mysqli->prepare("SELECT * FROM users WHERE username = ?");
+$stmt = $mysqli->prepare("UPDATE cards SET frontText = ?, backText = ? WHERE id = ?");
 
 if(!$stmt){
     $response['status'] = 'failed';
     exit(json_encode($response));
 }
 
-if(!($stmt->bind_param("s", $userLogin))){
+if(!($stmt->bind_param("ssi", $newCardFront, $newCardBack, $cardId))){
     $response['status'] = 'failed';
     exit(json_encode($response));
 }
@@ -40,23 +46,6 @@ if(!($stmt->bind_param("s", $userLogin))){
 if(!($stmt->execute())){
     $response['status'] = 'failed';
     exit(json_encode($response));
-}
-
-if(!($result = $stmt->get_result())){
-    $response['status'] = 'failed';
-    exit(json_encode($response));
-}
-
-if ($result->num_rows > 0) {
-    while($row = $result->fetch_assoc()) {
-        $hashedPassword = $row['password'];
-        $userId = $row['id'];
-    }
-}
-
-if(password_verify($userPassword, $hashedPassword)){
-    $response['login'] = "succeeded";
-    $response['userId'] = $userId;
 }
 
 $response['status'] = 'succeeded';

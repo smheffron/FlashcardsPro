@@ -1,30 +1,21 @@
 package com.merlinsbeard.flashcardspro;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
-import java.util.Set;
 
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
-
-
+public class RecyclerAdapterForFlashcards extends RecyclerView.Adapter<RecyclerAdapterForFlashcards.ViewHolder>{
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -34,50 +25,62 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         // each data item is just a string in this case
         public CardView mCardView;
 
-        View view;
+        public View view;
 
         public ImageView threeDots;
 
         public ViewHolder(View v) {
             super(v);
 
+            mCardView = v.findViewById(R.id.cardViewForFlashcards);
+            mTextView = v.findViewById(R.id.flashcardName);
+            Log.d("saldknflsadkjfljknasdf", String.valueOf(v.findViewById(R.id.flashcardName)));
+            threeDots = v.findViewById(R.id.threeDotsForFlashcards);
             view = v;
-            mCardView = v.findViewById(R.id.cardView);
-            mTextView = v.findViewById(R.id.setName);
-            threeDots = v.findViewById(R.id.threeDots);
         }
+
 
     }
 
-    private ArrayList<FlashcardSet> mDataset;
+    private ArrayList<FlashCard> mDataset;
     private Context context;
-    private SetViewActivity setViewActivity;
+    private FlashCardView flashCardView;
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public RecyclerAdapter(ArrayList<FlashcardSet> myDataset, Context context, SetViewActivity s) {
+    public RecyclerAdapterForFlashcards(ArrayList<FlashCard> myDataset, Context context, FlashCardView s) {
         this.mDataset = myDataset;
         this.context = context;
-        this.setViewActivity=s;
+        this.flashCardView=s;
 
     }
 
     // Create new views (invoked by the layout manager)
     @Override
-    public RecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
-                                                   int viewType) {
+    public RecyclerAdapterForFlashcards.ViewHolder onCreateViewHolder(ViewGroup parent,
+                                                         int viewType) {
 
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
-        View view = inflater.inflate(R.layout.card_layout, parent, false);
+        View view = inflater.inflate(R.layout.flashcards_layout, parent, false);
 
-        ViewHolder viewHolder = new ViewHolder(view);
+        RecyclerAdapterForFlashcards.ViewHolder viewHolder = new RecyclerAdapterForFlashcards.ViewHolder(view);
 
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
-        holder.mTextView.setText(mDataset.get(position).getName());
+        Log.d("HOLDER", holder.toString());
+        Log.d("TEXTVIEW",holder.mTextView.toString());
+
+        holder.mTextView.setText(mDataset.get(position).getFrontText());
+
+        holder.view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                flashCardView.handleItemClick(position);
+            }
+        });
 
 
         holder.threeDots.setOnClickListener(new View.OnClickListener(){
@@ -87,21 +90,22 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
                 PopupMenu popup = new PopupMenu(context, holder.threeDots);
                 //inflating menu from xml resource
-                popup.inflate(R.menu.popup_menu_options);
+                popup.inflate(R.menu.popup_menu_options_edit_flashcard);
                 //adding click listener
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
-                            case R.id.popupMenuOptions1:
+                            case R.id.popupDelete:
 
-                                setViewActivity.handleDeleteClick(position);
+                                flashCardView.handleDeleteClick(position);
                                 break;
 
-                            case R.id.popupMenuOptions2:
+                            case R.id.popupEdit:
 
-                                setViewActivity.handleRenameClick(position);
+                                flashCardView.handleRenameClick(position);
                                 break;
+
                         }
                         return false;
                     }
@@ -110,23 +114,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 popup.show();
             }
         });
-
-        holder.view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                setViewActivity.handleItemClick(position);
-
-            }
-        });
-
-
-
     }
+
 
     @Override
     public int getItemCount() {
         return mDataset.size();
     }
 }
-

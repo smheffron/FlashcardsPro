@@ -34,6 +34,11 @@ if($mysqli->connect_error){
 // Authenticate user
 $stmt = $mysqli->prepare("SELECT * FROM users WHERE id = ?");
 
+if(!$stmt){
+    $response['status'] = 'failed';
+    exit(json_encode($response));
+}
+
 if(!($stmt->bind_param("i", $userId))){
     $response['status'] = 'failed';
     exit(json_encode($response));
@@ -65,6 +70,11 @@ if(!password_verify($oldPassword, $hashedPassword)){
 $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
     
 $stmt = $mysqli->prepare("UPDATE users SET password = ? WHERE id = ?");
+
+if(!$stmt){
+    $response['status'] = 'failed';
+    exit(json_encode($response));
+}
 
 if(!($stmt->bind_param("si", $hashedPassword, $userId))){
     $response['status'] = 'failed';

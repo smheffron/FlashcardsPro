@@ -1,18 +1,8 @@
 <?php
-if($data = json_decode(file_get_contents("php://input"), true)){
-    $_POST = $data;
-}
-
 $response = array("status" => "success");
 
-$setId = $_GET['id'] ? $_GET['id'] : -1;
+$setId = $_GET['setId'] ? $_GET['setId'] : -1;
 if($setId == -1){
-    $response['status'] = 'failed';
-    exit(json_encode($response));
-}
-
-$newSetTitle = $_POST['title'] ? $_POST['title'] : '';
-if(!$newSetTitle){
     $response['status'] = 'failed';
     exit(json_encode($response));
 }
@@ -25,14 +15,14 @@ if($mysqli->connect_error){
     exit(json_encode($response));
 }
 
-$stmt = $mysqli->prepare("UPDATE sets SET name = ? WHERE id = ?");
+$stmt = $mysqli->prepare("SELECT * FROM cards WHERE setId = ?");
 
 if(!$stmt){
     $response['status'] = 'failed';
     exit(json_encode($response));
 }
 
-if(!($stmt->bind_param("si", $newSetTitle, $setId))){
+if(!($stmt->bind_param("i", $setId))){
     $response['status'] = 'failed';
     exit(json_encode($response));
 }
@@ -42,6 +32,22 @@ if(!($stmt->execute())){
     exit(json_encode($response));
 }
 
+if(!($result = $stmt->get_result())){
+    $response['status'] = 'failed';
+    exit(json_encode($response));
+}
+
+$cards = array();
+    
+while($row = $result->fetch_assoc()) {
+    $cardId = $row['id'];
+    $frontText = $row['frontText'];
+    $backText = $row['backText'];
+    $card = array("cardId" => $cardId, "frontText" => $frontText, "backText" => $backText);
+    array_push($cards, $card);
+}
+
 $response['status'] = 'succeeded';
+$response['cards'] = $cards;
 print(json_encode($response));
 ?>
