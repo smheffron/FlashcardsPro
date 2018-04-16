@@ -17,6 +17,11 @@ if($mysqli->connect_error){
 
 $stmt = $mysqli->prepare("SELECT * FROM sets WHERE ownerId = ?");
 
+if(!$stmt){
+    $response['status'] = 'failed';
+    exit(json_encode($response));
+}
+
 if(!($stmt->bind_param("i", $userId))){
     $response['status'] = 'failed';
     exit(json_encode($response));

@@ -17,6 +17,11 @@ if($mysqli->connect_error){
 
 $stmt = $mysqli->prepare("DELETE FROM cards WHERE id = ?");
 
+if(!$stmt){
+    $response['status'] = 'failed';
+    exit(json_encode($response));
+}
+
 if(!($stmt->bind_param("i", $cardId))){
     $response['status'] = 'failed';
     exit(json_encode($response));
