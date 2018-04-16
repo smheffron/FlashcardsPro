@@ -311,7 +311,7 @@ public class FlashCardView extends AppCompatActivity {
                 } else {
 
                     RequestQueue queue = Volley.newRequestQueue(flashCardView);
-                    String url = "http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/create_notecard.php?setId=";
+                    String url = "http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/newFlashcard.php?setId=";
 
                     url += setId;
 
