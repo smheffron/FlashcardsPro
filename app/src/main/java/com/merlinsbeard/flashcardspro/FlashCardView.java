@@ -2,6 +2,7 @@ package com.merlinsbeard.flashcardspro;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -348,5 +349,14 @@ public class FlashCardView extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void handleItemClick(Integer position) {
+
+        Intent intent = new Intent(this, ScrollView.class);
+        intent.putParcelableArrayListExtra("data",mDataset);
+        intent.putExtra("position",position);
+        startActivity(intent);
+
     }
 }

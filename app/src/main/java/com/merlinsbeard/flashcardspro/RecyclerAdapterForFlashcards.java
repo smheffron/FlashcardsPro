@@ -25,6 +25,8 @@ public class RecyclerAdapterForFlashcards extends RecyclerView.Adapter<RecyclerA
         // each data item is just a string in this case
         public CardView mCardView;
 
+        public View view;
+
         public ImageView threeDots;
 
         public ViewHolder(View v) {
@@ -34,7 +36,9 @@ public class RecyclerAdapterForFlashcards extends RecyclerView.Adapter<RecyclerA
             mTextView = v.findViewById(R.id.flashcardName);
             Log.d("saldknflsadkjfljknasdf", String.valueOf(v.findViewById(R.id.flashcardName)));
             threeDots = v.findViewById(R.id.threeDotsForFlashcards);
+            view = v;
         }
+
 
     }
 
@@ -71,6 +75,12 @@ public class RecyclerAdapterForFlashcards extends RecyclerView.Adapter<RecyclerA
 
         holder.mTextView.setText(mDataset.get(position).getFrontText());
 
+        holder.view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                flashCardView.handleItemClick(position);
+            }
+        });
 
 
         holder.threeDots.setOnClickListener(new View.OnClickListener(){
