@@ -30,6 +30,11 @@ if($mysqli->connect_error){
 //check if username taken
 $stmt = $mysqli->prepare("SELECT * FROM users WHERE username = ?");
 
+if(!$stmt){
+    $response['status'] = 'failed';
+    exit(json_encode($response));
+}
+
 if(!($stmt->bind_param("s", $newUsername))){
     $response['status'] = 'failed';
     exit(json_encode($response));
@@ -54,6 +59,11 @@ if ($result->num_rows > 0) {
 //create new user
 $stmt = $mysqli->prepare("INSERT INTO users(username, password) VALUES(?, ?)");
 
+if(!$stmt){
+    $response['status'] = 'failed';
+    exit(json_encode($response));
+}
+
 if(!($stmt->bind_param("ss", $newUsername, $hashedPassword))){
     $response['status'] = 'failed';
     exit(json_encode($response));
@@ -66,6 +76,11 @@ if(!($stmt->execute())){
 
 // getting id of new user
 $stmt = $mysqli->prepare("SELECT id FROM users WHERE username = ?");
+
+if(!$stmt){
+    $response['status'] = 'failed';
+    exit(json_encode($response));
+}
 
 if(!($stmt->bind_param("s", $newUsername))){
     $response['status'] = 'failed';

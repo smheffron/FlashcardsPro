@@ -27,6 +27,11 @@ if($mysqli->connect_error){
 
 $stmt = $mysqli->prepare("SELECT * FROM users WHERE username = ?");
 
+if(!$stmt){
+    $response['status'] = 'failed';
+    exit(json_encode($response));
+}
+
 if(!($stmt->bind_param("s", $userLogin))){
     $response['status'] = 'failed';
     exit(json_encode($response));

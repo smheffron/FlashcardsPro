@@ -17,6 +17,11 @@ if($mysqli->connect_error){
 
 $stmt = $mysqli->prepare("SELECT * FROM cards WHERE setId = ?");
 
+if(!$stmt){
+    $response['status'] = 'failed';
+    exit(json_encode($response));
+}
+
 if(!($stmt->bind_param("i", $setId))){
     $response['status'] = 'failed';
     exit(json_encode($response));

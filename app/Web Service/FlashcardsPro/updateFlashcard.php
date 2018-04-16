@@ -33,6 +33,11 @@ if($mysqli->connect_error){
 
 $stmt = $mysqli->prepare("UPDATE cards SET frontText = ?, backText = ? WHERE id = ?");
 
+if(!$stmt){
+    $response['status'] = 'failed';
+    exit(json_encode($response));
+}
+
 if(!($stmt->bind_param("ssi", $newCardFront, $newCardBack, $cardId))){
     $response['status'] = 'failed';
     exit(json_encode($response));
