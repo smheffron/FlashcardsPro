@@ -1,9 +1,20 @@
 <?php
+/*
+
+URL: http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/updateSetName.php
+
+Takes: a set id as $_GET['id']
+       the new title of the set as $_POST['title']
+
+Returns: A JSON object with the key 'status'
+         'status' will be 'succeeded' if the set was succesfully updated or 'failed' if it was not
+
+*/
 if($data = json_decode(file_get_contents("php://input"), true)){
     $_POST = $data;
 }
 
-$response = array("status" => "success");
+$response = array("status" => "succeeded");
 
 $setId = $_GET['id'] ? $_GET['id'] : -1;
 if($setId == -1){

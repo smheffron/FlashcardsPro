@@ -1,5 +1,17 @@
 <?php
-$response = array("status" => "success");
+/*
+
+URL: http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/getFlashcards.php
+
+Takes: a set id as $_GET['id']
+
+Returns: A JSON object with the key 'status'
+         'status' will be 'succeeded' if the cards were succesfully retrieved from the database or 'failed' if they were not
+         A JSON array of cards with the key 'cards'
+         Each card has the keys 'cardId', 'frontText', and 'backText'
+
+*/
+$response = array("status" => "succeeded");
 
 $setId = $_GET['setId'] ? $_GET['setId'] : -1;
 if($setId == -1){

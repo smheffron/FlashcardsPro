@@ -1,9 +1,21 @@
 <?php
+/*
+
+URL: http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/updateFlashcard.php
+
+Takes: a card id as $_GET['cardId']
+       the new front text of the card as $_POST['newFront']
+       the new back text of the card as $_POST['newBack']
+
+Returns: A JSON object with the key 'status'
+         'status' will be 'succeeded' if the card was succesfully updated or 'failed' if it was not
+
+*/
 if($data = json_decode(file_get_contents("php://input"), true)){
     $_POST = $data;
 }
 
-$response = array("status" => "success");
+$response = array("status" => "succeeded");
 
 $cardId = $_GET['cardId'] ? $_GET['cardId'] : -1;
 if($cardId == -1){

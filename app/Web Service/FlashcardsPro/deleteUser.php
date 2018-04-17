@@ -1,9 +1,22 @@
 <?php
+/*
+
+URL: http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/deleteUser.php
+
+Takes: a user id as $_GET['id']
+       a user password as $_POST['password']
+
+Returns: A JSON object with the key 'status'
+         'status' will be 'succeeded' if the user was succesfully removed from the database or 'failed' if they were not
+         
+         If the user's password is incorrect, there will also be the key 'reason' with the value 'authentication failure'
+
+*/
 if($data = json_decode(file_get_contents("php://input"), true)){
     $_POST = $data;
 }
 
-$response = array("status" => "success");
+$response = array("status" => "succeeded");
 
 $userId = $_GET['id'] ? $_GET['id'] : -1;
 if($userId == -1){

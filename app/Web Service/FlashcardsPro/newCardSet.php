@@ -1,9 +1,22 @@
 <?php
+/*
+
+URL: http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/newCardSet.php
+
+Takes: a user id as $_GET['id']
+       a new set name as $_POST['title']
+
+Returns: A JSON object with the keys 'status' and 'newSetId'
+         'status' will be 'succeeded' if the set was succesfully inserted into the database or 'failed' if it was not
+         
+         'newSetId' will be the id of the set in the database
+
+*/
 if($data = json_decode(file_get_contents("php://input"), true)){
     $_POST = $data;
 }
 
-$response = array("status" => "success");
+$response = array("status" => "succeeded");
 
 $userId = $_GET['id'] ? $_GET['id'] : -1;
 if($userId == -1){

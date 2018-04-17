@@ -1,9 +1,23 @@
 <?php
+/*
+
+URL: http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/updatePassword.php
+
+Takes: a user id as $_GET['id']
+       the user's old password as $_POST['oldPassword']
+       the user's new password as $_POST['newPassword']
+
+Returns: A JSON object with the key 'status'
+         'status' will be 'succeeded' if the password was sucessfully updated or 'failed' if it was not
+         
+         If the user's password is incorrect, there will also be the key 'reason' with the value 'authentication failure'
+
+*/
 if($data = json_decode(file_get_contents("php://input"), true)){
     $_POST = $data;
 }
 
-$response = array("status" => "success");
+$response = array("status" => "succeeded");
 
 $userId = $_GET['id'] ? $_GET['id'] : -1;
 if($userId == -1){

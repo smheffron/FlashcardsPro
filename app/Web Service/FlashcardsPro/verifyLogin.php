@@ -1,9 +1,24 @@
 <?php
+/*
+
+URL: http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/verifyLogin.php
+
+Takes: the user's username as $_POST['newUsername']
+       the user's password as $_POST['password']
+
+Returns: A JSON object with the keys 'status' and 'login'
+         'status' will be 'succeeded' if there were no errors querying the database
+         
+         'login' will be 'succeeded' if the supplied username/password combination is valid
+         
+         if 'login' is 'succeeded', there will also be the key 'userId' which will be the id of the user who logged in
+
+*/
 if($data = json_decode(file_get_contents("php://input"), true)){
     $_POST = $data;
 }
 
-$response = array("status" => "success", "login" => "failed");
+$response = array("status" => "succeeded", "login" => "failed");
 
 $userLogin = $_POST['username'] ? $_POST['username'] : '';
 if(!($userLogin)){

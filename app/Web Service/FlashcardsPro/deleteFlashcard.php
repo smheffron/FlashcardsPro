@@ -1,5 +1,15 @@
 <?php
-$response = array("status" => "success");
+/*
+
+URL: http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/deleteFlashcard.php
+
+Takes: a card id as $_GET['cardId']
+
+Returns: A JSON object with the key 'status'
+         'status' will be 'succeeded' if the card was succesfully removed from the database or 'failed' if it was not
+
+*/
+$response = array("status" => "succeeded");
 
 $cardId = $_GET['cardId'] ? $_GET['cardId'] : -1;
 if($cardId == -1){
