@@ -173,7 +173,8 @@ public class ScrollView extends AppCompatActivity implements GestureDetector.OnG
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if(id == R.id.homeAsUp){
+        if(id == android.R.id.home){
+            Log.d("PIZZA", "correct id");
             Intent intent = NavUtils.getParentActivityIntent(this);
             if(intent != null) {
                 intent.putExtra("setId", setId);
