@@ -1,5 +1,8 @@
 package com.merlinsbeard.flashcardspro;
 
+import android.app.ActivityOptions;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.NavUtils;
@@ -7,11 +10,14 @@ import android.support.v4.view.GestureDetectorCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.transition.Slide;
 import android.util.Log;
 import android.view.GestureDetector;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -35,6 +41,16 @@ public class ScrollView extends AppCompatActivity implements GestureDetector.OnG
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
+
+            Slide slide = new Slide(Gravity.BOTTOM);
+            slide.setDuration(200);
+
+            getWindow().setEnterTransition(slide);
+            getWindow().setExitTransition(slide);
+        }
+
         setContentView(R.layout.activity_scroll_view);
 
         if(getSupportActionBar() != null){
@@ -123,7 +139,18 @@ public class ScrollView extends AppCompatActivity implements GestureDetector.OnG
         }
 
         if(motionEvent.getY() - motionEvent1.getY() < 0 && Math.abs(motionEvent.getY() - motionEvent1.getY())>150){
-            NavUtils.navigateUpFromSameTask(this);
+            Intent intent = NavUtils.getParentActivityIntent(this);
+            if(intent != null) {
+                intent.putExtra("setId", setId);
+                intent.putExtra("setName", setName);
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+                }
+                else {
+                    startActivity(intent);
+                }
+            }
         }
 
 
@@ -147,7 +174,18 @@ public class ScrollView extends AppCompatActivity implements GestureDetector.OnG
         int id = item.getItemId();
 
         if(id == R.id.homeAsUp){
-            NavUtils.navigateUpFromSameTask(this);
+            Intent intent = NavUtils.getParentActivityIntent(this);
+            if(intent != null) {
+                intent.putExtra("setId", setId);
+                intent.putExtra("setName", setName);
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+                }
+                else {
+                    startActivity(intent);
+                }
+            }
         }
 
         return super.onOptionsItemSelected(item);
