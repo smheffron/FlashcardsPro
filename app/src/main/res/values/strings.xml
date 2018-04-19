@@ -18,4 +18,5 @@
     <string name="change_password">Change Password</string>
     <string name="logout">Logout</string>
     <string name="delete_account">Delete Account</string>
+    <string name="app_logo">App Logo</string>
 </resources>
