@@ -19,7 +19,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.merlinsbeard.flashcardspro.model.User;
 import com.merlinsbeard.flashcardspro.R;
-import com.merlinsbeard.flashcardspro.databinding.LoginActivityBinding;
+import com.merlinsbeard.flashcardspro.databinding.ActivityLoginBinding;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,7 +29,7 @@ import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private LoginActivityBinding binding;
+    private ActivityLoginBinding binding;
     private User user = new User();
     private ProgressBar loadingAnimation;
 
@@ -37,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = DataBindingUtil.setContentView(this, R.layout.login_activity);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_login);
         binding.setActivity(this);
         binding.setUser(user);
 
@@ -81,7 +81,7 @@ public class LoginActivity extends AppCompatActivity {
                             editor.putString("username",user.getUsername());
                             editor.putInt("userId",response.getInt("userId"));
                             editor.apply();
-                            Intent intent = new Intent(thisActivity, SetViewActivity.class);
+                            Intent intent = new Intent(thisActivity, FlashcardSetActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             loadingAnimation.setVisibility(ProgressBar.INVISIBLE);
                             startActivity(intent);

@@ -15,7 +15,7 @@ public class LaunchActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.splash_screen);
+        setContentView(R.layout.activity_launch);
 
         ActionBar actionBar = getSupportActionBar();
         if(actionBar != null) {
@@ -36,7 +36,7 @@ public class LaunchActivity extends AppCompatActivity {
             @Override
             public void onFinish() {
                 if(id != -1){
-                    Intent intent = new Intent(thisActivity, SetViewActivity.class);
+                    Intent intent = new Intent(thisActivity, FlashcardSetActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                 }

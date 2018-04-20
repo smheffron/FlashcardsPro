@@ -31,9 +31,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.merlinsbeard.flashcardspro.model.FlashCard;
+import com.merlinsbeard.flashcardspro.model.Flashcard;
 import com.merlinsbeard.flashcardspro.R;
-import com.merlinsbeard.flashcardspro.adapters.RecyclerAdapterForFlashcards;
+import com.merlinsbeard.flashcardspro.adapters.FlashcardRecyclerAdapter;
 import com.merlinsbeard.flashcardspro.animators.RecyclerScrollAnimator;
 
 import org.json.JSONArray;
@@ -44,16 +44,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class FlashCardView extends AppCompatActivity {
+public class FlashcardActivity extends AppCompatActivity {
 
-    private ArrayList<FlashCard> mDataset;
+    private ArrayList<Flashcard> mDataset;
     private RecyclerView recyclerView;
-    private RecyclerAdapterForFlashcards recyclerAdapter;
+    private FlashcardRecyclerAdapter recyclerAdapter;
     private TextView emptyView;
     private Context context;
     private FloatingActionButton addSetButton;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private FlashCardView flashCardView;
+    private FlashcardActivity flashcardActivity;
     private int setId;
     private String setName;
 
@@ -71,7 +71,7 @@ public class FlashCardView extends AppCompatActivity {
             getWindow().setExitTransition(fade);
         }
 
-        setContentView(R.layout.activity_flash_card_view);
+        setContentView(R.layout.activity_flash_card);
         if(getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
@@ -109,7 +109,7 @@ public class FlashCardView extends AppCompatActivity {
             }
         });
 
-        flashCardView = this;
+        flashcardActivity = this;
 
         context = getApplicationContext();
 
@@ -197,7 +197,7 @@ public class FlashCardView extends AppCompatActivity {
                     Toast.makeText(context, "Give your flashcard a front and back", Toast.LENGTH_LONG).show();
                 } else {
 
-                    RequestQueue queue = Volley.newRequestQueue(flashCardView);
+                    RequestQueue queue = Volley.newRequestQueue(flashcardActivity);
                     String url = "http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/updateFlashcard.php?cardId=";
 
                     url+=idToRename;
@@ -216,7 +216,7 @@ public class FlashCardView extends AppCompatActivity {
                                     mDataset.get(i).setFrontText(newFrontText);
 
                                     if (recyclerAdapter == null) {
-                                        recyclerAdapter = new RecyclerAdapterForFlashcards(mDataset, context, flashCardView) {
+                                        recyclerAdapter = new FlashcardRecyclerAdapter(mDataset, context, flashcardActivity) {
                                         };
                                         recyclerView.setAdapter(recyclerAdapter);
                                         recyclerView.setLayoutManager(new LinearLayoutManager(context));
@@ -266,19 +266,19 @@ public class FlashCardView extends AppCompatActivity {
 
                         for(int i = 0; i < sets.length(); i++){
                             JSONObject set = sets.getJSONObject(i);
-                            FlashCard flashCard = new FlashCard(set.getString("frontText"),set.getString("backText"), set.getInt("cardId"));
-                            mDataset.add(flashCard);
+                            Flashcard flashcard = new Flashcard(set.getString("frontText"),set.getString("backText"), set.getInt("cardId"));
+                            mDataset.add(flashcard);
                         }
 
                         if(mDataset == null || mDataset.isEmpty()){
                             emptyView.setVisibility(View.VISIBLE);
                         }
                         if(recyclerAdapter == null){
-                            recyclerAdapter = new RecyclerAdapterForFlashcards(mDataset, context, flashCardView) {
+                            recyclerAdapter = new FlashcardRecyclerAdapter(mDataset, context, flashcardActivity) {
 
                             };
                             recyclerView.setAdapter(recyclerAdapter);
-                            recyclerView.setLayoutManager(new LinearLayoutManager(flashCardView));
+                            recyclerView.setLayoutManager(new LinearLayoutManager(flashcardActivity));
                         }
 
                         recyclerAdapter.notifyDataSetChanged();
@@ -303,7 +303,7 @@ public class FlashCardView extends AppCompatActivity {
 
     public void onClickPlusButton(View view){
         final Dialog dialog = new Dialog(this);
-        dialog.setContentView(R.layout.flashcard_dio);
+        dialog.setContentView(R.layout.add_card_popup);
         dialog.setTitle("Create a new card");
         dialog.show();
 
@@ -329,7 +329,7 @@ public class FlashCardView extends AppCompatActivity {
                     Toast.makeText(context, "Give your flashcard a front and back", Toast.LENGTH_LONG).show();
                 } else {
 
-                    RequestQueue queue = Volley.newRequestQueue(flashCardView);
+                    RequestQueue queue = Volley.newRequestQueue(flashcardActivity);
                     String url = "http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/newFlashcard.php?setId=";
 
                     url += setId;
@@ -344,12 +344,12 @@ public class FlashCardView extends AppCompatActivity {
                             try {
                                 if(response.getString("status").equals("succeeded")){
                                     int newCardId = response.getInt("newCardId");
-                                    FlashCard flashcard = new FlashCard(frontString,backString, newCardId );
+                                    Flashcard flashcard = new Flashcard(frontString,backString, newCardId );
 
                                     mDataset.add(flashcard);
 
                                     if (recyclerAdapter == null) {
-                                        recyclerAdapter = new RecyclerAdapterForFlashcards(mDataset, context, flashCardView) {
+                                        recyclerAdapter = new FlashcardRecyclerAdapter(mDataset, context, flashcardActivity) {
                                         };
                                         recyclerView.setAdapter(recyclerAdapter);
                                         recyclerView.setLayoutManager(new LinearLayoutManager(context));
@@ -381,7 +381,7 @@ public class FlashCardView extends AppCompatActivity {
     }
 
     public void handleItemClick(Integer position) {
-        Intent intent = new Intent(this, ScrollView.class);
+        Intent intent = new Intent(this, StudyActivity.class);
         intent.putParcelableArrayListExtra("data",mDataset);
         intent.putExtra("position",position);
         intent.putExtra("setName", setName);
@@ -406,7 +406,7 @@ public class FlashCardView extends AppCompatActivity {
         int id = item.getItemId();
 
         if(id == R.id.accountButton){
-            Intent intent = new Intent(this, AccountViewActivity.class);
+            Intent intent = new Intent(this, AccountActivity.class);
             startActivity(intent);
         }
         else if(id == R.id.homeAsUp){

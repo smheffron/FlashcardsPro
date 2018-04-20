@@ -2,11 +2,11 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".activities.AccountViewActivity">
+    tools:context=".activities.AccountActivity">
     <data>
         <variable
             name="activity"
-            type="com.merlinsbeard.flashcardspro.activities.AccountViewActivity"/>
+            type="com.merlinsbeard.flashcardspro.activities.AccountActivity"/>
 
         <variable
             name="user"

@@ -27,32 +27,32 @@
             android:label="Create Account"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.SetViewActivity"
+            android:name=".activities.FlashcardSetActivity"
             android:label="Sets"
             android:screenOrientation="portrait"
             android:launchMode="singleTop"/>
         <activity
-            android:name=".activities.AccountViewActivity"
+            android:name=".activities.AccountActivity"
             android:label="Account"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.FlashCardView"
+            android:name=".activities.FlashcardActivity"
             android:label="Flashcards"
             android:screenOrientation="portrait"
-            android:parentActivityName=".activities.SetViewActivity"
+            android:parentActivityName=".activities.FlashcardSetActivity"
             android:launchMode="singleTop">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.SetViewActivity"/>
+                android:value=".activities.FlashcardSetActivity"/>
         </activity>
         <activity
-            android:name=".activities.ScrollView"
+            android:name=".activities.StudyActivity"
             android:label="Flashcards"
             android:screenOrientation="portrait"
-            android:parentActivityName=".activities.FlashCardView">
+            android:parentActivityName=".activities.FlashcardActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.FlashCardView"/>
+                android:value=".activities.FlashcardActivity"/>
         </activity>
 
     </application>

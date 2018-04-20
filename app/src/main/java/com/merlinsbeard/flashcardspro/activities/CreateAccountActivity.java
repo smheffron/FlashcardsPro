@@ -87,7 +87,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                         editor.putString("username",newUser.getUsername());
                         editor.putInt("userId",response.getInt("userId"));
                         editor.apply();
-                        Intent intent = new Intent(thisActivity, SetViewActivity.class);
+                        Intent intent = new Intent(thisActivity, FlashcardSetActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         loadingAnimation.setVisibility(ProgressBar.INVISIBLE);
                         startActivity(intent);

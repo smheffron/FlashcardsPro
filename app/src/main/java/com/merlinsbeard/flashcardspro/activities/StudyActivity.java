@@ -20,14 +20,14 @@ import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
 
-import com.merlinsbeard.flashcardspro.model.FlashCard;
+import com.merlinsbeard.flashcardspro.model.Flashcard;
 import com.merlinsbeard.flashcardspro.R;
 
 import java.util.ArrayList;
 
-public class ScrollView extends AppCompatActivity implements GestureDetector.OnGestureListener{
+public class StudyActivity extends AppCompatActivity implements GestureDetector.OnGestureListener{
 
-    private ArrayList<FlashCard> mDataSet;
+    private ArrayList<Flashcard> mDataSet;
     private Integer positionClicked;
     private ViewPager viewPager;
     private PagerAdapter pagerAdapter;
@@ -54,7 +54,7 @@ public class ScrollView extends AppCompatActivity implements GestureDetector.OnG
             getWindow().setExitTransition(slide);
         }
 
-        setContentView(R.layout.activity_scroll_view);
+        setContentView(R.layout.activity_study);
 
         if(getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);

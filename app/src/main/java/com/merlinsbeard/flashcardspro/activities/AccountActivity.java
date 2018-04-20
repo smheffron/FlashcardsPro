@@ -21,7 +21,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.merlinsbeard.flashcardspro.model.User;
 import com.merlinsbeard.flashcardspro.R;
-import com.merlinsbeard.flashcardspro.databinding.ActivityAccountViewBinding;
+import com.merlinsbeard.flashcardspro.databinding.ActivityAccountBinding;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,8 +29,8 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AccountViewActivity extends AppCompatActivity {
-    private ActivityAccountViewBinding binding;
+public class AccountActivity extends AppCompatActivity {
+    private ActivityAccountBinding binding;
     private User user;
     private SharedPreferences preferences;
 
@@ -49,7 +49,7 @@ public class AccountViewActivity extends AppCompatActivity {
         user.setUsername(preferences.getString("username", ""));
         user.setUserId(preferences.getInt("userId", -1));
 
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_account_view);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_account);
         binding.setActivity(this);
         binding.setUser(user);
     }

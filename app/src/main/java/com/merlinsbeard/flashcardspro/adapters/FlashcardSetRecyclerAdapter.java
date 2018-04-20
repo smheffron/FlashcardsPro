@@ -12,13 +12,13 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
-import com.merlinsbeard.flashcardspro.activities.SetViewActivity;
+import com.merlinsbeard.flashcardspro.activities.FlashcardSetActivity;
 import com.merlinsbeard.flashcardspro.model.FlashcardSet;
 import com.merlinsbeard.flashcardspro.R;
 
 import java.util.ArrayList;
 
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
+public class FlashcardSetRecyclerAdapter extends RecyclerView.Adapter<FlashcardSetRecyclerAdapter.ViewHolder> {
 
 
 
@@ -26,15 +26,15 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
     public static class ViewHolder extends RecyclerView.ViewHolder{
-        public TextView mTextView;
+        TextView mTextView;
         // each data item is just a string in this case
-        public CardView mCardView;
+        CardView mCardView;
 
         View view;
 
         public ImageView threeDots;
 
-        public ViewHolder(View v) {
+        ViewHolder(View v) {
             super(v);
 
             view = v;
@@ -47,28 +47,27 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     private ArrayList<FlashcardSet> mDataset;
     private Context context;
-    private SetViewActivity setViewActivity;
+    private FlashcardSetActivity flashcardSetActivity;
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public RecyclerAdapter(ArrayList<FlashcardSet> myDataset, Context context, SetViewActivity s) {
+    protected FlashcardSetRecyclerAdapter(ArrayList<FlashcardSet> myDataset, Context context, FlashcardSetActivity s) {
         this.mDataset = myDataset;
         this.context = context;
-        this.setViewActivity=s;
+        this.flashcardSetActivity =s;
 
     }
 
     // Create new views (invoked by the layout manager)
+    @NonNull
     @Override
-    public RecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
-                                                   int viewType) {
+    public FlashcardSetRecyclerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
+                                                                     int viewType) {
 
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
-        View view = inflater.inflate(R.layout.card_layout, parent, false);
+        View view = inflater.inflate(R.layout.set_card_layout, parent, false);
 
-        ViewHolder viewHolder = new ViewHolder(view);
-
-        return viewHolder;
+        return new ViewHolder(view);
     }
 
     @Override
@@ -91,12 +90,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                         switch (item.getItemId()) {
                             case R.id.popupMenuOptions1:
 
-                                setViewActivity.handleDeleteClick(position);
+                                flashcardSetActivity.handleDeleteClick(position);
                                 break;
 
                             case R.id.popupMenuOptions2:
 
-                                setViewActivity.handleRenameClick(position);
+                                flashcardSetActivity.handleRenameClick(position);
                                 break;
                         }
                         return false;
@@ -111,7 +110,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             @Override
             public void onClick(View view) {
 
-                setViewActivity.handleItemClick(position);
+                flashcardSetActivity.handleItemClick(position);
 
             }
         });

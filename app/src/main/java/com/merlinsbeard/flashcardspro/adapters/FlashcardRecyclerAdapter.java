@@ -13,27 +13,27 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
-import com.merlinsbeard.flashcardspro.activities.FlashCardView;
-import com.merlinsbeard.flashcardspro.model.FlashCard;
+import com.merlinsbeard.flashcardspro.activities.FlashcardActivity;
+import com.merlinsbeard.flashcardspro.model.Flashcard;
 import com.merlinsbeard.flashcardspro.R;
 
 import java.util.ArrayList;
 
-public class RecyclerAdapterForFlashcards extends RecyclerView.Adapter<RecyclerAdapterForFlashcards.ViewHolder>{
+public class FlashcardRecyclerAdapter extends RecyclerView.Adapter<FlashcardRecyclerAdapter.ViewHolder>{
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
     public static class ViewHolder extends RecyclerView.ViewHolder{
-        public TextView mTextView;
+        TextView mTextView;
         // each data item is just a string in this case
-        public CardView mCardView;
+        CardView mCardView;
 
         public View view;
 
         public ImageView threeDots;
 
-        public ViewHolder(View v) {
+        ViewHolder(View v) {
             super(v);
 
             mCardView = v.findViewById(R.id.cardViewForFlashcards);
@@ -46,30 +46,29 @@ public class RecyclerAdapterForFlashcards extends RecyclerView.Adapter<RecyclerA
 
     }
 
-    private ArrayList<FlashCard> mDataset;
+    private ArrayList<Flashcard> mDataset;
     private Context context;
-    private FlashCardView flashCardView;
+    private FlashcardActivity flashcardActivity;
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public RecyclerAdapterForFlashcards(ArrayList<FlashCard> myDataset, Context context, FlashCardView s) {
+    protected FlashcardRecyclerAdapter(ArrayList<Flashcard> myDataset, Context context, FlashcardActivity s) {
         this.mDataset = myDataset;
         this.context = context;
-        this.flashCardView=s;
+        this.flashcardActivity =s;
 
     }
 
     // Create new views (invoked by the layout manager)
+    @NonNull
     @Override
-    public RecyclerAdapterForFlashcards.ViewHolder onCreateViewHolder(ViewGroup parent,
-                                                         int viewType) {
+    public FlashcardRecyclerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
+                                                                  int viewType) {
 
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
-        View view = inflater.inflate(R.layout.flashcards_layout, parent, false);
+        View view = inflater.inflate(R.layout.flashcard_card_layout, parent, false);
 
-        RecyclerAdapterForFlashcards.ViewHolder viewHolder = new RecyclerAdapterForFlashcards.ViewHolder(view);
-
-        return viewHolder;
+        return new ViewHolder(view);
     }
 
     @Override
@@ -82,7 +81,7 @@ public class RecyclerAdapterForFlashcards extends RecyclerView.Adapter<RecyclerA
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                flashCardView.handleItemClick(position);
+                flashcardActivity.handleItemClick(position);
             }
         });
 
@@ -102,12 +101,12 @@ public class RecyclerAdapterForFlashcards extends RecyclerView.Adapter<RecyclerA
                         switch (item.getItemId()) {
                             case R.id.popupDelete:
 
-                                flashCardView.handleDeleteClick(position);
+                                flashcardActivity.handleDeleteClick(position);
                                 break;
 
                             case R.id.popupEdit:
 
-                                flashCardView.handleRenameClick(position);
+                                flashcardActivity.handleRenameClick(position);
                                 break;
 
                         }

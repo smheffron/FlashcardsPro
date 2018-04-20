@@ -3,32 +3,32 @@ package com.merlinsbeard.flashcardspro.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class FlashCard implements Parcelable {
+public class Flashcard implements Parcelable {
     private String frontText;
     private String backText;
     private int flashcardId;
 
-    public FlashCard(String frontText, String backText, int flashcardId){
+    public Flashcard(String frontText, String backText, int flashcardId){
         this.backText=backText;
         this.flashcardId=flashcardId;
         this.frontText=frontText;
     }
 
-    public FlashCard(Parcel in) {
+    private Flashcard(Parcel in) {
         frontText = in.readString();
         backText = in.readString();
         flashcardId = in.readInt();
     }
 
-    public static final Creator<FlashCard> CREATOR = new Creator<FlashCard>() {
+    public static final Creator<Flashcard> CREATOR = new Creator<Flashcard>() {
         @Override
-        public FlashCard createFromParcel(Parcel in) {
-            return new FlashCard(in);
+        public Flashcard createFromParcel(Parcel in) {
+            return new Flashcard(in);
         }
 
         @Override
-        public FlashCard[] newArray(int size) {
-            return new FlashCard[size];
+        public Flashcard[] newArray(int size) {
+            return new Flashcard[size];
         }
     };
 

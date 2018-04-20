@@ -28,7 +28,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.merlinsbeard.flashcardspro.model.FlashcardSet;
 import com.merlinsbeard.flashcardspro.R;
-import com.merlinsbeard.flashcardspro.adapters.RecyclerAdapter;
+import com.merlinsbeard.flashcardspro.adapters.FlashcardSetRecyclerAdapter;
 import com.merlinsbeard.flashcardspro.animators.RecyclerScrollAnimator;
 
 import org.json.JSONArray;
@@ -39,21 +39,21 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SetViewActivity extends AppCompatActivity {
+public class FlashcardSetActivity extends AppCompatActivity {
     private ArrayList<FlashcardSet> mDataset;
     private RecyclerView recyclerView;
-    private RecyclerAdapter recyclerAdapter;
+    private FlashcardSetRecyclerAdapter flashcardSetRecyclerAdapter;
     private TextView emptyView;
     private Context context;
     private FloatingActionButton addSetButton;
     private SwipeRefreshLayout swipeRefreshLayout;
 
-    private SetViewActivity setViewActivity;
+    private FlashcardSetActivity flashcardSetActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_set_view);
+        setContentView(R.layout.activity_flashcard_set);
 
         addSetButton = findViewById(R.id.addSetButton);
         Animation growAnimation = AnimationUtils.loadAnimation(this, R.anim.grow);
@@ -82,7 +82,7 @@ public class SetViewActivity extends AppCompatActivity {
             }
         });
 
-        setViewActivity = this;
+        flashcardSetActivity = this;
 
         context = getApplicationContext();
 
@@ -110,8 +110,8 @@ public class SetViewActivity extends AppCompatActivity {
                         mDataset.remove(mDataset.get(i));
 
                         recyclerView.removeViewAt(i);
-                        recyclerAdapter.notifyItemRemoved(i);
-                        recyclerAdapter.notifyItemRangeChanged(i, mDataset.size());
+                        flashcardSetRecyclerAdapter.notifyItemRemoved(i);
+                        flashcardSetRecyclerAdapter.notifyItemRangeChanged(i, mDataset.size());
 
                         Log.d("The values left are: ", mDataset.toString());
 
@@ -141,7 +141,7 @@ public class SetViewActivity extends AppCompatActivity {
         final int idToRename = mDataset.get(i).getSetId();
 
         final Dialog dialog = new Dialog(this);
-        dialog.setContentView(R.layout.rename_set_popup);
+        dialog.setContentView(R.layout.edit_set_popup);
         dialog.setTitle("Rename set");
         dialog.show();
 
@@ -167,7 +167,7 @@ public class SetViewActivity extends AppCompatActivity {
                     Toast.makeText(context, "Give your set a name", Toast.LENGTH_LONG).show();
                 } else {
 
-                    RequestQueue queue = Volley.newRequestQueue(setViewActivity);
+                    RequestQueue queue = Volley.newRequestQueue(flashcardSetActivity);
                     String url = "http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/updateSetName.php?id=";
 
                     url+=idToRename;
@@ -183,14 +183,14 @@ public class SetViewActivity extends AppCompatActivity {
 
                                     mDataset.get(i).setName(name);
 
-                                    if (recyclerAdapter == null) {
-                                        recyclerAdapter = new RecyclerAdapter(mDataset, context, setViewActivity) {
+                                    if (flashcardSetRecyclerAdapter == null) {
+                                        flashcardSetRecyclerAdapter = new FlashcardSetRecyclerAdapter(mDataset, context, flashcardSetActivity) {
                                         };
-                                        recyclerView.setAdapter(recyclerAdapter);
+                                        recyclerView.setAdapter(flashcardSetRecyclerAdapter);
                                         recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
                                     }
-                                    recyclerAdapter.notifyDataSetChanged();
+                                    flashcardSetRecyclerAdapter.notifyDataSetChanged();
                                     emptyView.setVisibility(View.INVISIBLE);
                                 }
                                 else {
@@ -226,7 +226,7 @@ public class SetViewActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if(id == R.id.accountButton){
-            Intent intent = new Intent(this, AccountViewActivity.class);
+            Intent intent = new Intent(this, AccountActivity.class);
             startActivity(intent);
         }
 
@@ -258,7 +258,7 @@ public class SetViewActivity extends AppCompatActivity {
                     Toast.makeText(context, "Give your set a name", Toast.LENGTH_LONG).show();
                 } else {
 
-                    RequestQueue queue = Volley.newRequestQueue(setViewActivity);
+                    RequestQueue queue = Volley.newRequestQueue(flashcardSetActivity);
                     String url = "http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/newCardSet.php?id=";
 
                     final SharedPreferences preferences = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
@@ -278,14 +278,14 @@ public class SetViewActivity extends AppCompatActivity {
 
                                     mDataset.add(flashcardSet);
 
-                                    if (recyclerAdapter == null) {
-                                        recyclerAdapter = new RecyclerAdapter(mDataset, context, setViewActivity) {
+                                    if (flashcardSetRecyclerAdapter == null) {
+                                        flashcardSetRecyclerAdapter = new FlashcardSetRecyclerAdapter(mDataset, context, flashcardSetActivity) {
                                         };
-                                        recyclerView.setAdapter(recyclerAdapter);
+                                        recyclerView.setAdapter(flashcardSetRecyclerAdapter);
                                         recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
                                     }
-                                    recyclerAdapter.notifyDataSetChanged();
+                                    flashcardSetRecyclerAdapter.notifyDataSetChanged();
                                     emptyView.setVisibility(View.INVISIBLE);
                                 }
                                 else {
@@ -336,15 +336,15 @@ public class SetViewActivity extends AppCompatActivity {
                         if(mDataset == null || mDataset.isEmpty()){
                             emptyView.setVisibility(View.VISIBLE);
                         }
-                        if(recyclerAdapter == null){
-                            recyclerAdapter = new RecyclerAdapter(mDataset, context, setViewActivity) {
+                        if(flashcardSetRecyclerAdapter == null){
+                            flashcardSetRecyclerAdapter = new FlashcardSetRecyclerAdapter(mDataset, context, flashcardSetActivity) {
 
                             };
-                            recyclerView.setAdapter(recyclerAdapter);
-                            recyclerView.setLayoutManager(new LinearLayoutManager(setViewActivity));
+                            recyclerView.setAdapter(flashcardSetRecyclerAdapter);
+                            recyclerView.setLayoutManager(new LinearLayoutManager(flashcardSetActivity));
                         }
 
-                        recyclerAdapter.notifyDataSetChanged();
+                        flashcardSetRecyclerAdapter.notifyDataSetChanged();
                         swipeRefreshLayout.setRefreshing(false);
                     }
                     else {
@@ -366,7 +366,7 @@ public class SetViewActivity extends AppCompatActivity {
 
     public void handleItemClick(Integer i) {
 
-        Intent intent = new Intent(this,FlashCardView.class);
+        Intent intent = new Intent(this,FlashcardActivity.class);
         intent.putExtra("setId", mDataset.get(i).getSetId());
         intent.putExtra("setName",mDataset.get(i).getName());
         startActivity(intent);
