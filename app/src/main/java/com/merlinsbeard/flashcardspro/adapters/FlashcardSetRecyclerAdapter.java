@@ -71,9 +71,10 @@ public class FlashcardSetRecyclerAdapter extends RecyclerView.Adapter<FlashcardS
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
-        holder.mTextView.setText(mDataset.get(position).getName());
+    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
+        final int p = position;
 
+        holder.mTextView.setText(mDataset.get(p).getName());
 
         holder.threeDots.setOnClickListener(new View.OnClickListener(){
 
@@ -90,12 +91,12 @@ public class FlashcardSetRecyclerAdapter extends RecyclerView.Adapter<FlashcardS
                         switch (item.getItemId()) {
                             case R.id.popupMenuOptions1:
 
-                                flashcardSetActivity.handleDeleteClick(position);
+                                flashcardSetActivity.handleDeleteClick(p);
                                 break;
 
                             case R.id.popupMenuOptions2:
 
-                                flashcardSetActivity.handleRenameClick(position);
+                                flashcardSetActivity.handleRenameClick(p);
                                 break;
                         }
                         return false;
@@ -110,7 +111,7 @@ public class FlashcardSetRecyclerAdapter extends RecyclerView.Adapter<FlashcardS
             @Override
             public void onClick(View view) {
 
-                flashcardSetActivity.handleItemClick(position);
+                flashcardSetActivity.handleItemClick(p);
 
             }
         });

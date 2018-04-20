@@ -7,8 +7,6 @@ import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.GestureDetectorCompat;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.transition.Slide;
 import android.util.Log;
@@ -20,8 +18,8 @@ import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
 
-import com.merlinsbeard.flashcardspro.model.Flashcard;
 import com.merlinsbeard.flashcardspro.R;
+import com.merlinsbeard.flashcardspro.model.Flashcard;
 
 import java.util.ArrayList;
 
@@ -29,17 +27,12 @@ public class StudyActivity extends AppCompatActivity implements GestureDetector.
 
     private ArrayList<Flashcard> mDataSet;
     private Integer positionClicked;
-    private ViewPager viewPager;
-    private PagerAdapter pagerAdapter;
-    private int numberElements;
-    TextView cardText;
-    ConstraintLayout constraintLayout;
-    String setName;
-    int setId;
+    private TextView cardText;
+    private String setName;
+    private int setId;
 
-    boolean isFront = true;
+    private boolean isFront = true;
     private GestureDetectorCompat detector;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +41,7 @@ public class StudyActivity extends AppCompatActivity implements GestureDetector.
             getWindow().requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
 
             Slide slide = new Slide(Gravity.BOTTOM);
-            slide.setDuration(200);
+            slide.setDuration(150);
 
             getWindow().setEnterTransition(slide);
             getWindow().setExitTransition(slide);
@@ -64,7 +57,7 @@ public class StudyActivity extends AppCompatActivity implements GestureDetector.
         positionClicked = getIntent().getIntExtra("position", -1);
 
         cardText = findViewById(R.id.flashcardText);
-        constraintLayout = findViewById(R.id.individualCardView);
+        ConstraintLayout constraintLayout = findViewById(R.id.individualCardView);
 
         setName = String.valueOf(getIntent().getCharSequenceExtra("setName"));
         setTitle(setName);
@@ -125,7 +118,7 @@ public class StudyActivity extends AppCompatActivity implements GestureDetector.
     public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
 
 
-        if(motionEvent.getX() - motionEvent1.getX()<0 && Math.abs(motionEvent.getX() - motionEvent1.getX())>150){
+        if(motionEvent.getX() - motionEvent1.getX()<0 && Math.abs(motionEvent.getX() - motionEvent1.getX()) > 150){
             if(positionClicked - 1 >= 0){
                 cardText.setText(mDataSet.get(--positionClicked).getFrontText());
                 isFront=true;
@@ -133,7 +126,7 @@ public class StudyActivity extends AppCompatActivity implements GestureDetector.
         }
 
 
-        if(motionEvent.getX() - motionEvent1.getX()>0 && Math.abs(motionEvent.getX() - motionEvent1.getX())>150){
+        if(motionEvent.getX() - motionEvent1.getX()>0 && Math.abs(motionEvent.getX() - motionEvent1.getX()) > 150){
             //right swipe
             if(positionClicked + 1 < mDataSet.size()){
                 cardText.setText(mDataSet.get(++positionClicked).getFrontText());
@@ -141,7 +134,7 @@ public class StudyActivity extends AppCompatActivity implements GestureDetector.
             }
         }
 
-        if(motionEvent.getY() - motionEvent1.getY() < 0 && Math.abs(motionEvent.getY() - motionEvent1.getY())>150){
+        if(motionEvent.getY() - motionEvent1.getY() < 0 && Math.abs(motionEvent.getY() - motionEvent1.getY()) > 150 && Math.abs(motionEvent.getX() - motionEvent1.getX()) < 150){
             Intent intent = NavUtils.getParentActivityIntent(this);
             if(intent != null) {
                 intent.putExtra("setId", setId);

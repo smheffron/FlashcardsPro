@@ -72,16 +72,17 @@ public class FlashcardRecyclerAdapter extends RecyclerView.Adapter<FlashcardRecy
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         Log.d("HOLDER", holder.toString());
         Log.d("TEXTVIEW",holder.mTextView.toString());
+        final int p = position;
 
-        holder.mTextView.setText(mDataset.get(position).getFrontText());
+        holder.mTextView.setText(mDataset.get(p).getFrontText());
 
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                flashcardActivity.handleItemClick(position);
+                flashcardActivity.handleItemClick(p);
             }
         });
 
@@ -101,12 +102,12 @@ public class FlashcardRecyclerAdapter extends RecyclerView.Adapter<FlashcardRecy
                         switch (item.getItemId()) {
                             case R.id.popupDelete:
 
-                                flashcardActivity.handleDeleteClick(position);
+                                flashcardActivity.handleDeleteClick(p);
                                 break;
 
                             case R.id.popupEdit:
 
-                                flashcardActivity.handleRenameClick(position);
+                                flashcardActivity.handleRenameClick(p);
                                 break;
 
                         }
