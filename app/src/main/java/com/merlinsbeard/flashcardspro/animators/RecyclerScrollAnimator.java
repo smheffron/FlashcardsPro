@@ -1,4 +1,4 @@
-package com.merlinsbeard.flashcardspro;
+package com.merlinsbeard.flashcardspro.animators;
 
 import android.support.v7.widget.RecyclerView;
 

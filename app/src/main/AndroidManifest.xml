@@ -11,7 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LaunchActivity">
+        <activity android:name=".activities.LaunchActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -19,40 +19,40 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoginActivity"
+            android:name=".activities.LoginActivity"
             android:label="Login"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".CreateAccountActivity"
+            android:name=".activities.CreateAccountActivity"
             android:label="Create Account"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".SetViewActivity"
+            android:name=".activities.SetViewActivity"
             android:label="Sets"
             android:screenOrientation="portrait"
             android:launchMode="singleTop"/>
         <activity
-            android:name=".AccountViewActivity"
+            android:name=".activities.AccountViewActivity"
             android:label="Account"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".FlashCardView"
+            android:name=".activities.FlashCardView"
             android:label="Flashcards"
             android:screenOrientation="portrait"
-            android:parentActivityName=".SetViewActivity"
+            android:parentActivityName=".activities.SetViewActivity"
             android:launchMode="singleTop">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".SetViewActivity"/>
+                android:value=".activities.SetViewActivity"/>
         </activity>
         <activity
-            android:name=".ScrollView"
+            android:name=".activities.ScrollView"
             android:label="Flashcards"
             android:screenOrientation="portrait"
-            android:parentActivityName=".FlashCardView">
+            android:parentActivityName=".activities.FlashCardView">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".FlashCardView"/>
+                android:value=".activities.FlashCardView"/>
         </activity>
 
     </application>

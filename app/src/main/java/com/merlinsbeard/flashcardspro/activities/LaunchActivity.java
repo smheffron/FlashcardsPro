@@ -1,4 +1,4 @@
-package com.merlinsbeard.flashcardspro;
+package com.merlinsbeard.flashcardspro.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+
+import com.merlinsbeard.flashcardspro.R;
 
 public class LaunchActivity extends AppCompatActivity {
 

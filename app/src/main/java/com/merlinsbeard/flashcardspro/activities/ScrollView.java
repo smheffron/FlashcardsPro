@@ -1,4 +1,4 @@
-package com.merlinsbeard.flashcardspro;
+package com.merlinsbeard.flashcardspro.activities;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
@@ -19,6 +19,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
+
+import com.merlinsbeard.flashcardspro.model.FlashCard;
+import com.merlinsbeard.flashcardspro.R;
 
 import java.util.ArrayList;
 

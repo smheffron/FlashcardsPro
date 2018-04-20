@@ -1,11 +1,11 @@
-package com.merlinsbeard.flashcardspro;
+package com.merlinsbeard.flashcardspro.model;
 
 public class FlashcardSet {
     private int setId;
     private String name;
 
 
-    FlashcardSet(int setId, String name){
+    public FlashcardSet(int setId, String name){
         this.name=name;
         this.setId=setId;
     }

@@ -2,16 +2,16 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.merlinsbeard.flashcardspro.CreateAccountActivity">
+    tools:context="com.merlinsbeard.flashcardspro.activities.CreateAccountActivity">
     <data>
 
         <variable
             name="activity"
-            type="com.merlinsbeard.flashcardspro.CreateAccountActivity" />
+            type="com.merlinsbeard.flashcardspro.activities.CreateAccountActivity" />
 
         <variable
             name="newUser"
-            type="com.merlinsbeard.flashcardspro.NewUser" />
+            type="com.merlinsbeard.flashcardspro.model.NewUser" />
 
 
         <import type="android.view.View" />

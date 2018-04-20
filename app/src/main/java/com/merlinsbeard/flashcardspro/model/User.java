@@ -1,7 +1,9 @@
-package com.merlinsbeard.flashcardspro;
+package com.merlinsbeard.flashcardspro.model;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+
+import com.merlinsbeard.flashcardspro.BR;
 
 public class User extends BaseObservable{
     private String username;

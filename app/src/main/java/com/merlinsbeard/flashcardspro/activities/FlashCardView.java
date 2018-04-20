@@ -1,4 +1,4 @@
-package com.merlinsbeard.flashcardspro;
+package com.merlinsbeard.flashcardspro.activities;
 
 import android.app.ActivityOptions;
 import android.app.Dialog;
@@ -31,6 +31,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.merlinsbeard.flashcardspro.model.FlashCard;
+import com.merlinsbeard.flashcardspro.R;
+import com.merlinsbeard.flashcardspro.adapters.RecyclerAdapterForFlashcards;
+import com.merlinsbeard.flashcardspro.animators.RecyclerScrollAnimator;
 
 import org.json.JSONArray;
 import org.json.JSONException;

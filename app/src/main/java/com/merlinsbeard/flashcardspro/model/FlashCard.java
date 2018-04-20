@@ -1,4 +1,4 @@
-package com.merlinsbeard.flashcardspro;
+package com.merlinsbeard.flashcardspro.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -8,13 +8,13 @@ public class FlashCard implements Parcelable {
     private String backText;
     private int flashcardId;
 
-    FlashCard(String frontText, String backText, int flashcardId){
+    public FlashCard(String frontText, String backText, int flashcardId){
         this.backText=backText;
         this.flashcardId=flashcardId;
         this.frontText=frontText;
     }
 
-    protected FlashCard(Parcel in) {
+    public FlashCard(Parcel in) {
         frontText = in.readString();
         backText = in.readString();
         flashcardId = in.readInt();

@@ -1,4 +1,4 @@
-package com.merlinsbeard.flashcardspro;
+package com.merlinsbeard.flashcardspro.activities;
 
 import android.app.Activity;
 import android.content.Context;
@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -18,7 +17,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.merlinsbeard.flashcardspro.databinding.ActivityCreateAccountBinding;
+import com.merlinsbeard.flashcardspro.model.User;
+import com.merlinsbeard.flashcardspro.R;
+import com.merlinsbeard.flashcardspro.databinding.LoginActivityBinding;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,85 +27,79 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CreateAccountActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
-    private ActivityCreateAccountBinding binding;
-    private NewUser newUser = new NewUser();
+    private LoginActivityBinding binding;
+    private User user = new User();
     private ProgressBar loadingAnimation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_create_account);
+
+        binding = DataBindingUtil.setContentView(this, R.layout.login_activity);
         binding.setActivity(this);
-        binding.setNewUser(newUser);
+        binding.setUser(user);
 
         loadingAnimation = binding.loadingAnimation;
         loadingAnimation.setVisibility(View.INVISIBLE);
     }
 
-    public void onClickCreateAccountButton(View view){
-        if(newUser.getUsername() == null || newUser.getUsername().isEmpty()){
+    public void onClickCreateAccount(View view){
+        Intent intent = new Intent(this, CreateAccountActivity.class);
+        startActivity(intent);
+    }
+
+    public void onClickLoginButton(View view){
+        if(user.getUsername() == null || user.getUsername().isEmpty()){
             Toast.makeText(getApplicationContext(), "Please enter a username", Toast.LENGTH_SHORT).show();
             return;
         }
-        else if(newUser.getPassword() == null || newUser.getPassword().isEmpty()){
+        else if(user.getPassword() == null || user.getPassword().isEmpty()){
             Toast.makeText(getApplicationContext(), "Please enter a password", Toast.LENGTH_SHORT).show();
             return;
         }
-        else if(newUser.getConfirmPassword() == null || newUser.getConfirmPassword().isEmpty()){
-            Toast.makeText(getApplicationContext(), "Please confirm your password", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        else if(!newUser.getPassword().equals(newUser.getConfirmPassword())){
-            Toast.makeText(getApplicationContext(), "Passwords do not match", Toast.LENGTH_SHORT).show();
-            newUser.setPassword("");
-            newUser.setConfirmPassword("");
-            return;
-        }
-
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/newUser.php";
+        String url = "http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/verifyLogin.php";
 
         Map<String,String> params = new HashMap<>();
-        params.put("username", newUser.getUsername());
-        params.put("password", newUser.getPassword());
+        params.put("username", user.getUsername());
+        params.put("password", user.getPassword());
 
         final Activity thisActivity = this;
         final SharedPreferences preferences = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
 
-        binding.newUserCreateAccountButton.setEnabled(false);
+        binding.loginButton.setEnabled(false);
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(params), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-
                     if(response.getString("status").equals("succeeded")){
-                        SharedPreferences.Editor editor = preferences.edit();
-                        editor.putString("username",newUser.getUsername());
-                        editor.putInt("userId",response.getInt("userId"));
-                        editor.apply();
-                        Intent intent = new Intent(thisActivity, SetViewActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        loadingAnimation.setVisibility(ProgressBar.INVISIBLE);
-                        startActivity(intent);
-                    }
-                    else {
-                        if(response.has("reason") && response.getString("reason").equals("name taken")){
-                            Toast.makeText(getApplicationContext(), "This username is already taken", Toast.LENGTH_SHORT).show();
+                        if(response.getString("login").equals("succeeded")){
+                            SharedPreferences.Editor editor = preferences.edit();
+                            editor.putString("username",user.getUsername());
+                            editor.putInt("userId",response.getInt("userId"));
+                            editor.apply();
+                            Intent intent = new Intent(thisActivity, SetViewActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            loadingAnimation.setVisibility(ProgressBar.INVISIBLE);
+                            startActivity(intent);
                         }
                         else {
-                            Toast.makeText(getApplicationContext(), "Could not connect to server", Toast.LENGTH_SHORT).show();
-                            Log.d("WEB SERVICE ERROR", "problem with web serivce");
+                            Toast.makeText(getApplicationContext(), "Incorrect username/password", Toast.LENGTH_SHORT).show();
+                            binding.loginButton.setEnabled(true);
+                            loadingAnimation.setVisibility(ProgressBar.INVISIBLE);
                         }
-
-                        binding.newUserCreateAccountButton.setEnabled(true);
+                    }
+                    else {
+                        Toast.makeText(getApplicationContext(), "Could not connect to server", Toast.LENGTH_SHORT).show();
+                        binding.loginButton.setEnabled(true);
                         loadingAnimation.setVisibility(ProgressBar.INVISIBLE);
                     }
                 } catch (JSONException e) {
                     Toast.makeText(getApplicationContext(), "Incorrect username/password", Toast.LENGTH_SHORT).show();
-                    binding.newUserCreateAccountButton.setEnabled(true);
+                    binding.loginButton.setEnabled(true);
                     loadingAnimation.setVisibility(ProgressBar.INVISIBLE);
                 }
             }
@@ -112,7 +107,7 @@ public class CreateAccountActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(getApplicationContext(), "Incorrect username/password", Toast.LENGTH_SHORT).show();
-                binding.newUserCreateAccountButton.setEnabled(true);
+                binding.loginButton.setEnabled(true);
                 loadingAnimation.setVisibility(ProgressBar.INVISIBLE);
             }
         });

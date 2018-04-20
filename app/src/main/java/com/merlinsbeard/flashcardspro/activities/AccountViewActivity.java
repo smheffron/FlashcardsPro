@@ -1,4 +1,4 @@
-package com.merlinsbeard.flashcardspro;
+package com.merlinsbeard.flashcardspro.activities;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -19,6 +19,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.merlinsbeard.flashcardspro.model.User;
+import com.merlinsbeard.flashcardspro.R;
 import com.merlinsbeard.flashcardspro.databinding.ActivityAccountViewBinding;
 
 import org.json.JSONException;

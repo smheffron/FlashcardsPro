@@ -1,26 +1,22 @@
-package com.merlinsbeard.flashcardspro;
+package com.merlinsbeard.flashcardspro.adapters;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
+import com.merlinsbeard.flashcardspro.activities.SetViewActivity;
+import com.merlinsbeard.flashcardspro.model.FlashcardSet;
+import com.merlinsbeard.flashcardspro.R;
 
 import java.util.ArrayList;
-import java.util.Set;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
 

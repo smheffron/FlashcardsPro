@@ -1,6 +1,8 @@
-package com.merlinsbeard.flashcardspro;
+package com.merlinsbeard.flashcardspro.model;
 
 import android.databinding.Bindable;
+
+import com.merlinsbeard.flashcardspro.BR;
 
 public class NewUser extends User {
     private String confirmPassword;

@@ -2,15 +2,15 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".AccountViewActivity">
+    tools:context=".activities.AccountViewActivity">
     <data>
         <variable
             name="activity"
-            type="com.merlinsbeard.flashcardspro.AccountViewActivity"/>
+            type="com.merlinsbeard.flashcardspro.activities.AccountViewActivity"/>
 
         <variable
             name="user"
-            type="com.merlinsbeard.flashcardspro.User"/>
+            type="com.merlinsbeard.flashcardspro.model.User"/>
     </data>
 
     <android.support.constraint.ConstraintLayout
