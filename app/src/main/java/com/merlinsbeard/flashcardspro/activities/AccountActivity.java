@@ -246,8 +246,6 @@ public class AccountActivity extends AppCompatActivity {
                 Map<String,String> params = new HashMap<>();
                 params.put("password", String.valueOf(password.getText()));
 
-                final SharedPreferences preferences = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
-
                 JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(params), new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -293,7 +291,7 @@ public class AccountActivity extends AppCompatActivity {
     }
 
     private void logout() {
-        // Remove user credentials from SharedPreferences, then navigate to the login page and clear the back stack
+        // Remove user credentials from SharedPreferences, then navigate to the LoginActivity and clear the back stack
         SharedPreferences.Editor editor = preferences.edit();
         editor.remove("userId");
         editor.remove("username");

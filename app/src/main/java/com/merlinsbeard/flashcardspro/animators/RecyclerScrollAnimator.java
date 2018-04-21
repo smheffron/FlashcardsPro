@@ -2,7 +2,7 @@ package com.merlinsbeard.flashcardspro.animators;
 
 import android.support.v7.widget.RecyclerView;
 
-
+// This class is used to show or hide UI elements in a RecyclerView when the user scrolls up or down
 public abstract class RecyclerScrollAnimator extends RecyclerView.OnScrollListener {
     private int scrollDistance = 0;
     private boolean visible = true;
@@ -31,4 +31,3 @@ public abstract class RecyclerScrollAnimator extends RecyclerView.OnScrollListen
 
     public abstract void show();
 }
-

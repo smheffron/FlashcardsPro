@@ -45,12 +45,13 @@ public class LoginActivity extends AppCompatActivity {
         loadingAnimation.setVisibility(View.INVISIBLE);
     }
 
-    public void onClickCreateAccount(View view){
+    public void onClickCreateAccount(View view) {
         Intent intent = new Intent(this, CreateAccountActivity.class);
         startActivity(intent);
     }
 
-    public void onClickLoginButton(View view){
+    public void onClickLoginButton(View view) {
+        // Ensure that username and password are not empty
         if(user.getUsername() == null || user.getUsername().isEmpty()){
             Toast.makeText(getApplicationContext(), "Please enter a username", Toast.LENGTH_SHORT).show();
             return;
@@ -59,9 +60,11 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Please enter a password", Toast.LENGTH_SHORT).show();
             return;
         }
+
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = "http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/verifyLogin.php";
 
+        // Set up POST parameters for HTTP request
         Map<String,String> params = new HashMap<>();
         params.put("username", user.getUsername());
         params.put("password", user.getPassword());
@@ -69,14 +72,16 @@ public class LoginActivity extends AppCompatActivity {
         final Activity thisActivity = this;
         final SharedPreferences preferences = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
 
+        // Disable login button while waiting for request to be processed
         binding.loginButton.setEnabled(false);
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(params), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    if(response.getString("status").equals("succeeded")){
-                        if(response.getString("login").equals("succeeded")){
+                    if(response.getString("status").equals("succeeded")) {
+                        if(response.getString("login").equals("succeeded")) {
+                            // Store user credentials in SharedPreferences then navigate to FlashcardSetActivity and clear the back stack
                             SharedPreferences.Editor editor = preferences.edit();
                             editor.putString("username",user.getUsername());
                             editor.putInt("userId",response.getInt("userId"));
@@ -114,11 +119,5 @@ public class LoginActivity extends AppCompatActivity {
 
         loadingAnimation.setVisibility(ProgressBar.VISIBLE);
         queue.add(request);
-    }
-
-    @Override
-    protected void onDestroy(){
-        binding = null;
-        super.onDestroy();
     }
 }

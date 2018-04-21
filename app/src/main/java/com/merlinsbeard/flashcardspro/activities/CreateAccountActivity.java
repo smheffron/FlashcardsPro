@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -18,9 +17,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.merlinsbeard.flashcardspro.model.NewUser;
 import com.merlinsbeard.flashcardspro.R;
 import com.merlinsbeard.flashcardspro.databinding.ActivityCreateAccountBinding;
+import com.merlinsbeard.flashcardspro.model.NewUser;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -86,6 +85,7 @@ public class CreateAccountActivity extends AppCompatActivity {
             public void onResponse(JSONObject response) {
                 try {
                     if(response.getString("status").equals("succeeded")) {
+                        // Store user credentials in SharedPreferences then navigate to FlashcardSetActivity and clear the back stack
                         SharedPreferences.Editor editor = preferences.edit();
                         editor.putString("username",newUser.getUsername());
                         editor.putInt("userId",response.getInt("userId"));
@@ -101,7 +101,6 @@ public class CreateAccountActivity extends AppCompatActivity {
                         }
                         else {
                             Toast.makeText(getApplicationContext(), "Could not connect to server", Toast.LENGTH_SHORT).show();
-                            Log.d("WEB SERVICE ERROR", "problem with web serivce");
                         }
 
                         binding.newUserCreateAccountButton.setEnabled(true);
