@@ -61,7 +61,7 @@ if(!($result = $stmt->get_result())){
     exit(json_encode($response));
 }
 
-if ($result->num_rows > 0) {
+if($result->num_rows > 0) {
     while($row = $result->fetch_assoc()) {
         $hashedPassword = $row['password'];
     }
@@ -73,8 +73,8 @@ if(!password_verify($userPassword, $hashedPassword)){
     exit(json_encode($response));
 }
 
-// delete user
-$stmt = $mysqli->prepare("DELETE FROM users WHERE id = ?");
+// Delete all cards and sets belonging to user
+$stmt = $mysqli->prepare("SELECT * FROM sets WHERE ownerId = ?");
 
 if(!$stmt){
     $response['status'] = 'failed';
@@ -88,6 +88,68 @@ if(!($stmt->bind_param("i", $userId))){
 
 if(!($stmt->execute())){
     $response['status'] = 'failed';
+    exit(json_encode($response));
+}
+
+if(!($result = $stmt->get_result())){
+    $response['status'] = 'failed';
+    exit(json_encode($response));
+}
+
+if($result->num_rows > 0) {
+    while($row = $result->fetch_assoc()) {
+        $setId = $row['id'];
+        $stmt = $mysqli->prepare("DELETE FROM cards WHERE setId = ?");
+
+        if(!$stmt){
+            $response['status'] = 'failed';
+            exit(json_encode($response));
+        }
+
+        if(!($stmt->bind_param("i", $setId))){
+            $response['status'] = 'failed';
+            exit(json_encode($response));
+        }
+
+        if(!($stmt->execute())){
+            $response['status'] = 'failed';
+            exit(json_encode($response));
+        }
+        
+        $stmt = $mysqli->prepare("DELETE FROM sets WHERE id = ?");
+
+        if(!$stmt){
+            $response['status'] = 'failed';
+            exit(json_encode($response));
+        }
+
+        if(!($stmt->bind_param("i", $setId))){
+            $response['status'] = 'failed';
+            exit(json_encode($response));
+        }
+
+        if(!($stmt->execute())){
+            $response['status'] = 'failed';
+            exit(json_encode($response));
+        }
+    }
+}
+
+// delete user
+$stmt = $mysqli->prepare("DELETE FROM users WHERE id = ?");
+
+if(!$stmt){
+    $response['status'] = 'failed to prepare 2';
+    exit(json_encode($response));
+}
+
+if(!($stmt->bind_param("i", $userId))){
+    $response['status'] = 'failed to bind 2';
+    exit(json_encode($response));
+}
+
+if(!($stmt->execute())){
+    $response['status'] = 'failed to execute 2';
     exit(json_encode($response));
 }
 
