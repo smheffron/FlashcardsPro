@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.NavUtils;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -19,8 +20,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,10 +30,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.merlinsbeard.flashcardspro.model.Flashcard;
 import com.merlinsbeard.flashcardspro.R;
 import com.merlinsbeard.flashcardspro.adapters.FlashcardRecyclerAdapter;
 import com.merlinsbeard.flashcardspro.animators.RecyclerScrollAnimator;
+import com.merlinsbeard.flashcardspro.model.Flashcard;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -83,8 +82,6 @@ public class FlashcardActivity extends AppCompatActivity {
         Log.d("SET ID: ", String.valueOf(setId));
 
         addSetButton = findViewById(R.id.addSetButtonForflashcards);
-        Animation growAnimation = AnimationUtils.loadAnimation(this, R.anim.grow);
-        addSetButton.startAnimation(growAnimation);
 
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayoutForFlashcards);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
@@ -393,6 +390,20 @@ public class FlashcardActivity extends AppCompatActivity {
         else {
             startActivity(intent);
         }
+
+        // Wait for animations to finish then destroy activity
+        new CountDownTimer(500, 500) {
+
+            @Override
+            public void onTick(long l) {
+                // do nothing
+            }
+
+            @Override
+            public void onFinish() {
+                finish();
+            }
+        }.start();
     }
 
     @Override

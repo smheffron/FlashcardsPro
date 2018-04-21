@@ -19,4 +19,6 @@
     <string name="logout">Logout</string>
     <string name="delete_account">Delete Account</string>
     <string name="app_logo">App Logo</string>
+    <string name="back">Back</string>
+    <string name="front">Front</string>
 </resources>

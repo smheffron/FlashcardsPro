@@ -170,7 +170,6 @@ public class StudyActivity extends AppCompatActivity implements GestureDetector.
         int id = item.getItemId();
 
         if(id == android.R.id.home){
-            Log.d("PIZZA", "correct id");
             Intent intent = NavUtils.getParentActivityIntent(this);
             if(intent != null) {
                 intent.putExtra("setId", setId);
