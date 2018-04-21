@@ -2,9 +2,10 @@ package com.merlinsbeard.flashcardspro.animators;
 
 import android.support.v7.widget.RecyclerView;
 
+
 public abstract class RecyclerScrollAnimator extends RecyclerView.OnScrollListener {
-    int scrollDistance = 0;
-    boolean visible = true;
+    private int scrollDistance = 0;
+    private boolean visible = true;
 
     @Override
     public void onScrolled(RecyclerView recyclerView, int dx, int dy){
@@ -30,3 +31,4 @@ public abstract class RecyclerScrollAnimator extends RecyclerView.OnScrollListen
 
     public abstract void show();
 }
+

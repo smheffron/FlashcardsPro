@@ -1,5 +1,7 @@
 package com.merlinsbeard.flashcardspro.model;
 
+//data model to hold flashcard set info
+
 public class FlashcardSet {
     private int setId;
     private String name;
@@ -26,3 +28,4 @@ public class FlashcardSet {
         this.setId = setId;
     }
 }
+

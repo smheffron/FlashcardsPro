@@ -20,14 +20,8 @@ import java.util.ArrayList;
 
 public class FlashcardSetRecyclerAdapter extends RecyclerView.Adapter<FlashcardSetRecyclerAdapter.ViewHolder> {
 
-
-
-    // Provide a reference to the views for each data item
-    // Complex data items may need more than one view per item, and
-    // you provide access to all the views for a data item in a view holder
     public static class ViewHolder extends RecyclerView.ViewHolder{
         TextView mTextView;
-        // each data item is just a string in this case
         CardView mCardView;
 
         View view;

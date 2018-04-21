@@ -45,14 +45,17 @@ import java.util.Map;
 
 public class FlashcardActivity extends AppCompatActivity {
 
+    //data-set of flashcards belonging to set whose id is passed from parent activity
     private ArrayList<Flashcard> mDataset;
     private RecyclerView recyclerView;
     private FlashcardRecyclerAdapter recyclerAdapter;
     private TextView emptyView;
     private Context context;
-    private FloatingActionButton addSetButton;
+    //"plus" button in bottom right to add flashcards to the set
+    private FloatingActionButton addFlashcardButton;
     private SwipeRefreshLayout swipeRefreshLayout;
     private FlashcardActivity flashcardActivity;
+    //set id and name for the flashcards in set passed in from parent activity
     private int setId;
     private String setName;
 
@@ -60,6 +63,7 @@ public class FlashcardActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //transition into activity animation
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
             getWindow().requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
 
@@ -72,37 +76,43 @@ public class FlashcardActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_flash_card);
         if(getSupportActionBar() != null){
+            //add system back button
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
+        //id and name of set to which flashcards belong passed in from FlashcardSetActivity through intents
         setId = getIntent().getIntExtra("setId",-1);
         setName = getIntent().getStringExtra("setName");
         setTitle(setName);
 
-        Log.d("SET ID: ", String.valueOf(setId));
+        addFlashcardButton = findViewById(R.id.addSetButtonForflashcards);
 
-        addSetButton = findViewById(R.id.addSetButtonForflashcards);
-
+        //refresh animation on swipe down
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayoutForFlashcards);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 mDataset.clear();
+                //update recyclerView
                 initializeFlashcardList();
             }
         });
 
         recyclerView = findViewById(R.id.recyclerViewForFlashcards);
+
+        //hide the floating action button (plus button) hide when scrolling down
         recyclerView.addOnScrollListener(new RecyclerScrollAnimator() {
             @Override
             public void hide() {
-                addSetButton.animate().translationY(addSetButton.getHeight() + 50).setInterpolator(new DecelerateInterpolator(2)).start();
+                //hide plus button when not at top of list
+                addFlashcardButton.animate().translationY(addFlashcardButton.getHeight() + 50).setInterpolator(new DecelerateInterpolator(2)).start();
             }
 
             @Override
             public void show() {
-                addSetButton.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
+                //show plus button when at top of list
+                addFlashcardButton.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
             }
         });
 
@@ -115,12 +125,16 @@ public class FlashcardActivity extends AppCompatActivity {
         emptyView = findViewById(R.id.emptyViewForFlashcards);
         emptyView.setVisibility(View.INVISIBLE);
 
+        //init recyclerView from database
         initializeFlashcardList();
     }
 
-    public void handleDeleteClick(final int i) {
+    public void handleDeleteClick(final int position) {
+        //deletes card from database and recyclerView
+        //position of flashcard clicked on is passed in from FlashcardRecyclerAdapter
 
-        int idToRemove = mDataset.get(i).getFlashcardId();
+        //remove this flashcard from database and dataset
+        int idToRemove = mDataset.get(position).getFlashcardId();
 
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = "http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/deleteFlashcard.php?cardId=" + idToRemove;
@@ -130,13 +144,14 @@ public class FlashcardActivity extends AppCompatActivity {
             public void onResponse(JSONObject response) {
                 try {
                     if(response.getString("status").equals("succeeded")){
-                        mDataset.remove(mDataset.get(i));
+                        //update dataset with removed card
 
-                        recyclerView.removeViewAt(i);
-                        recyclerAdapter.notifyItemRemoved(i);
-                        recyclerAdapter.notifyItemRangeChanged(i, mDataset.size());
+                        mDataset.remove(mDataset.get(position));
 
-                        Log.d("The values left are: ", mDataset.toString());
+                        //notify recyclerView
+                        recyclerView.removeViewAt(position);
+                        recyclerAdapter.notifyItemRemoved(position);
+                        recyclerAdapter.notifyItemRangeChanged(position, mDataset.size());
 
                         if(mDataset.isEmpty()){
                             emptyView.setVisibility(View.VISIBLE);
@@ -160,21 +175,28 @@ public class FlashcardActivity extends AppCompatActivity {
 
     }
 
-    public void handleRenameClick(final int i ) {
-        final int idToRename = mDataset.get(i).getFlashcardId();
+    public void handleRenameClick(final int position ) {
+        //update database with renamed card (front or back)
+        //position of card to rename is passed in from FlashcardRecyclerAdapter
 
+        //rename this card (front of back)
+        final int idToRename = mDataset.get(position).getFlashcardId();
+
+        //popup for getting updated front or back of flashcard
         final Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.edit_card_popup);
         dialog.setTitle("Edit card");
         dialog.show();
 
+        //get front text from popup
         final TextView frontTextView = dialog.findViewById(R.id.newFrontText);
-        frontTextView.setHint(mDataset.get(i).getFrontText());
+        frontTextView.setHint(mDataset.get(position).getFrontText());
 
+        //get back text from popup
         final TextView backTextView = dialog.findViewById(R.id.newBackText);
-        backTextView.setHint(mDataset.get(i).getBackText());
+        backTextView.setHint(mDataset.get(position).getBackText());
 
-
+        //popup canceled
         dialog.findViewById(R.id.dialogButtonCancelForFlashcardEdit).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -186,6 +208,7 @@ public class FlashcardActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
+                //update database with new front and back for specified flashcard
 
                 final String newFrontText = String.valueOf(frontTextView.getText());
                 final String newBackText = String.valueOf(backTextView.getText());
@@ -209,9 +232,11 @@ public class FlashcardActivity extends AppCompatActivity {
                             try {
                                 if(response.getString("status").equals("succeeded")){
 
-                                    mDataset.get(i).setBackText(newBackText);
-                                    mDataset.get(i).setFrontText(newFrontText);
+                                    //update recyclerView with new card
+                                    mDataset.get(position).setBackText(newBackText);
+                                    mDataset.get(position).setFrontText(newFrontText);
 
+                                    //make sure adapter is not null if starting from empty flashcard set
                                     if (recyclerAdapter == null) {
                                         recyclerAdapter = new FlashcardRecyclerAdapter(mDataset, context, flashcardActivity) {
                                         };
@@ -219,6 +244,7 @@ public class FlashcardActivity extends AppCompatActivity {
                                         recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
                                     }
+                                    //notify recyclerView of changed card
                                     recyclerAdapter.notifyDataSetChanged();
                                     emptyView.setVisibility(View.INVISIBLE);
                                 }
@@ -245,6 +271,8 @@ public class FlashcardActivity extends AppCompatActivity {
     }
 
     private void initializeFlashcardList(){
+        //get flashcard from the database and populate the recyclerView and data-model
+
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = "http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/getFlashcards.php?setId=";
 
@@ -258,8 +286,11 @@ public class FlashcardActivity extends AppCompatActivity {
             @Override
             public void onResponse(JSONObject response) {
                 try {
+                    //get the flashcards for the specified ID from the database
                     if(response.getString("status").equals("succeeded")){
                         JSONArray sets = response.getJSONArray("cards");
+
+                        //load model from JSON array passed back from database
 
                         for(int i = 0; i < sets.length(); i++){
                             JSONObject set = sets.getJSONObject(i);
@@ -278,6 +309,7 @@ public class FlashcardActivity extends AppCompatActivity {
                             recyclerView.setLayoutManager(new LinearLayoutManager(flashcardActivity));
                         }
 
+                        //notify recyclerView of refreshed data model
                         recyclerAdapter.notifyDataSetChanged();
                         swipeRefreshLayout.setRefreshing(false);
                     }
@@ -299,11 +331,16 @@ public class FlashcardActivity extends AppCompatActivity {
     }
 
     public void onClickPlusButton(View view){
+        //start add card logic to database and data model
+
+
+        //popup to get new card front and back
         final Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.add_card_popup);
         dialog.setTitle("Create a new card");
         dialog.show();
 
+        //popup canceled
         dialog.findViewById(R.id.dialogButtonCancelForFlashcard).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -311,11 +348,13 @@ public class FlashcardActivity extends AppCompatActivity {
             }
         });
 
+        //popup ok
         dialog.findViewById(R.id.dialogButtonOKForFlashcard).setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
 
+                //get new card front and back
                 TextView frontText = dialog.findViewById(R.id.frontText);
                 TextView backText  = dialog.findViewById(R.id.backText);
                 final String frontString = String.valueOf(frontText.getText());
@@ -326,6 +365,7 @@ public class FlashcardActivity extends AppCompatActivity {
                     Toast.makeText(context, "Give your flashcard a front and back", Toast.LENGTH_LONG).show();
                 } else {
 
+                    //add new card to the database
                     RequestQueue queue = Volley.newRequestQueue(flashcardActivity);
                     String url = "http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/newFlashcard.php?setId=";
 
@@ -343,6 +383,7 @@ public class FlashcardActivity extends AppCompatActivity {
                                     int newCardId = response.getInt("newCardId");
                                     Flashcard flashcard = new Flashcard(frontString,backString, newCardId );
 
+                                    //update data-model
                                     mDataset.add(flashcard);
 
                                     if (recyclerAdapter == null) {
@@ -352,6 +393,7 @@ public class FlashcardActivity extends AppCompatActivity {
                                         recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
                                     }
+                                    //notify recyclerView of changed data-model
                                     recyclerAdapter.notifyDataSetChanged();
                                     emptyView.setVisibility(View.INVISIBLE);
                                 }
@@ -378,11 +420,13 @@ public class FlashcardActivity extends AppCompatActivity {
     }
 
     public void handleItemClick(Integer position) {
+        //handle click on flashcard
 
         if(position >= mDataset.size() || position < 0){
-
+            //invalid index
         }
         else {
+            //go to the study view for the specified card
             Intent intent = new Intent(this, StudyActivity.class);
             intent.putParcelableArrayListExtra("data", mDataset);
             intent.putExtra("position", position);
@@ -419,6 +463,8 @@ public class FlashcardActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        //go to account activity if user graphic is clicked on the activity bar
+
         int id = item.getItemId();
 
         if(id == R.id.accountButton){
@@ -426,6 +472,7 @@ public class FlashcardActivity extends AppCompatActivity {
             startActivity(intent);
         }
         else if(id == R.id.homeAsUp){
+            //built in system back button
             NavUtils.navigateUpFromSameTask(this);
         }
 

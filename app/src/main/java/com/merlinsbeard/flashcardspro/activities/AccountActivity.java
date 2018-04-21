@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -259,6 +260,9 @@ public class AccountActivity extends AppCompatActivity {
                             }
                             else {
                                 Toast.makeText(getApplicationContext(), "Could not connect to server", Toast.LENGTH_SHORT).show();
+
+                                Log.d("Failed: ", response.getString("status"));
+
                             }
                         } catch (JSONException e) {
                             Toast.makeText(getApplicationContext(), "Could not connect to server", Toast.LENGTH_SHORT).show();
