@@ -27,7 +27,7 @@ public abstract class RecyclerScrollAnimator extends RecyclerView.OnScrollListen
         }
     }
 
-    public abstract void hide();
+    protected abstract void hide();
 
-    public abstract void show();
+    protected abstract void show();
 }

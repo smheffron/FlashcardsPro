@@ -22,12 +22,12 @@ public class FlashcardSetRecyclerAdapter extends RecyclerView.Adapter<FlashcardS
 
     // Provide a reference to the views for each data item
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView mTextView;
-        CardView mCardView;
+        final TextView mTextView;
+        final CardView mCardView;
 
-        View view;
+        final View view;
 
-        public ImageView threeDots;
+        final ImageView threeDots;
 
         ViewHolder(View v) {
             super(v);
@@ -40,9 +40,9 @@ public class FlashcardSetRecyclerAdapter extends RecyclerView.Adapter<FlashcardS
 
     }
 
-    private ArrayList<FlashcardSet> mDataset;
-    private Context context;
-    private FlashcardSetActivity flashcardSetActivity;
+    private final ArrayList<FlashcardSet> mDataset;
+    private final Context context;
+    private final FlashcardSetActivity flashcardSetActivity;
 
     protected FlashcardSetRecyclerAdapter(ArrayList<FlashcardSet> myDataset, Context context, FlashcardSetActivity s) {
         this.mDataset = myDataset;

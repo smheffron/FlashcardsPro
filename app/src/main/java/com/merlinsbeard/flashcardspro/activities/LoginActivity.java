@@ -30,7 +30,7 @@ import java.util.Map;
 public class LoginActivity extends AppCompatActivity {
 
     private ActivityLoginBinding binding;
-    private User user = new User();
+    private final User user = new User();
     private ProgressBar loadingAnimation;
 
     @Override

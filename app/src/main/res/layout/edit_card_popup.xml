@@ -18,7 +18,8 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:inputType="text"
-            android:padding="0dp"/>
+            android:padding="0dp"
+            android:hint="@string/new_card_front"/>
         <EditText
             android:id="@+id/newBackText"
             android:layout_width="280dp"
@@ -28,7 +29,8 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:inputType="text"
-            android:padding="0dp"/>
+            android:padding="0dp"
+            android:hint="@string/new_card_back"/>
 
     </LinearLayout>
 

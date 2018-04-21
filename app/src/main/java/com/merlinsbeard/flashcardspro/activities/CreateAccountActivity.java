@@ -30,7 +30,7 @@ import java.util.Map;
 public class CreateAccountActivity extends AppCompatActivity {
 
     private ActivityCreateAccountBinding binding;
-    private NewUser newUser = new NewUser();
+    private final NewUser newUser = new NewUser();
     private ProgressBar loadingAnimation;
 
     @Override

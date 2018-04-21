@@ -21,4 +21,15 @@
     <string name="app_logo">App Logo</string>
     <string name="back">Back</string>
     <string name="front">Front</string>
+    <string name="no_cards_to_display">No cards to display</string>
+    <string name="new_set_name">New set name</string>
+    <string name="new_card_front">New card front</string>
+    <string name="new_card_back">New card back</string>
+    <string name="delete">Delete</string>
+    <string name="old_password">Old Password</string>
+    <string name="new_password">New Password</string>
+    <string name="confirm_new_password">Confirm New Password</string>
+    <string name="confirm">Confirm</string>
+    <string name="new_username">New Username</string>
+    <string name="rename">Rename</string>
 </resources>
