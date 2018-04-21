@@ -36,6 +36,7 @@ public class StudyActivity extends AppCompatActivity implements GestureDetector.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
@@ -72,7 +73,6 @@ public class StudyActivity extends AppCompatActivity implements GestureDetector.
             @Override
             public boolean onLongClick(View view) {
 
-
                 if(isFront){
                     cardText.setText(mDataSet.get(positionClicked).getBackText());
                     isFront = false;
@@ -86,7 +86,6 @@ public class StudyActivity extends AppCompatActivity implements GestureDetector.
         });
 
         detector = new GestureDetectorCompat(this,this);
-
     }
 
     @Override
@@ -117,7 +116,6 @@ public class StudyActivity extends AppCompatActivity implements GestureDetector.
     @Override
     public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
 
-
         if(motionEvent.getX() - motionEvent1.getX()<0 && Math.abs(motionEvent.getX() - motionEvent1.getX()) > 150){
             if(positionClicked - 1 >= 0){
                 cardText.setText(mDataSet.get(--positionClicked).getFrontText());
@@ -135,20 +133,8 @@ public class StudyActivity extends AppCompatActivity implements GestureDetector.
         }
 
         if(motionEvent.getY() - motionEvent1.getY() < 0 && Math.abs(motionEvent.getY() - motionEvent1.getY()) > 150 && Math.abs(motionEvent.getX() - motionEvent1.getX()) < 150){
-            Intent intent = NavUtils.getParentActivityIntent(this);
-            if(intent != null) {
-                intent.putExtra("setId", setId);
-                intent.putExtra("setName", setName);
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
-                }
-                else {
-                    startActivity(intent);
-                }
-            }
+            navigateUpToFlashcardActivity();
         }
-
 
         return true;
     }
@@ -170,21 +156,25 @@ public class StudyActivity extends AppCompatActivity implements GestureDetector.
         int id = item.getItemId();
 
         if(id == android.R.id.home){
-            Intent intent = NavUtils.getParentActivityIntent(this);
-            if(intent != null) {
-                intent.putExtra("setId", setId);
-                intent.putExtra("setName", setName);
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
-                }
-                else {
-                    startActivity(intent);
-                }
-            }
+            navigateUpToFlashcardActivity();
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void navigateUpToFlashcardActivity(){
+        Intent intent = NavUtils.getParentActivityIntent(this);
+        if(intent != null) {
+            intent.putExtra("setId", setId);
+            intent.putExtra("setName", setName);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+            }
+            else {
+                startActivity(intent);
+            }
+        }
     }
 }
 

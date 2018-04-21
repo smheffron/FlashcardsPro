@@ -1,6 +1,5 @@
 package com.merlinsbeard.flashcardspro.activities;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -19,9 +18,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.merlinsbeard.flashcardspro.model.User;
 import com.merlinsbeard.flashcardspro.R;
 import com.merlinsbeard.flashcardspro.databinding.ActivityAccountBinding;
+import com.merlinsbeard.flashcardspro.model.User;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,15 +32,18 @@ public class AccountActivity extends AppCompatActivity {
     private ActivityAccountBinding binding;
     private User user;
     private SharedPreferences preferences;
+    private RequestQueue queue;
 
     @Override
-    public void onCreate(Bundle savedInstanceState){
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Allow up navigation
         if(getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
+        // Create user with current user's ID and username
         user =  new User();
 
         preferences = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
@@ -52,12 +54,15 @@ public class AccountActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_account);
         binding.setActivity(this);
         binding.setUser(user);
+
+        // Initialize HTTP request queue
+        queue = Volley.newRequestQueue(this);
     }
 
-    public void onClickChangeUsername(View view){
-        final RequestQueue queue = Volley.newRequestQueue(this);
+    public void onClickChangeUsername(View view) {
         final String url = "http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/updateUsername.php?id=" + user.getUserId();
 
+        // Display dialog for new username entry
         final Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.change_username_popup);
         dialog.setTitle("Change username");
@@ -76,32 +81,33 @@ public class AccountActivity extends AppCompatActivity {
         dialog.findViewById(R.id.dialogButtonRenameFromChangeUsername).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(newUsername.getText().length() < 1){
+                // Ensure the new username and the password are not empty
+                if(newUsername.getText().length() < 1) {
                     Toast.makeText(getApplicationContext(), "Enter new username", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                else if(password.getText().length() < 1){
+                else if(password.getText().length() < 1) {
                     Toast.makeText(getApplicationContext(), "Enter password", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
+                // Set up POST parameters for HTTP request
                 Map<String,String> params = new HashMap<>();
                 params.put("password", String.valueOf(password.getText()));
                 params.put("newUsername", String.valueOf(newUsername.getText()));
-
-                final SharedPreferences preferences = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
 
                 JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(params), new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            if(response.getString("status").equals("succeeded")){
+                            if(response.getString("status").equals("succeeded")) {
+                                // Set user's username to the new name and write it to SharedPreferences
                                 user.setUsername(String.valueOf(newUsername.getText()));
                                 SharedPreferences.Editor editor = preferences.edit();
                                 editor.putString("username", user.getUsername());
                                 editor.apply();
                             }
-                            else if(response.has("reason") || response.getString("reason").equals("name taken")){
+                            else if(response.has("reason") || response.getString("reason").equals("name taken")) {
                                 Toast.makeText(getApplicationContext(), "Username is already taken", Toast.LENGTH_SHORT).show();
                             }
                             else {
@@ -124,10 +130,10 @@ public class AccountActivity extends AppCompatActivity {
         });
     }
 
-    public void onClickChangePassword(View view){
-        final RequestQueue queue = Volley.newRequestQueue(this);
+    public void onClickChangePassword(View view) {
         final String url = "http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/updatePassword.php?id=" + user.getUserId();
 
+        // Display dialog for old and new password entry
         final Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.change_password_popup);
         dialog.setTitle("Change password");
@@ -147,6 +153,7 @@ public class AccountActivity extends AppCompatActivity {
         dialog.findViewById(R.id.dialogButtonChangePasswordFromChangePassword).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Ensure that old password, new password, and confirm password are not empty
                 if(oldPassword.getText().length() < 1){
                     Toast.makeText(getApplicationContext(), "Enter old password", Toast.LENGTH_SHORT).show();
                     return;
@@ -163,16 +170,16 @@ public class AccountActivity extends AppCompatActivity {
                 String newPasswordString = String.valueOf(newPassword.getText());
                 String confirmNewPasswordString = String.valueOf(confirmNewPassword.getText());
 
+                // Ensure that the new password matches the confirmed new password
                 if(!newPasswordString.equals(confirmNewPasswordString)){
                     Toast.makeText(getApplicationContext(), "New passwords do not match", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
+                // Set up POST parameters for HTTP request
                 Map<String,String> params = new HashMap<>();
                 params.put("oldPassword", String.valueOf(oldPassword.getText()));
                 params.put("newPassword", String.valueOf(newPassword.getText()));
-
-                final SharedPreferences preferences = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
 
                 JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(params), new Response.Listener<JSONObject>() {
                     @Override
@@ -204,21 +211,14 @@ public class AccountActivity extends AppCompatActivity {
         });
     }
 
-    public void onClickLogout(View view){
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.remove("userId");
-        editor.remove("username");
-        editor.apply();
-        Intent intent = new Intent(this, LoginActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
+    public void onClickLogout(View view) {
+        logout();
     }
 
-    public void onClickDeleteAccount(View view){
-        final Activity thisActivity = this;
-        final RequestQueue queue = Volley.newRequestQueue(this);
+    public void onClickDeleteAccount(View view) {
         final String url = "http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/deleteUser.php?id=" + user.getUserId();
 
+        // Display dialog for password to confirm account deletion
         final Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.delete_account_popup);
         dialog.setTitle("Delete account");
@@ -236,11 +236,13 @@ public class AccountActivity extends AppCompatActivity {
         dialog.findViewById(R.id.dialogButtonDeleteFromDeleteAccount).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Ensure that the password is not empty
                 if(password.getText().length() < 1){
                     Toast.makeText(getApplicationContext(), "Enter password", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
+                // Set up POST parameters for HTTP request
                 Map<String,String> params = new HashMap<>();
                 params.put("password", String.valueOf(password.getText()));
 
@@ -251,13 +253,7 @@ public class AccountActivity extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
                         try {
                             if(response.getString("status").equals("succeeded")){
-                                SharedPreferences.Editor editor = preferences.edit();
-                                editor.remove("username");
-                                editor.remove("userId");
-                                editor.apply();
-                                Intent intent = new Intent(thisActivity, LoginActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                startActivity(intent);
+                                logout();
                             }
                             else if(response.has("reason") && response.getString("resaon").equals("authentication failure")){
                                 Toast.makeText(getApplicationContext(), "Incorrect password", Toast.LENGTH_SHORT).show();
@@ -288,15 +284,19 @@ public class AccountActivity extends AppCompatActivity {
 
         if(id == android.R.id.home){
             finish();
-
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onDestroy(){
-        binding = null;
-        super.onDestroy();
+    private void logout() {
+        // Remove user credentials from SharedPreferences, then navigate to the login page and clear the back stack
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.remove("userId");
+        editor.remove("username");
+        editor.apply();
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
     }
 }
