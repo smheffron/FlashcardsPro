@@ -20,14 +20,9 @@ import java.util.ArrayList;
 
 public class FlashcardSetRecyclerAdapter extends RecyclerView.Adapter<FlashcardSetRecyclerAdapter.ViewHolder> {
 
-
-
     // Provide a reference to the views for each data item
-    // Complex data items may need more than one view per item, and
-    // you provide access to all the views for a data item in a view holder
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView mTextView;
-        // each data item is just a string in this case
         CardView mCardView;
 
         View view;
@@ -49,7 +44,6 @@ public class FlashcardSetRecyclerAdapter extends RecyclerView.Adapter<FlashcardS
     private Context context;
     private FlashcardSetActivity flashcardSetActivity;
 
-    // Provide a suitable constructor (depends on the kind of dataset)
     protected FlashcardSetRecyclerAdapter(ArrayList<FlashcardSet> myDataset, Context context, FlashcardSetActivity s) {
         this.mDataset = myDataset;
         this.context = context;
@@ -57,11 +51,9 @@ public class FlashcardSetRecyclerAdapter extends RecyclerView.Adapter<FlashcardS
 
     }
 
-    // Create new views (invoked by the layout manager)
     @NonNull
     @Override
-    public FlashcardSetRecyclerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
-                                                                     int viewType) {
+    public FlashcardSetRecyclerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
@@ -74,17 +66,16 @@ public class FlashcardSetRecyclerAdapter extends RecyclerView.Adapter<FlashcardS
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         final int p = position;
 
+        // Set the text on the card to the name of the flashcard set
         holder.mTextView.setText(mDataset.get(p).getName());
 
         holder.threeDots.setOnClickListener(new View.OnClickListener(){
 
             @Override
             public void onClick(View view) {
-
+                // Display popup with options to rename or delete flashcard set
                 PopupMenu popup = new PopupMenu(context, holder.threeDots);
-                //inflating menu from xml resource
                 popup.inflate(R.menu.popup_menu_options);
-                //adding click listener
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
@@ -115,9 +106,6 @@ public class FlashcardSetRecyclerAdapter extends RecyclerView.Adapter<FlashcardS
 
             }
         });
-
-
-
     }
 
     @Override

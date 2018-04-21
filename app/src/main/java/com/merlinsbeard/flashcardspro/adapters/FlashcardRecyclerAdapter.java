@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,20 +12,17 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
+import com.merlinsbeard.flashcardspro.R;
 import com.merlinsbeard.flashcardspro.activities.FlashcardActivity;
 import com.merlinsbeard.flashcardspro.model.Flashcard;
-import com.merlinsbeard.flashcardspro.R;
 
 import java.util.ArrayList;
 
 public class FlashcardRecyclerAdapter extends RecyclerView.Adapter<FlashcardRecyclerAdapter.ViewHolder>{
 
     // Provide a reference to the views for each data item
-    // Complex data items may need more than one view per item, and
-    // you provide access to all the views for a data item in a view holder
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView mTextView;
-        // each data item is just a string in this case
         CardView mCardView;
 
         public View view;
@@ -38,19 +34,15 @@ public class FlashcardRecyclerAdapter extends RecyclerView.Adapter<FlashcardRecy
 
             mCardView = v.findViewById(R.id.cardViewForFlashcards);
             mTextView = v.findViewById(R.id.flashcardName);
-            Log.d("saldknflsadkjfljknasdf", String.valueOf(v.findViewById(R.id.flashcardName)));
             threeDots = v.findViewById(R.id.threeDotsForFlashcards);
             view = v;
         }
-
-
     }
 
     private ArrayList<Flashcard> mDataset;
     private Context context;
     private FlashcardActivity flashcardActivity;
 
-    // Provide a suitable constructor (depends on the kind of dataset)
     protected FlashcardRecyclerAdapter(ArrayList<Flashcard> myDataset, Context context, FlashcardActivity s) {
         this.mDataset = myDataset;
         this.context = context;
@@ -58,11 +50,9 @@ public class FlashcardRecyclerAdapter extends RecyclerView.Adapter<FlashcardRecy
 
     }
 
-    // Create new views (invoked by the layout manager)
     @NonNull
     @Override
-    public FlashcardRecyclerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
-                                                                  int viewType) {
+    public FlashcardRecyclerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
@@ -73,10 +63,9 @@ public class FlashcardRecyclerAdapter extends RecyclerView.Adapter<FlashcardRecy
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
-        Log.d("HOLDER", holder.toString());
-        Log.d("TEXTVIEW",holder.mTextView.toString());
         final int p = position;
 
+        // Set the text on the card to the front text of the flashcard
         holder.mTextView.setText(mDataset.get(p).getFrontText());
 
         holder.view.setOnClickListener(new View.OnClickListener() {
@@ -91,11 +80,9 @@ public class FlashcardRecyclerAdapter extends RecyclerView.Adapter<FlashcardRecy
 
             @Override
             public void onClick(View view) {
-
+                // Display popup with options to rename or delete flashcard
                 PopupMenu popup = new PopupMenu(context, holder.threeDots);
-                //inflating menu from xml resource
                 popup.inflate(R.menu.popup_menu_options_edit_flashcard);
-                //adding click listener
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
@@ -114,7 +101,6 @@ public class FlashcardRecyclerAdapter extends RecyclerView.Adapter<FlashcardRecy
                         return false;
                     }
                 });
-
                 popup.show();
             }
         });
