@@ -32,7 +32,6 @@ public class AccountActivity extends AppCompatActivity {
     private ActivityAccountBinding binding;
     private User user;
     private SharedPreferences preferences;
-    private RequestQueue queue;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -54,12 +53,10 @@ public class AccountActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_account);
         binding.setActivity(this);
         binding.setUser(user);
-
-        // Initialize HTTP request queue
-        queue = Volley.newRequestQueue(this);
     }
 
     public void onClickChangeUsername(View view) {
+        final RequestQueue queue = Volley.newRequestQueue(this);
         final String url = "http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/updateUsername.php?id=" + user.getUserId();
 
         // Display dialog for new username entry
@@ -131,6 +128,7 @@ public class AccountActivity extends AppCompatActivity {
     }
 
     public void onClickChangePassword(View view) {
+        final RequestQueue queue = Volley.newRequestQueue(this);
         final String url = "http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/updatePassword.php?id=" + user.getUserId();
 
         // Display dialog for old and new password entry
@@ -216,6 +214,7 @@ public class AccountActivity extends AppCompatActivity {
     }
 
     public void onClickDeleteAccount(View view) {
+        final RequestQueue queue = Volley.newRequestQueue(this);
         final String url = "http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/deleteUser.php?id=" + user.getUserId();
 
         // Display dialog for password to confirm account deletion
