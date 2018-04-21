@@ -155,15 +155,15 @@ public class AccountActivity extends AppCompatActivity {
             public void onClick(View view) {
                 // Ensure that old password, new password, and confirm password are not empty
                 if(oldPassword.getText().length() < 1){
-                    Toast.makeText(getApplicationContext(), "Enter old password", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Please enter old password", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 else if(newPassword.getText().length() < 1){
-                    Toast.makeText(getApplicationContext(), "Enter new password", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Please enter new password", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 else if(confirmNewPassword.getText().length() < 1){
-                    Toast.makeText(getApplicationContext(), "Confirm new password", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Please confirm new password", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
