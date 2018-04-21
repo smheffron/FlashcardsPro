@@ -378,32 +378,37 @@ public class FlashcardActivity extends AppCompatActivity {
     }
 
     public void handleItemClick(Integer position) {
-        Intent intent = new Intent(this, StudyActivity.class);
-        intent.putParcelableArrayListExtra("data",mDataset);
-        intent.putExtra("position",position);
-        intent.putExtra("setName", setName);
-        intent.putExtra("setId", setId);
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+        if(position >= mDataset.size() || position < 0){
+
         }
         else {
-            startActivity(intent);
+            Intent intent = new Intent(this, StudyActivity.class);
+            intent.putParcelableArrayListExtra("data", mDataset);
+            intent.putExtra("position", position);
+            intent.putExtra("setName", setName);
+            intent.putExtra("setId", setId);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+            } else {
+                startActivity(intent);
+            }
+
+            // Wait for animations to finish then destroy activity
+            new CountDownTimer(500, 500) {
+
+                @Override
+                public void onTick(long l) {
+                    // do nothing
+                }
+
+                @Override
+                public void onFinish() {
+                    finish();
+                }
+            }.start();
         }
-
-        // Wait for animations to finish then destroy activity
-        new CountDownTimer(500, 500) {
-
-            @Override
-            public void onTick(long l) {
-                // do nothing
-            }
-
-            @Override
-            public void onFinish() {
-                finish();
-            }
-        }.start();
     }
 
     @Override

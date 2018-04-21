@@ -366,10 +366,16 @@ public class FlashcardSetActivity extends AppCompatActivity {
 
     public void handleItemClick(Integer i) {
 
-        Intent intent = new Intent(this,FlashcardActivity.class);
-        intent.putExtra("setId", mDataset.get(i).getSetId());
-        intent.putExtra("setName",mDataset.get(i).getName());
-        startActivity(intent);
+        if(i>=mDataset.size() || i <0){
+
+        }
+        else {
+
+            Intent intent = new Intent(this, FlashcardActivity.class);
+            intent.putExtra("setId", mDataset.get(i).getSetId());
+            intent.putExtra("setName", mDataset.get(i).getName());
+            startActivity(intent);
+        }
 
 
     }
