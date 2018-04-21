@@ -101,9 +101,7 @@ public class FlashcardSetRecyclerAdapter extends RecyclerView.Adapter<FlashcardS
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 flashcardSetActivity.handleItemClick(p);
-
             }
         });
     }

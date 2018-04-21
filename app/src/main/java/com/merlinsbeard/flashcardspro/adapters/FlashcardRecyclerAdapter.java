@@ -47,7 +47,6 @@ public class FlashcardRecyclerAdapter extends RecyclerView.Adapter<FlashcardRecy
         this.mDataset = myDataset;
         this.context = context;
         this.flashcardActivity =s;
-
     }
 
     @NonNull
@@ -74,7 +73,6 @@ public class FlashcardRecyclerAdapter extends RecyclerView.Adapter<FlashcardRecy
                 flashcardActivity.handleItemClick(p);
             }
         });
-
 
         holder.threeDots.setOnClickListener(new View.OnClickListener(){
 
@@ -105,7 +103,6 @@ public class FlashcardRecyclerAdapter extends RecyclerView.Adapter<FlashcardRecy
             }
         });
     }
-
 
     @Override
     public int getItemCount() {
