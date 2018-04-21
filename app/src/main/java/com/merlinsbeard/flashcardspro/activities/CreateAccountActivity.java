@@ -37,6 +37,7 @@ public class CreateAccountActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_create_account);
         binding.setActivity(this);
         binding.setNewUser(newUser);
@@ -45,7 +46,8 @@ public class CreateAccountActivity extends AppCompatActivity {
         loadingAnimation.setVisibility(View.INVISIBLE);
     }
 
-    public void onClickCreateAccountButton(View view){
+    public void onClickCreateAccountButton(View view) {
+        // Ensure that username, password, and confirm password are not empty and that password matches confirm password
         if(newUser.getUsername() == null || newUser.getUsername().isEmpty()){
             Toast.makeText(getApplicationContext(), "Please enter a username", Toast.LENGTH_SHORT).show();
             return;
@@ -68,6 +70,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = "http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/newUser.php";
 
+        // Set up POST parameters for HTTP request
         Map<String,String> params = new HashMap<>();
         params.put("username", newUser.getUsername());
         params.put("password", newUser.getPassword());
@@ -75,13 +78,13 @@ public class CreateAccountActivity extends AppCompatActivity {
         final Activity thisActivity = this;
         final SharedPreferences preferences = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
 
+        // Disable create account button while waiting for request to be processed
         binding.newUserCreateAccountButton.setEnabled(false);
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(params), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-
                     if(response.getString("status").equals("succeeded")){
                         SharedPreferences.Editor editor = preferences.edit();
                         editor.putString("username",newUser.getUsername());
@@ -93,7 +96,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                         startActivity(intent);
                     }
                     else {
-                        if(response.has("reason") && response.getString("reason").equals("name taken")){
+                        if(response.has("reason") && response.getString("reason").equals("name taken")) {
                             Toast.makeText(getApplicationContext(), "This username is already taken", Toast.LENGTH_SHORT).show();
                         }
                         else {
@@ -121,11 +124,5 @@ public class CreateAccountActivity extends AppCompatActivity {
 
         loadingAnimation.setVisibility(ProgressBar.VISIBLE);
         queue.add(request);
-    }
-
-    @Override
-    protected void onDestroy(){
-        binding = null;
-        super.onDestroy();
     }
 }
