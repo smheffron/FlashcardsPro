@@ -42,3 +42,6 @@ public class User extends BaseObservable{
         this.userId = id;
     }
 }
+
+
+//data model to hold user id and password data-bound to the UI

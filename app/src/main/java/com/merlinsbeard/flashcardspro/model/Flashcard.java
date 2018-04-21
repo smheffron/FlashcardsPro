@@ -3,6 +3,10 @@ package com.merlinsbeard.flashcardspro.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+//data model to hold individual flashcards
+
+//implements parcelable in order to pass through object through intents
+
 public class Flashcard implements Parcelable {
     private String frontText;
     private String backText;
@@ -67,7 +71,6 @@ public class Flashcard implements Parcelable {
         parcel.writeString(backText);
         parcel.writeInt(flashcardId);
     }
-
-
 }
+
 
