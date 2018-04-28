@@ -1,7 +1,31 @@
-nav {
+.navbar {
 	background-color: #4095a5;
+	
 }
 
+.navbar-nav ul li a {
+
+	color: #EBEBEB;
+}
+
+.navbar-inverse .navbar-nav>li>a {
+    color: #EBEBEB;
+}
+
+.navbar-inverse .navbar-brand {
+    color: #EBEBEB;
+}
 body {
+	background-color: #EBEBEB;
+}
+
+#login {
+
+}
+
+.firstcolor {
+	background-color: #4095a5;
+}
+.secondcolor{
 	background-color: #EBEBEB;
 }
