@@ -12,7 +12,12 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <link rel="stylesheet" type="text/css" href="custom.css" />
         
+        <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
         <script src="global.js"></script>
+        
+        <script>
+            verifyLogin('login');
+        </script>
     </head>
 
     <body>
@@ -44,7 +49,6 @@
         </center>
         
         <script>
-            verifyLogin('login');
             $(document).ready(function() {
                 $('form').submit(function(e) {
                     e.preventDefault();

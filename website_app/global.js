@@ -1,11 +1,5 @@
-function verifyLogin(location) {
-    $.ajax({
-        url: 'php/checkSession.php',
-        type: 'post',
-        data: {'location': location},
-        dataType: 'json',
-        success: function(data) {
-            console.dir(data);
-        }
-    });
+function verifyLogin() {
+    if(Cookies.get('logged_in') == null && window.location.pathname != '/index.html') {
+        window.location = '/index.html';
+    }
 }
