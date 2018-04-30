@@ -11,47 +11,48 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <link rel="stylesheet" type="text/css" href="custom.css" />
+        
+        <script src="global.js"></script>
     </head>
 
     <body>
-
-<center>
-<div class="container">
-
-    <div class="row">
-        <div>
-          <img src="fcp.png">  
-        </div>
-    </div>
-
-    <div class="row">
-        <form action="">
-       
-        <div class="input-group mb-3">
-            <input type="text" placeholder="Username" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default"> 
-        </div>
-<br>
-        <div class="input-group mb-3">
-            <input type="text" placeholder="Password" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default"> 
-        </div>
-
-<br>
-        <button type="submit">Login</button>
-
-         </form>
-    </div>
-
-<br>
-    <div class="row">
+        <center>
+            <div class="container">
+                <div class="row">
+                    <div>
+                      <img src="fcp.png">  
+                    </div>
+                </div>
+                <div class="row">
+                    <form action="">
+                        <div class="input-group mb-3">
+                            <input type="text" placeholder="Username" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default"> 
+                        </div>
+                        <br>
+                        <div class="input-group mb-3">
+                            <input type="text" placeholder="Password" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default"> 
+                        </div>
+                        <br>
+                        <button type="submit">Login</button>
+                     </form>
+                </div>
+                <br>
+                <div class="row">
+                    <a href="createaccount.html">Create Account</a>
+                </div>
+            </div>
+        </center>
         
-        <a href="createaccount.html">Create Account</a>
-
-    </div>
-
-
-</div>
-</center>
-
-   
+        <script>
+            verifyLogin('login');
+            $(document).ready(function() {
+                $('form').submit(function(e) {
+                    e.preventDefault();
+                    $.ajax({
+                        
+                    });
+                });
+            });
+        </script>
     </body>
 </html>
