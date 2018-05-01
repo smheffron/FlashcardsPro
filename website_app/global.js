@@ -73,7 +73,7 @@ function initSetsList() {
             url: 'http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/getFlashcards.php',
             type: 'get',
             dataType: 'json',
-            data: {'id': setParam},
+            data: {'setId': setParam},
             success: function(data) {
                 console.dir(data);
             },
