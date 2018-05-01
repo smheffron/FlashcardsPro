@@ -91,15 +91,6 @@ function initSetsList() {
                     $('#newCardBtn').attr('onclick', 'initNewCard()');
                     $('#cardsList').empty();
                     $('#currentCard, .nextCard, .prevCard').remove();
-                    $("#cardsList").click(function() {
-                        if($(this).css("transform") == 'none'){
-                            $(this).css("transform","rotateX(180deg)");
-                            $('#cardsList p').css("transform","rotateX(180deg)");
-                        } else {
-                            $(this).css("transform","");
-                            $('#cardsList p').css("transform","");
-                        }
-                    });
                     
                     if(cards.length != 0) {
                         $('#title').text('Flashcards');
@@ -296,6 +287,14 @@ function deleteSet(id) {
 
 function flipCard() {
     var id = $('#currentCard').val();
+    
+    if($('#cardsList').css("transform") == 'none'){
+        $('#cardsList').css("transform","rotateX(180deg)");
+        $('#cardsList p').css("transform","rotateX(180deg)");
+    } else {
+        $('#cardsList').css("transform","");
+        $('#cardsList p').css("transform","");
+    }
     
     if(cards[id].selected === 'front') {
         $('#cardsList p').text(cards[id].backText);
