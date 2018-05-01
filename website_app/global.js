@@ -102,7 +102,7 @@ function initSetsList() {
                         $.each(data.cards, function(index, card) {
                             cards[index].selected = "front";
                         });
-                        $('#editCard').attr('onclick', 'initEditCard(' + cards[0].cardId + ')');
+                        $('#editCard').attr('onclick', 'initEditCard(0)');
                         $('#deleteCard').attr('onclick', 'deleteCard(' + cards[0].cardId + ')');
                     }else {
                         $('#cardsList').append('<p>You have no flashcards in this set!</p>');
