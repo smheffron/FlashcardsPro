@@ -1,6 +1,6 @@
 $.urlParam = function(name){
     var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
-    if(results == null) {return 0;}else {return results[1];}
+    if(results == null) {return -1;}else {return results[1];}
 }
 
 var cards = [];
@@ -54,7 +54,7 @@ function initLoginPage() {
 function initSetsList() {
     var setParam = $.urlParam('set');
     console.log(setParam);
-    if(setParam === 0) {
+    if(setParam === -1) {
         $.ajax({
             url: 'http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/getSets.php',
             type: 'get',
@@ -63,7 +63,7 @@ function initSetsList() {
             success: function(data) {
                 console.dir(data);
                 if(data.status === 'succeeded') {
-                    if(data.sets != null && data.sets != undefined) {
+                    if(data.sets.length != 0) {
                         $.each(data.sets, function(index, set) {
                             $('#setsList').append('<div class="setWrapper" onclick="window.location=\'?set=' + set.setId + '\'">' + set.setName + '</div>');
                         });
@@ -84,7 +84,7 @@ function initSetsList() {
                 if(data.status === 'succeeded') {
                     cards = data.cards;
                     $('#setsList').attr('id', 'cardsList');
-                    if(cards != null && cards != undefined) {
+                    if(cards.length != 0) {
                         $('#cardsList').attr('onclick', 'flipCard()');
                         $('#cardsList').append('<p>' + cards[0].frontText + '</p>');
                         $('#currentCard').val(0);
