@@ -46,6 +46,11 @@ body {
     vertical-align: middle;
 }
 
+.setWrapper p {
+    margin: auto;
+    cursor: pointer;
+}
+
 #cardsList {
     width: 30vw;
     height: 20vh;
@@ -61,7 +66,7 @@ body {
 }
 
 #cardsList p {
-    margin: 0 auto;
+    margin: auto;
     cursor: pointer;
 }
 
