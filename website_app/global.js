@@ -53,7 +53,7 @@ function initLoginPage() {
 
 function initSetsList() {
     var setParam = $.urlParam('set');
-    console.log(setParam);
+//    console.log(setParam);
     if(setParam === -1) {
         $.ajax({
             url: 'http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/getSets.php',
@@ -61,7 +61,7 @@ function initSetsList() {
             dataType: 'json',
             data: {'id': Cookies.get('logged_in')},
             success: function(data) {
-                console.dir(data);
+//                console.dir(data);
                 if(data.status === 'succeeded') {
                     if(data.sets.length != 0) {
                         $.each(data.sets, function(index, set) {
@@ -80,7 +80,7 @@ function initSetsList() {
             dataType: 'json',
             data: {'setId': setParam},
             success: function(data) {
-                console.dir(data);
+//                console.dir(data);
                 if(data.status === 'succeeded') {
                     cards = data.cards;
                     $('#setsList').attr('id', 'cardsList');
