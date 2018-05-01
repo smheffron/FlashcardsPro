@@ -51,6 +51,7 @@ function initSetsList() {
         dataType: 'json',
         data: {'id': Cookies.get('logged_in')},
         success: function(data) {
+            console.dir(data);
             if(data.status === 'succeeded') {
                 $('#setsList').append($('ul'));
                 $.each(data.sets, function(index, set) {
