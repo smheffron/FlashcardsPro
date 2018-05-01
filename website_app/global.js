@@ -65,7 +65,7 @@ function initSetsList() {
                 if(data.status === 'succeeded') {
                     if(data.sets.length != 0) {
                         $.each(data.sets, function(index, set) {
-                            $('#setsList').append('<div class="setWrapper" onclick="window.location=\'?set=' + set.setId + '\'">' + set.setName + '</div>');
+                            $('#setsList').append('<div class="setWrapper" onclick="window.location=\'?set=' + set.setId + '\'"><p>' + set.setName + '</p></div>');
                         });
                     }else {
                         $('#setsList').append('<p>You have no sets!</p>');
@@ -85,7 +85,7 @@ function initSetsList() {
                     cards = data.cards;
                     $('#setsList').attr('id', 'cardsList');
                     if(cards.length != 0) {
-                        $('#title').text('Flashcards');
+                        $('#title').text('');
                         $('#cardsList').attr('onclick', 'flipCard()');
                         $('#cardsList').append('<p>' + cards[0].frontText + '</p>');
                         $('#currentCard').val(0);
