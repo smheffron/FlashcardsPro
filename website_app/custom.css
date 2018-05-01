@@ -70,7 +70,7 @@ body {
     margin-left: 10px;
     margin-right: 10px;
     cursor: pointer;
-    transition: transform 0.15s;
+    transition: transform 0.25s;
 }
 
 #cardsList p {
