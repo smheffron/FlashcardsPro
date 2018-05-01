@@ -70,7 +70,6 @@ body {
     margin-left: 10px;
     margin-right: 10px;
     cursor: pointer;
-    transition: transform 0.25s;
 }
 
 #cardsList p {
@@ -82,10 +81,6 @@ body {
     -ms-user-select: none; /* Internet Explorer/Edge */
     user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome and Opera */
-}
-
-#cardsList:target {
-    transform: rotateX(90deg);
 }
 
 .btn.nextCard, .btn.prevCard {
