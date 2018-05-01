@@ -61,7 +61,11 @@
                                 'password': $('#password').val()
                               },
                         success: function(data) {
-                            console.dir(data);
+                            Cookies.set('logged_in', data.userId);
+                            window.location('home.html');
+                        },
+                        error: function(data) {
+                            $('.container').append('<p>There was an error processing your request, please contact the system administrator.</p>');
                         }
                     });
                 });
