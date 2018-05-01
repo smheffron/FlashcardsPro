@@ -163,8 +163,6 @@ function deleteSet(id) {
             $('#newSetWrapper').before('<p class="text-danger">Failed to delete set</p>');
             console.dir(data);
         }
-            
-        }
     });
 }
 
