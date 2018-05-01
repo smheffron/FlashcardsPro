@@ -173,7 +173,7 @@ function editCard(id) {
         success: function(data) {
             if(data.status === 'succeeded') {
                 $('#editCard').removeClass('disabled');
-                $('#existingCardFront, #existingCardBack, #editCardBtn').remove();
+                $('#existingCardFront, #existingCardBack, .editCardBtn').remove();
                 initSetsList();
             }else {
                 $('#newCardWrapper').before('<p class="text-danger">Failed to edit flashcard</p>');

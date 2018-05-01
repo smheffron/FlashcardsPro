@@ -107,7 +107,7 @@ body {
     margin-top: 10px;
 }
 
-#existingCardFront, #existingCardBack, #editCardBtn {
+#existingCardFront, #existingCardBack, .editCardBtn {
     display: inline-block;
     margin-top: 10px;
 }
