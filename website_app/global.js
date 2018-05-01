@@ -81,9 +81,12 @@ function initSetsList() {
                 if(data.status === 'succeeded') {
                     cards = data.cards;
                     if(cards != null) {
-                        $('#setsList').attr('onclick', 'flipCard()');
-                        $('#setsList').append('<p>' + cards[0].frontText + '</p>');
+                        $('#setsList').attr('id', 'cardsList');
+                        $('#cardsList').attr('onclick', 'flipCard()');
+                        $('#cardsList').append('<p>' + cards[0].frontText + '</p>');
                         $('#currentCard').val(0);
+                        $('#cardsList').before('<input id="currentCard" type="hidden" value="0" /><div class="btn btn-default prevCard" onclick="prevCard()">&#9664;</div>');
+                        $('#cardsList').after('<div class="btn btn-default nextCard" onclick="nextCard()">&#9654;</div>');
                     }
                     $.each(data.cards, function(index, card) {
                         cards[index].selected = "front";
@@ -101,10 +104,10 @@ function flipCard() {
     var id = $('#currentCard').val();
     
     if(cards[id].selected === 'front') {
-        $('#setsList p').text(cards[id].backText);
+        $('#cardsList p').text(cards[id].backText);
         cards[id].selected = 'back';
     }else {
-        $('#setsList p').text(cards[id].frontText);
+        $('#cardsList p').text(cards[id].frontText);
         cards[id].selected = 'front';
     }
 }
@@ -116,9 +119,9 @@ function nextCard() {
     }
     $('#currentCard').val(id);
     if(cards[id].selected === 'front') {
-        $('#setsList p').text(cards[id].frontText);
+        $('#cardsList p').text(cards[id].frontText);
     }else {
-        $('#setsList p').text(cards[id].backText);
+        $('#cardsList p').text(cards[id].backText);
     }
 }
 
@@ -129,8 +132,8 @@ function prevCard() {
     }
     $('#currentCard').val(id);
     if(cards[id].selected === 'front') {
-        $('#setsList p').text(cards[id].frontText);
+        $('#cardsList p').text(cards[id].frontText);
     }else {
-        $('#setsList p').text(cards[id].backText);
+        $('#cardsList p').text(cards[id].backText);
     }
 }
