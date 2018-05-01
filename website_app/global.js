@@ -92,10 +92,10 @@ function initSetsList() {
                     $('#cardsList').empty();
                     $('#currentCard, .nextCard, .prevCard').remove();
                     $("#cardsList").click(function() {
-                        if($this).css("transform") == 'none'){
+                        if($(this).css("transform") == 'none'){
                             $(this).css("transform","rotateX(180deg)");
                         } else {
-                            $(this).css("transform","" );
+                            $(this).css("transform","");
                         }
                     });
                     
