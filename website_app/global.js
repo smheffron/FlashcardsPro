@@ -297,7 +297,7 @@ function initEditSet(id, obj) {
         id: 'existingSetName'
     }));
     $('#existingSetName').val($(obj).prev().prev().children()[0].textContent);
-    $('#existingSetName').after('<button class="btn btn-primary editSetBtn" onclick="editSet(' + cards[id].cardId + ')">Update</button>');
+    $('#existingSetName').after('<button class="btn btn-primary editSetBtn" onclick="editSet(' + id + ')">Update</button>');
 }
 
 function editSet(id) {
