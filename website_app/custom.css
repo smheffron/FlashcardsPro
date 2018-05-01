@@ -44,7 +44,7 @@ body {
     margin-bottom: 10px;
     cursor: pointer;
     vertical-align: middle;
-    display: flex;
+    display: inline-flex;
 }
 
 .setWrapper p {
@@ -90,4 +90,9 @@ body {
 #newSetName, #newSetBtn {
     display: inline;
     margin-right: 5px;
+}
+
+.btn.deleteCardBtn {
+    display: inline;
+    margin-left: 15px;
 }
