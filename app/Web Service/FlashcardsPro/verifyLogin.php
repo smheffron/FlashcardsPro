@@ -14,6 +14,9 @@ Returns: A JSON object with the keys 'status' and 'login'
          if 'login' is 'succeeded', there will also be the key 'userId' which will be the id of the user who logged in
 
 */
+
+header('Access-Control-Allow-Origin: http://flashcardspro.tk', false);
+
 if($data = json_decode(file_get_contents("php://input"), true)){
     $_POST = $data;
 }
@@ -67,6 +70,10 @@ if ($result->num_rows > 0) {
         $hashedPassword = $row['password'];
         $userId = $row['id'];
     }
+}
+else {
+    $response['status'] = 'failed';
+    exit(json_encode($response));
 }
 
 if(password_verify($userPassword, $hashedPassword)){

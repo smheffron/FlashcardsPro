@@ -11,6 +11,9 @@ Returns: A JSON object with the key 'status'
          Each card has the keys 'cardId', 'frontText', and 'backText'
 
 */
+
+header('Access-Control-Allow-Origin: http://flashcardspro.tk', false);
+
 $response = array("status" => "succeeded");
 
 $setId = $_GET['setId'] ? $_GET['setId'] : -1;

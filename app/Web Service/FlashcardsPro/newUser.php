@@ -14,6 +14,9 @@ Returns: A JSON object with the keys 'status' and 'userId'
          If the username is already taken, 'status' will be failed and there will also be the key 'reason' with the value 'name taken'
          
 */
+
+header('Access-Control-Allow-Origin: http://flashcardspro.tk', false);
+
 if($data = json_decode(file_get_contents("php://input"), true)){
     $_POST = $data;
 }

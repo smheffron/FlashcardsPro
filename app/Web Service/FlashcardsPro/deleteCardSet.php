@@ -9,6 +9,9 @@ Returns: A JSON object with the key 'status'
          'status' will be 'succeeded' if the set was succesfully removed from the database or 'failed' if it was not
 
 */
+
+header('Access-Control-Allow-Origin: http://flashcardspro.tk', false);
+
 $response = array("status" => "succeeded");
 
 $setId = $_GET['id'] ? $_GET['id'] : -1;

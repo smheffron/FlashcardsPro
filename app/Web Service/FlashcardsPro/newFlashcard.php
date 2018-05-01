@@ -13,6 +13,9 @@ Returns: A JSON object with the keys 'status' and 'newSetId'
          'newCardId' will be the id of the card in the database
 
 */
+
+header('Access-Control-Allow-Origin: http://flashcardspro.tk', false);
+
 if($data = json_decode(file_get_contents("php://input"), true)){
     $_POST = $data;
 }

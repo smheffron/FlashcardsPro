@@ -10,6 +10,9 @@ Returns: A JSON object with the key 'status'
          'status' will be 'succeeded' if the set was succesfully updated or 'failed' if it was not
 
 */
+
+header('Access-Control-Allow-Origin: http://flashcardspro.tk', false);
+
 if($data = json_decode(file_get_contents("php://input"), true)){
     $_POST = $data;
 }

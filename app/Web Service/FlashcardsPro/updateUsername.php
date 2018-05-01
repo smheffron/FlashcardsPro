@@ -13,6 +13,9 @@ Returns: A JSON object with the key 'status'
          If the user's password is incorrect, there will also be the key 'reason' with the value 'authentication failure'
 
 */
+
+header('Access-Control-Allow-Origin: http://flashcardspro.tk', false);
+
 if($data = json_decode(file_get_contents("php://input"), true)){
     $_POST = $data;
 }
@@ -72,6 +75,10 @@ if ($result->num_rows > 0) {
     while($row = $result->fetch_assoc()) {
         $hashedPassword = $row['password'];
     }
+}
+else {
+    $response['status'] = 'failed';
+    exit(json_encode($response));
 }
 
 if(!password_verify($userPassword, $hashedPassword)){
