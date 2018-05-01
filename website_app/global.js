@@ -86,7 +86,7 @@ function initSetsList() {
                     cards = data.cards;
                     $('#setsList').attr('id', 'cardsList');
                     $('#newSetWrapper').attr('id', 'newCardWrapper');
-                    $('#newCardWrapper span').text('New Card: ');
+                    $('#newCardWrapper > span').text('New Card: ');
                     $('#newSetBtn').attr('id', 'newCardBtn');
                     $('#newCardBtn').attr('onclick', 'initNewCard()');
                     $('#cardsList').empty();
