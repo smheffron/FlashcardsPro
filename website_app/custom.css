@@ -121,3 +121,8 @@ body {
 label[for=existingCardFront], label[for=existingCardBack] {
     margin-right: 5px;
 }
+
+label[for=existingSetName] {
+    margin-left: 5px;
+    margin-right: 5px;
+}
