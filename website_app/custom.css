@@ -113,3 +113,7 @@ body {
     display: inline-block;
     margin-top: 10px;
 }
+
+#editDeleteWrapper {
+    display: none;
+}

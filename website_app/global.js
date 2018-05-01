@@ -91,6 +91,7 @@ function initSetsList() {
                     $('#newCardBtn').attr('onclick', 'initNewCard()');
                     $('#cardsList').empty();
                     $('#currentCard, .nextCard, .prevCard').remove();
+                    $('#editDeleteWrapper').show();
                     
                     if(cards.length != 0) {
                         $('#title').text('Flashcards');
