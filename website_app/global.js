@@ -44,7 +44,7 @@ function initLoginPage() {
     });
 }
 
-function initSetsTable() {
+function initSetsList() {
     $.ajax({
         url: 'http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/getSets.php',
         type: 'get',
