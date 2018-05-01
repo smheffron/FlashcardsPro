@@ -296,6 +296,8 @@ function flipCard() {
         $('#cardsList p').css("transform","");
     }
     
+    await sleep(650);
+    
     if(cards[id].selected === 'front') {
         $('#cardsList p').text(cards[id].backText);
         cards[id].selected = 'back';
