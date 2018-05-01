@@ -177,6 +177,8 @@ function editCard(id) {
             if(data.status === 'succeeded') {
                 $('#editCard, .nextCard, .prevCard').removeClass('disabled');
                 $('#existingCardFront, #existingCardBack, .editCardBtn, label[for=existingCardFront], label[for=existingCardBack]').remove();
+                $('#cardsList').css("transform","");
+                $('#cardsList p').css("transform","");
                 initSetsList();
             }else {
                 $('#newCardWrapper').before('<p class="text-danger">Failed to edit flashcard</p>');
