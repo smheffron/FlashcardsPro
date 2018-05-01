@@ -31,14 +31,14 @@
                 <div class="row">
                     <form action="">
                         <div class="input-group mb-3">
-                            <input type="text" placeholder="Username" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default"> 
+                            <input type="text" id="username" name="username" placeholder="Username" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default"> 
                         </div>
                         <br>
                         <div class="input-group mb-3">
-                            <input type="text" placeholder="Password" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default"> 
+                            <input id="password" name="password" type="password" placeholder="Password" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default"> 
                         </div>
                         <br>
-                        <button type="submit">Login</button>
+                        <button class="btn btn-primary" type="submit">Login</button>
                      </form>
                 </div>
                 <br>
@@ -53,7 +53,16 @@
                 $('form').submit(function(e) {
                     e.preventDefault();
                     $.ajax({
-                        
+                        url: 'http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/verifyLogin.php',
+                        type: 'post',
+                        dataType: 'json',
+                        data: {
+                                'username': $('#username').val(),
+                                'password': $('#password').val()
+                              },
+                        success: function(data) {
+                            console.dir(data);
+                        }
                     });
                 });
             });
