@@ -298,6 +298,7 @@ function initEditSet(id, obj) {
     }));
     $('#existingSetName').val($(obj).prev().prev().children()[0].textContent);
     $('#existingSetName').after('<button class="btn btn-primary editSetBtn" onclick="editSet(' + id + ')">Update</button>');
+    $(obj).hide();
 }
 
 function editSet(id) {
