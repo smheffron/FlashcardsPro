@@ -94,7 +94,7 @@ body {
     margin-right: 5px;
 }
 
-.btn.deleteCardBtn {
+.btn.deleteSetBtn, .btn.editSetBtn {
     display: inline;
     margin-left: 15px;
 }
