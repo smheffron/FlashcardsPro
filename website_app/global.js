@@ -129,12 +129,24 @@ function newSet() {
         data: {'title': setName},
         dataType: 'json',
         success: function(data) {
-            console.dir(data);
-            initSetsList();
+            if(data.status === 'succeeded') {
+                $('#newSetName').remove();
+                $('#newSetBtn span').text('&#xe081;');
+                initSetsList();
+            }else {
+                $('#newSetWrapper').before('<p class="text-danger">Failed to create new set named "' + setName + '"</p>');
+            }
         },
         error: function(data) {
+            $('#newSetWrapper').before('<p class="text-danger">Failed to create new set named "' + setName + '"</p>');
             console.dir(data);
         }
+    });
+}
+
+function deleteSet(id) {
+    $.ajax({
+        url: ''
     });
 }
 
