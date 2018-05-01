@@ -303,23 +303,26 @@ function initEditSet(id, obj) {
 }
 
 function editSet(id) {
-//    $.ajax({
-//        url: 'http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/updateSetName.php',
-//        type: 'get',
-//        data: {'id': id},
-//        dataType: 'json',
-//        success: function(data) {
-//            if(data.status === 'succeeded') {
-//                initSetsList();
-//            }else {
-//                $('#newSetWrapper').before('<p class="text-danger">Failed to delete set</p>');
-//            }
-//        },
-//        error: function(data) {
-//            $('#newSetWrapper').before('<p class="text-danger">Failed to delete set</p>');
-//            console.dir(data);
-//        }
-//    });
+    var setName = $('#existingSetName').val();
+    
+    $.ajax({
+        url: 'http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/updateSetName.php?id=' + id,
+        type: 'post',
+        data: {'title': setName},
+        dataType: 'json',
+        success: function(data) {
+            if(data.status === 'succeeded') {
+                $('.editSetBtn, #existingSetName, label[for=existingSetName]').remove();
+                initSetsList();
+            }else {
+                $('#newSetWrapper').before('<p class="text-danger">Failed to delete set</p>');
+            }
+        },
+        error: function(data) {
+            $('#newSetWrapper').before('<p class="text-danger">Failed to delete set</p>');
+            console.dir(data);
+        }
+    });
 }
 
 async function flipCard() {
