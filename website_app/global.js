@@ -65,7 +65,7 @@ function initSetsList() {
                 if(data.status === 'succeeded') {
                     if(data.sets.length != 0) {
                         $.each(data.sets, function(index, set) {
-                            $('#setsList').append('<div class="setWrapper" onclick="window.location=\'?set=' + set.setId + '\'"><span>' + set.setName + '</span></div>');
+                            $('#setsList').append('<div class="setWrapper" onclick="window.location=\'?set=' + set.setId + '\'">' + set.setName + '</div>');
                         });
                     }else {
                         $('#setsList').append('<p>You have no sets!</p>');
@@ -86,7 +86,7 @@ function initSetsList() {
                     $('#setsList').attr('id', 'cardsList');
                     if(cards.length != 0) {
                         $('#cardsList').attr('onclick', 'flipCard()');
-                        $('#cardsList').append('<span>' + cards[0].frontText + '</span>');
+                        $('#cardsList').append('<p>' + cards[0].frontText + '</p>');
                         $('#currentCard').val(0);
                         $('#cardsList').before('<input id="currentCard" type="hidden" value="0" /><div class="btn btn-default prevCard" onclick="prevCard()">&#9664;</div>');
                         $('#cardsList').after('<div class="btn btn-default nextCard" onclick="nextCard()">&#9654;</div>');
@@ -109,10 +109,10 @@ function flipCard() {
     var id = $('#currentCard').val();
     
     if(cards[id].selected === 'front') {
-        $('#cardsList span').text(cards[id].backText);
+        $('#cardsList p').text(cards[id].backText);
         cards[id].selected = 'back';
     }else {
-        $('#cardsList span').text(cards[id].frontText);
+        $('#cardsList p').text(cards[id].frontText);
         cards[id].selected = 'front';
     }
 }
@@ -124,9 +124,9 @@ function nextCard() {
     }
     $('#currentCard').val(id);
     if(cards[id].selected === 'front') {
-        $('#cardsList span').text(cards[id].frontText);
+        $('#cardsList p').text(cards[id].frontText);
     }else {
-        $('#cardsList span').text(cards[id].backText);
+        $('#cardsList p').text(cards[id].backText);
     }
 }
 
@@ -137,8 +137,8 @@ function prevCard() {
     }
     $('#currentCard').val(id);
     if(cards[id].selected === 'front') {
-        $('#cardsList span').text(cards[id].frontText);
+        $('#cardsList p').text(cards[id].frontText);
     }else {
-        $('#cardsList span').text(cards[id].backText);
+        $('#cardsList p').text(cards[id].backText);
     }
 }
