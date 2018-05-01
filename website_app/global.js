@@ -296,7 +296,7 @@ async function flipCard() {
         $('#cardsList p').css("transform","");
     }
     
-    await sleep(500);
+    await sleep(200);
     
     if(cards[id].selected === 'front') {
         $('#cardsList p').text(cards[id].backText);
