@@ -29,3 +29,7 @@ body {
 .secondcolor{
 	background-color: #EBEBEB;
 }
+
+.errorMessage {
+    color: red;
+}

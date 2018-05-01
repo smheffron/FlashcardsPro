@@ -20,24 +20,24 @@ function initLoginPage() {
                     Cookies.set('logged_in', data.userId);
                     window.location = 'home.html';
                 }else if(data.status === 'succeeded' && data.login === 'failed') {
-                    if($('#errorMessage').length > 0) {
-                        $('#errorMessage').text('Incorrect credentials. Please try again.')
+                    if($('.errorMessage').length > 0) {
+                        $('.errorMessage').text('Incorrect credentials. Please try again.')
                     }else {
-                        $('form').before('<p id="errorMessage">Incorrect credentials. Please try again.</p>');
+                        $('form').before('<p class="errorMessage">Incorrect credentials. Please try again.</p>');
                     }
                 }else {
-                    if($('#errorMessage').length > 0) {
-                        $('#errorMessage').text('There was an error processing your request, please contact the system administrator.')
+                    if($('.errorMessage').length > 0) {
+                        $('.errorMessage').text('There was an error processing your request, please contact the system administrator.')
                     }else {
-                        $('form').before('<p id="errorMessage">There was an error processing your request, please contact the system administrator.</p>');
+                        $('form').before('<p class="errorMessage">There was an error processing your request, please contact the system administrator.</p>');
                     }
                 }
             },
             error: function(data) {
-                if($('#errorMessage').length > 0) {
-                    $('#errorMessage').text('There was an error processing your request, please contact the system administrator.')
+                if($('.errorMessage').length > 0) {
+                    $('.errorMessage').text('There was an error processing your request, please contact the system administrator.')
                 }else {
-                    $('form').before('<p id="errorMessage">There was an error processing your request, please contact the system administrator.</p>');
+                    $('form').before('<p class="errorMessage">There was an error processing your request, please contact the system administrator.</p>');
                 }
             }
         });
