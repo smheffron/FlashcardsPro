@@ -81,7 +81,8 @@ function initSetsList() {
                 if(data.status === 'succeeded') {
                     cards = data.cards;
                     if(cards != null) {
-                        $('#setsList').append('<p onclick="flipCard()">' + cards[0].frontText + '</p>');
+                        $('#setsList').attr('onclick', 'flipCard()');
+                        $('#setsList').append('<p>' + cards[0].frontText + '</p>');
                         $('#currentCard').val(0);
                     }
                     $.each(data.cards, function(index, card) {
@@ -112,6 +113,19 @@ function nextCard() {
     var id = $('#currentCard').val();
     if(++id >= cards.length) {
         id = 0;
+    }
+    $('#currentCard').val(id);
+    if(cards[id].selected === 'front') {
+        $('#setsList p').text(cards[id].frontText);
+    }else {
+        $('#setsList p').text(cards[id].backText);
+    }
+}
+
+function prevCard() {
+    var id = $('#currentCard').val();
+    if(--id < 0) {
+        id = cards.length - 1;
     }
     $('#currentCard').val(id);
     if(cards[id].selected === 'front') {

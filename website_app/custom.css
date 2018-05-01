@@ -35,10 +35,18 @@ body {
 }
 
 #setsList {
-    width: 30%;
-    height: 20%;
+    width: 30vw;
+    height: 20vh;
     text-align: center;
     background-color: lightgrey;
     border: 5px solid #EBEBEB;
     border-radius: 10px;
+}
+
+#setsList p {
+    margin: 0 auto;
+}
+
+.btn.nextCard, .btn.prevCard {
+    display: inline;
 }
