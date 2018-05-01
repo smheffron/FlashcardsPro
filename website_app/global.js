@@ -290,6 +290,40 @@ function deleteSet(id) {
     });
 }
 
+function initEditSet(id) {
+    $('#editSet').after($('<input>', {
+        type: 'text',
+        placeholder: 'Set Name...',
+        id: 'existingSetName'
+    }));
+    var setName = $('#existingSetName').val($('#editSet').prev().prev().children('span')[0].val());
+    $('#existingCardFront').before('<label for=existingCardFront>Front Text:</label>');
+    $('#existingCardBack').before('<label for=existingCardBack>Back Text:&nbsp;</label>');
+    $('#existingCardFront').after('<br>');
+    $('#existingCardBack').after('<br><button class="btn btn-primary editCardBtn" onclick="editCard(' + cards[id].cardId + ')">Update</button>');
+    $('#editCard, .nextCard, .prevCard').addClass('disabled');
+}
+
+function editSet(id) {
+    $.ajax({
+        url: 'http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/deleteCardSet.php',
+        type: 'get',
+        data: {'id': id},
+        dataType: 'json',
+        success: function(data) {
+            if(data.status === 'succeeded') {
+                initSetsList();
+            }else {
+                $('#newSetWrapper').before('<p class="text-danger">Failed to delete set</p>');
+            }
+        },
+        error: function(data) {
+            $('#newSetWrapper').before('<p class="text-danger">Failed to delete set</p>');
+            console.dir(data);
+        }
+    });
+}
+
 async function flipCard() {
     var id = $('#currentCard').val();
     
