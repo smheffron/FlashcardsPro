@@ -89,6 +89,7 @@ function initSetsList() {
                     $('#newSetWrapper span').text('New Card: ');
                     $('#newSetBtn').attr('id', 'newCardBtn');
                     $('#newCardBtn').attr('onclick', 'initNewCard()');
+                    $('#cardsList').empty();
                     
                     if(cards.length != 0) {
                         $('#title').text('Flashcards');
