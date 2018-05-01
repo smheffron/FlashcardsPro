@@ -114,6 +114,26 @@ function initNewSet() {
         id: 'newSetName'
     }));
     $('#newSetBtn span').text('Create');
+    $('#newSetBtn').removeClass('btn-default').addClass('btn-primary');
+    $('#newSetBtn').attr('onclick', 'newSet()');
+}
+
+function newSet() {
+    var setName = $('#newSetName').val();
+    var id = Cookies.get('logged_in');
+    
+    $.ajax({
+        url: 'http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/newCardSet.php',
+        type: 'get',
+        data: {'id': id, 'title': setName},
+        dataType: 'json',
+        success: function(data) {
+            console.dir(data);
+        },
+        error: function(data) {
+            console.dir(data);
+        }
+    });
 }
 
 function flipCard() {
