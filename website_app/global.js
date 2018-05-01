@@ -155,7 +155,7 @@ function deleteCard(id) {
     $.ajax({
         url: 'http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/deleteFlashcard.php',
         type: 'get',
-        data: {'id': id},
+        data: {'id': cards[id].cardId},
         dataType: 'json',
         success: function(data) {
             if(data.status === 'succeeded') {
