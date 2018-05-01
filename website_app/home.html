@@ -17,6 +17,21 @@
         
         <script>
             verifyLogin();
+            
+            function addTestSet() {
+                $.ajax({
+                    url: 'http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/newCardSet.php',
+                    type: 'get',
+                    dataType: 'json',
+                    data: {'id': Cookies.get('logged_in'), 'title': 'Test Set'},
+                    success: function(data) {
+                        console.dir(data);
+                    },
+                    error: function(data) {
+                        console.dir(data);
+                    }
+                });
+            }
         </script>
     </head>
 
@@ -48,56 +63,17 @@
                       </div>
                     </div>
                     <br><br>
-                    <div class="row" >
-                        <table class="table">
-                            <thead>
-                              <tr>
-                                <th>Set Name</th>
-                                <th>Date Created</th>
-                                <th>Date Completed</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <td>Default</td>
-                                <td>Default</td>
-                                <td>def@somemail.com</td>
-                              </tr>      
-                              <tr class="firstcolor">
-                                <td>Success</td>
-                                <td>Doe</td>
-                                <td>john@example.com</td>
-                              </tr>
-                              <tr class="secondcolor">
-                                <td>Danger</td>
-                                <td>Moe</td>
-                                <td>mary@example.com</td>
-                              </tr>
-                              <tr class="firstcolor">
-                                <td>Info</td>
-                                <td>Dooley</td>
-                                <td>july@example.com</td>
-                              </tr>
-                              <tr class="secondcolor">
-                                <td>Warning</td>
-                                <td>Refs</td>
-                                <td>bo@example.com</td>
-                              </tr>
-                              <tr class="firstcolor">
-                                <td>Active</td>
-                                <td>Activeson</td>
-                                <td>act@example.com</td>
-                              </tr>
-                            </tbody>
-                        </table>
+                    <div id="setsList" class="row" >
+                        
                     </div>
+                    <button onclick="addTestSet()">Add Set</button>
                 </div>
             </div>
         </div>
         
         <script>
             $(document).ready(function() {
-                initSetsTable();
+                initSetsList();
             });
         </script>
     </body>
