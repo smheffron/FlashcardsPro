@@ -84,7 +84,7 @@ body {
                                   supported by Chrome and Opera */
 }
 
-#cardsList:active {
+#cardsList:target {
     transform: rotateX(90deg);
 }
 
