@@ -3,6 +3,8 @@ $.urlParam = function(name){
     return results[1] || 0;
 }
 
+var cards = [];
+
 function verifyLogin() {
     if((Cookies.get('logged_in') == null || Cookies.get('logged_in') == undefined) && window.location.pathname != '/index.html') {
         window.location = '/index.html';
@@ -51,7 +53,6 @@ function initLoginPage() {
 
 function initSetsList() {
     var setParam = $.urlParam('set');
-    var cards = [];
     console.log(setParam);
     if(setParam === 0) {
         $.ajax({
@@ -80,8 +81,9 @@ function initSetsList() {
                 if(data.status === 'succeeded') {
                     $('#setsList').append('<ul></ul>');
                     $.each(data.cards, function(index, card) {
-                        $('#setsList ul').append('<li value="' + card.id + '">' + card.frontText + '</li>');
-                        cards[index] = card;
+                        $('#setsList ul').append('<li value="' + card.cardId + '" onclick="flipCard(' + card.cardId + ')">' + card.frontText + '</li>');
+                        cards[card.cardId] = card;
+                        cards[card.cardId].selected = "front";
                     });
                 }
             },
@@ -89,5 +91,15 @@ function initSetsList() {
                 console.dir(data);
             }
         });
+    }
+}
+
+function flipCard(id) {
+    if(cards[id].selected === 'front') {
+        $('#setsList ul li[value=' + id + ']').text(cards[id].backText);
+        cards[id].selected = 'back';
+    }else {
+        $('#setsList ul li[value=' + id + ']').text(cards[id].frontText);
+        cards[id].selected = 'front';
     }
 }
