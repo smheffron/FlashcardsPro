@@ -43,3 +43,15 @@ function initLoginPage() {
         });
     });
 }
+
+function initSetsTable() {
+    $.ajax({
+        url: 'http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/getSets.php',
+        type: 'get',
+        dataType: 'json',
+        data: {'id': Cookies.get('logged_in')},
+        success: function(data) {
+            console.dir(data);
+        }
+    });
+}
