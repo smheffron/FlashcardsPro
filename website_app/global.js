@@ -144,7 +144,20 @@ function initNewCard() {
 }
 
 function initEditCard(id) {
-    
+    $('#editDeleteWrapper').after($('<input>', {
+        type: 'text',
+        placeholder: 'Back Text...',
+        id: 'existingCardBack',
+        value: cards[id].backText
+    }));
+    $('#editDeleteWrapper').after($('<input>', {
+        type: 'text',
+        placeholder: 'Front Text...',
+        id: 'existingCardFront',
+        value: cards[id].frontText
+    }));
+    $('#existingCardBack').after('<button class="btn btn-primary editCardBtn" onclick="editCard(' + cards[id].cardId + ')">Update</button>');
+    $('#editCard').addClass('disabled');
 }
 
 function editCard() {
@@ -274,7 +287,7 @@ function nextCard() {
         $('#cardsList p').text(cards[id].backText);
     }
     
-    $('#editCard').attr('onclick', 'initEditCard(' + cards[id].cardId + ')');
+    $('#editCard').attr('onclick', 'initEditCard(' + id + ')');
     $('#deleteCard').attr('onclick', 'deleteCard(' + cards[id].cardId + ')');
 }
 
@@ -290,6 +303,6 @@ function prevCard() {
         $('#cardsList p').text(cards[id].backText);
     }
     
-    $('#editCard').attr('onclick', 'initEditCard(' + cards[id].cardId + ')');
+    $('#editCard').attr('onclick', 'initEditCard(' + id + ')');
     $('#deleteCard').attr('onclick', 'deleteCard(' + cards[id].cardId + ')');
 }
