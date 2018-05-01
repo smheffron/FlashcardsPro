@@ -158,7 +158,7 @@ function initEditCard(id) {
         value: cards[id].frontText
     }));
     $('#existingCardFront').before('<label for=existingCardFront>Front Text:</label>');
-    $('#existingCardBack').before('<label for=existingCardBack>Back Text:</label>');
+    $('#existingCardBack').before('<label for=existingCardBack>Back Text:&nbsp;</label>');
     $('#existingCardFront').after('<br>');
     $('#existingCardBack').after('<br><button class="btn btn-primary editCardBtn" onclick="editCard(' + cards[id].cardId + ')">Update</button>');
     $('#editCard, .nextCard, .prevCard').addClass('disabled');

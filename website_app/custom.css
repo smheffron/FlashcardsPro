@@ -117,3 +117,7 @@ body {
 #editDeleteWrapper {
     display: none;
 }
+
+label[for=existingCardFront], label[for=existingCardBack] {
+    margin-right: 5px;
+}
