@@ -85,7 +85,7 @@ function initSetsList() {
                     cards = data.cards;
                     $('#setsList').attr('id', 'cardsList');
                     if(cards.length != 0) {
-                        $('#title').text('');
+                        $('#title').text('Flashcards');
                         $('#cardsList').attr('onclick', 'flipCard()');
                         $('#cardsList').append('<p>' + cards[0].frontText + '</p>');
                         $('#currentCard').val(0);
