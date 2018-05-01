@@ -126,7 +126,7 @@ function newSet() {
     
     $.ajax({
         url: 'http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/newCardSet.php',
-        type: 'get',
+        type: 'post',
         data: {'id': id, 'title': setName},
         dataType: 'json',
         success: function(data) {
