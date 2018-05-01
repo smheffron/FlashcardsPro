@@ -63,6 +63,7 @@ function initSetsList() {
             success: function(data) {
 //                console.dir(data);
                 if(data.status === 'succeeded') {
+                    $('#setsList').empty();
                     if(data.sets.length != 0) {
                         $.each(data.sets, function(index, set) {
                             $('#setsList').append('<div class="setWrapper" onclick="window.location=\'?set=' + set.setId + '\'"><p>' + set.setName + '</p></div>');
@@ -122,15 +123,14 @@ function newSet() {
     var setName = $('#newSetName').val();
     var id = Cookies.get('logged_in');
     
-    console.log(setName + ' ' + id);
-    
     $.ajax({
-        url: 'http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/newCardSet.php',
+        url: 'http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/newCardSet.php?id=' + id,
         type: 'post',
-        data: {'id': id, 'title': setName},
+        data: {'title': setName},
         dataType: 'json',
         success: function(data) {
             console.dir(data);
+            initSetsList();
         },
         error: function(data) {
             console.dir(data);
