@@ -71,6 +71,9 @@ body {
     cursor: pointer;
 }
 
-.btn.nextCard, .btn.prevCard {
-    display: inline;
+.btn.prevCard {
+    float: left;
+}
+.btn.nextCard {
+    float: right;
 }
