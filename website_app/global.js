@@ -158,7 +158,7 @@ function initEditCard(id) {
     }));
     $('#existingCardFront').after('<br>');
     $('#existingCardBack').after('<br><button class="btn btn-primary editCardBtn" onclick="editCard(' + cards[id].cardId + ')">Update</button>');
-    $('#editCard').addClass('disabled');
+    $('#editCard, .nextCard, .prevCard').addClass('disabled');
 }
 
 function editCard(id) {
@@ -172,7 +172,7 @@ function editCard(id) {
         dataType: 'json',
         success: function(data) {
             if(data.status === 'succeeded') {
-                $('#editCard').removeClass('disabled');
+                $('#editCard, .nextCard, .prevCard').removeClass('disabled');
                 $('#existingCardFront, #existingCardBack, .editCardBtn').remove();
                 initSetsList();
             }else {
