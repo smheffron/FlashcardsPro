@@ -96,3 +96,12 @@ body {
     display: inline;
     margin-left: 15px;
 }
+
+#newCardFront, #newCardBack, #newCardBtn {
+    margin-left: 5px;
+}
+
+#deleteCard, #editCard {
+    display: inline;
+    margin-left: 10px;
+}
