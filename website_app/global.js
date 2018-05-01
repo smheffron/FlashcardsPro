@@ -79,11 +79,13 @@ function initSetsList() {
             success: function(data) {
                 console.dir(data);
                 if(data.status === 'succeeded') {
-                    $('#setsList').append('<ul></ul>');
+                    cards = data.cards;
+                    if(cards != null) {
+                        $('#setsList').append('<p onclick="flipCard()">' + cards[0].frontText + '</p>');
+                        $('#currentCard').val(0);
+                    }
                     $.each(data.cards, function(index, card) {
-                        $('#setsList ul').append('<li value="' + card.cardId + '" onclick="flipCard(' + card.cardId + ')">' + card.frontText + '</li>');
-                        cards[card.cardId] = card;
-                        cards[card.cardId].selected = "front";
+                        cards[index].selected = "front";
                     });
                 }
             },
@@ -94,12 +96,27 @@ function initSetsList() {
     }
 }
 
-function flipCard(id) {
+function flipCard() {
+    var id = $('#currentCard').val();
+    
     if(cards[id].selected === 'front') {
-        $('#setsList ul li[value=' + id + ']').text(cards[id].backText);
+        $('#setsList p').text(cards[id].backText);
         cards[id].selected = 'back';
     }else {
-        $('#setsList ul li[value=' + id + ']').text(cards[id].frontText);
+        $('#setsList p').text(cards[id].frontText);
         cards[id].selected = 'front';
+    }
+}
+
+function nextCard() {
+    var id = $('#currentCard').val();
+    if(++id >= cards.length) {
+        id = 0;
+    }
+    $('#currentCard').val(id);
+    if(cards[id].selected === 'front') {
+        $('#setsList p').text(cards[id].frontText);
+    }else {
+        $('#setsList p').text(cards[id].backText);
     }
 }

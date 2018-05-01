@@ -33,3 +33,12 @@ body {
 .errorMessage {
     color: red;
 }
+
+#setsList {
+    width: 30%;
+    height: 20%;
+    text-align: center;
+    background-color: lightgrey;
+    border: 5px solid #EBEBEB;
+    border-radius: 10px;
+}
