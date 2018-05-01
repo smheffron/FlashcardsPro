@@ -93,7 +93,7 @@ function initSetsList() {
                     $('#currentCard, .nextCard, .prevCard').remove();
                     $("#cardsList").click(function() {
                         if($(this).css("transform") == 'none'){
-                            $(this).css("transform","rotateX(180deg)");
+                            $(this).css("transform","rotateX(360deg)");
                         } else {
                             $(this).css("transform","");
                         }
