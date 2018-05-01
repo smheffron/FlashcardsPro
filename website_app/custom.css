@@ -44,7 +44,7 @@ body {
     margin-bottom: 10px;
     cursor: pointer;
     vertical-align: middle;
-    display: inline-flex;
+    display: flex;
 }
 
 .setWrapper p {
@@ -59,7 +59,7 @@ body {
     background-color: lightgrey;
     border: 3px solid #4095a5;
     border-radius: 10px;
-    display: flex;
+    display: inline-flex;
     vertical-align: middle;
     margin-left: 10px;
     margin-right: 10px;
