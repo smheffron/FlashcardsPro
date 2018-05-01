@@ -83,6 +83,10 @@ body {
                                   supported by Chrome and Opera */
 }
 
+#cardsList:active {
+    transform: rotateX(360deg);
+}
+
 .btn.nextCard, .btn.prevCard {
     display: inline;
 }
