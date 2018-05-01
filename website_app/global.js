@@ -338,3 +338,7 @@ function prevCard() {
     $('#editCard').attr('onclick', 'initEditCard(' + id + ')');
     $('#deleteCard').attr('onclick', 'deleteCard(' + cards[id].cardId + ')');
 }
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
