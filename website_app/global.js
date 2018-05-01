@@ -66,7 +66,7 @@ function initSetsList() {
                     $('#setsList').empty();
                     if(data.sets.length != 0) {
                         $.each(data.sets, function(index, set) {
-                            $('#setsList').append('<div class="setWrapper" onclick="window.location=\'?set=' + set.setId + '\'"><p>' + set.setName + '</p></div><button class="btn btn-danger deleteCardBtn" onclick="deleteSet(' + set.setId + ')">Delete</button><button class="btn btn-danger editCardBtn" onclick="initEditSet(' + set.setId + ')">Rename</button><br>');
+                            $('#setsList').append('<div class="setWrapper" onclick="window.location=\'?set=' + set.setId + '\'"><p>' + set.setName + '</p></div><button class="btn btn-danger deleteSetBtn" onclick="deleteSet(' + set.setId + ')">Delete</button><button class="btn btn-primary editSetBtn" onclick="initEditSet(' + set.setId + ')">Rename</button><br>');
                         });
                     }else {
                         $('#setsList').append('<p>You have no sets!</p>');
