@@ -131,7 +131,8 @@ function newSet() {
         success: function(data) {
             if(data.status === 'succeeded') {
                 $('#newSetName').remove();
-                $('#newSetBtn span').text('&#xe081;');
+                $('#newSetBtn span').html('&#xe081;');
+                $('#newSetbtn').attr('onclick', 'initNewSet()');
                 initSetsList();
             }else {
                 $('#newSetWrapper').before('<p class="text-danger">Failed to create new set named "' + setName + '"</p>');
