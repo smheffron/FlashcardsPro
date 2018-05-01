@@ -85,6 +85,11 @@ function initSetsList() {
                 if(data.status === 'succeeded') {
                     cards = data.cards;
                     $('#setsList').attr('id', 'cardsList');
+                    $('#newSetWrapper').attr('id', 'newCardWrapper');
+                    $('#newSetWrapper span').text('New Card: ');
+                    $('#newSetBtn').attr('id', 'newCardBtn');
+                    $('#newCardBtn').attr('onclick', 'initNewCard()');
+                    
                     if(cards.length != 0) {
                         $('#title').text('Flashcards');
                         $('#cardsList').attr('onclick', 'flipCard()');
@@ -108,7 +113,6 @@ function initSetsList() {
 }
 
 function initNewSet() {
-//    $('#setsList').hide();
     $('#newSetBtn').before($('<input>', {
         type: 'text',
         placeholder: 'New Set Name...',
@@ -117,6 +121,52 @@ function initNewSet() {
     $('#newSetBtn span').text('Create');
     $('#newSetBtn').removeClass('btn-default').addClass('btn-primary');
     $('#newSetBtn').attr('onclick', 'newSet()');
+}
+
+function initNewCard() {
+    $('#newCardBtn').before($('<input>', {
+        type: 'text',
+        placeholder: 'Front Text...',
+        id: 'newCardFront'
+    }));
+    $('#newCardBtn').before($('<input>', {
+        type: 'text',
+        placeholder: 'Back Text...',
+        id: 'newCardBack'
+    }));
+    $('#newCardBtn span').text('Create');
+    $('#newCardBtn').removeClass('btn-default').addClass('btn-primary');
+    $('#newCardBtn').attr('onclick', 'newCard()');
+}
+
+function newCard() {
+    var setParam = $.urlParam('set');
+    var id = Cookies.get('logged_in');
+    if(setParam != -1) {
+        $.ajax({
+            url: 'http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/newCardSet.php?id=' + id,
+            type: 'post',
+            data: {'title': setName},
+            dataType: 'json',
+            success: function(data) {
+                if(data.status === 'succeeded') {
+                    $('#newCardFront, #newCardBack').remove();
+                    $('#newCardBtn span').html('&#xe081;');
+                    $('#newCardBtn').attr('onclick', 'initNewCard()');
+                    $('#newCardBtn').removeClass('btn-primary').addClass('btn-default');
+                    initSetsList();
+                }else {
+                    $('#newCardWrapper').before('<p class="text-danger">Failed to create new set named "' + setName + '"</p>');
+                }
+            },
+            error: function(data) {
+                $('#newCardWrapper').before('<p class="text-danger">Failed to create new set named "' + setName + '"</p>');
+                console.dir(data);
+            }
+        });
+    }else {
+        $('#newCardWrapper').before('<p class="text-danger">Failed to create new flashcard</p>');
+    }
 }
 
 function newSet() {
