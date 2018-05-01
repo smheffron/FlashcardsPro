@@ -273,6 +273,9 @@ function nextCard() {
     }else {
         $('#cardsList p').text(cards[id].backText);
     }
+    
+    $('#editCard').attr('onclick', 'initEditCard(' + id + ')');
+    $('#deleteCard').attr('onclick', 'deleteCard(' + id + ')');
 }
 
 function prevCard() {
@@ -286,4 +289,7 @@ function prevCard() {
     }else {
         $('#cardsList p').text(cards[id].backText);
     }
+    
+    $('#editCard').attr('onclick', 'initEditCard(' + id + ')');
+    $('#deleteCard').attr('onclick', 'deleteCard(' + id + ')');
 }
