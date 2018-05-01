@@ -88,5 +88,5 @@ body {
 }
 
 #newSetName, #newSetBtn {
-    display: inline-block;
+    display: inline;
 }
