@@ -50,25 +50,7 @@
         
         <script>
             $(document).ready(function() {
-                $('form').submit(function(e) {
-                    e.preventDefault();
-                    $.ajax({
-                        url: 'http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/verifyLogin.php',
-                        type: 'post',
-                        dataType: 'json',
-                        data: {
-                                'username': $('#username').val(),
-                                'password': $('#password').val()
-                              },
-                        success: function(data) {
-                            Cookies.set('logged_in', data.userId);
-                            window.location = 'home.html';
-                        },
-                        error: function(data) {
-                            $('.container').append('<p>There was an error processing your request, please contact the system administrator.</p>');
-                        }
-                    });
-                });
+                initLoginPage();
             });
         </script>
     </body>
