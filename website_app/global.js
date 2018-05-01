@@ -102,6 +102,8 @@ function initSetsList() {
                         $.each(data.cards, function(index, card) {
                             cards[index].selected = "front";
                         });
+                        $('#editCard').attr('onclick', 'initEditCard(0)');
+                        $('#deleteCard').attr('onclick', 'deleteCard(0)');
                     }else {
                         $('#cardsList').append('<p>You have no flashcards in this set!</p>');
                     }
@@ -139,6 +141,34 @@ function initNewCard() {
     $('#newCardBtn span').text('Create');
     $('#newCardBtn').removeClass('btn-default').addClass('btn-primary');
     $('#newCardBtn').attr('onclick', 'newCard()');
+}
+
+function initEditCard(id) {
+    
+}
+
+function editCard() {
+    
+}
+
+function deleteCard(id) {
+    $.ajax({
+        url: 'http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/deleteFlashcard.php',
+        type: 'get',
+        data: {'id': id},
+        dataType: 'json',
+        success: function(data) {
+            if(data.status === 'succeeded') {
+                initSetsList();
+            }else {
+                $('#newCardWrapper').before('<p class="text-danger">Failed to delete flashcard</p>');
+            }
+        },
+        error: function(data) {
+            $('#newCardWrapper').before('<p class="text-danger">Failed to delete flashcard</p>');
+            console.dir(data);
+        }
+    });
 }
 
 function newCard() {
