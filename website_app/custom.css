@@ -70,6 +70,7 @@ body {
     margin-left: 10px;
     margin-right: 10px;
     cursor: pointer;
+    transition-duration: 1s;
 }
 
 #cardsList p {
@@ -81,7 +82,6 @@ body {
     -ms-user-select: none; /* Internet Explorer/Edge */
     user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome and Opera */
-    transition-duration: 1s;
 }
 
 #cardsList:active {
