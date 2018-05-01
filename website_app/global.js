@@ -63,9 +63,13 @@ function initSetsList() {
             success: function(data) {
                 console.dir(data);
                 if(data.status === 'succeeded') {
-                    $.each(data.sets, function(index, set) {
-                        $('#setsList').append('<div class="setWrapper" onclick="window.location=\'?set=' + set.setId + '\'">' + set.setName + '</div>');
-                    });
+                    if(data.sets != null && data.sets != undefined) {
+                        $.each(data.sets, function(index, set) {
+                            $('#setsList').append('<div class="setWrapper" onclick="window.location=\'?set=' + set.setId + '\'">' + set.setName + '</div>');
+                        });
+                    }else {
+                        $('#setsList').append('<p>You have no sets!</p>');
+                    }
                 }
             }
         });
@@ -79,17 +83,19 @@ function initSetsList() {
                 console.dir(data);
                 if(data.status === 'succeeded') {
                     cards = data.cards;
-                    if(cards != null) {
-                        $('#setsList').attr('id', 'cardsList');
+                    $('#setsList').attr('id', 'cardsList');
+                    if(cards != null && cards != undefined) {
                         $('#cardsList').attr('onclick', 'flipCard()');
                         $('#cardsList').append('<p>' + cards[0].frontText + '</p>');
                         $('#currentCard').val(0);
                         $('#cardsList').before('<input id="currentCard" type="hidden" value="0" /><div class="btn btn-default prevCard" onclick="prevCard()">&#9664;</div>');
                         $('#cardsList').after('<div class="btn btn-default nextCard" onclick="nextCard()">&#9654;</div>');
+                        $.each(data.cards, function(index, card) {
+                            cards[index].selected = "front";
+                        });
+                    }else {
+                        $('#cardsList').append('<p>You have no flashcards in this set!</p>');
                     }
-                    $.each(data.cards, function(index, card) {
-                        cards[index].selected = "front";
-                    });
                 }
             },
             error: function(data) {
