@@ -1,3 +1,8 @@
+$.urlParam = function(name){
+    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+    return results[1] || 0;
+}
+
 function verifyLogin() {
     if((Cookies.get('logged_in') == null || Cookies.get('logged_in') == undefined) && window.location.pathname != '/index.html') {
         window.location = '/index.html';
@@ -45,19 +50,35 @@ function initLoginPage() {
 }
 
 function initSetsList() {
-    $.ajax({
-        url: 'http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/getSets.php',
-        type: 'get',
-        dataType: 'json',
-        data: {'id': Cookies.get('logged_in')},
-        success: function(data) {
-            console.dir(data);
-            if(data.status === 'succeeded') {
-                $('#setsList').append('<ul></ul>');
-                $.each(data.sets, function(index, set) {
-                    $('#setsList ul').append('<li><a href="?set=' + set.setId + '">' + set.setName + '</a></li>');
-                });
+    var setParam = $.urlParam('set');
+    if(setParam === 0) {
+        $.ajax({
+            url: 'http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/getSets.php',
+            type: 'get',
+            dataType: 'json',
+            data: {'id': Cookies.get('logged_in')},
+            success: function(data) {
+                console.dir(data);
+                if(data.status === 'succeeded') {
+                    $('#setsList').append('<ul></ul>');
+                    $.each(data.sets, function(index, set) {
+                        $('#setsList ul').append('<li><a href="?set=' + set.setId + '">' + set.setName + '</a></li>');
+                    });
+                }
             }
-        }
-    });
+        });
+    }else {
+        $.ajax({
+            url: 'http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/getFlashcards.php',
+            type: 'get',
+            dataType: 'json',
+            data: {'id': setParam},
+            success: function(data) {
+                console.dir(data);
+            },
+            error: function(data) {
+                console.dir(data);
+            }
+        });
+    }
 }
