@@ -72,5 +72,5 @@ body {
 }
 
 .btn.nextCard, .btn.prevCard {
-    display: flex;
+    display: inline;
 }
