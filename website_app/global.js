@@ -291,7 +291,7 @@ function deleteSet(id) {
 }
 
 function initEditSet(id, obj) {
-    $('.editSet').after($('<input>', {
+    $(obj).after($('<input>', {
         type: 'text',
         placeholder: 'Set Name...',
         id: 'existingSetName'
