@@ -39,8 +39,10 @@ body {
     height: 20vh;
     text-align: center;
     background-color: lightgrey;
-    border: 5px solid #EBEBEB;
+    border: 5px solid #4095a5;
     border-radius: 10px;
+    display: inline;
+    vertical-align: middle;
 }
 
 #setsList p {
