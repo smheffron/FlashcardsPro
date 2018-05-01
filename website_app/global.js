@@ -23,13 +23,13 @@ function initLoginPage() {
                     if($('#errorMessage').length > 0) {
                         $('#errorMessage').text('Incorrect credentials. Please try again.')
                     }else {
-                        $('.container').append('<p id="errorMessage">Incorrect credentials. Please try again.</p>');
+                        $('form').before('<p id="errorMessage">Incorrect credentials. Please try again.</p>');
                     }
                 }else {
                     if($('#errorMessage').length > 0) {
                         $('#errorMessage').text('There was an error processing your request, please contact the system administrator.')
                     }else {
-                        $('.container').append('<p id="errorMessage">There was an error processing your request, please contact the system administrator.</p>');
+                        $('form').before('<p id="errorMessage">There was an error processing your request, please contact the system administrator.</p>');
                     }
                 }
             },
@@ -37,7 +37,7 @@ function initLoginPage() {
                 if($('#errorMessage').length > 0) {
                     $('#errorMessage').text('There was an error processing your request, please contact the system administrator.')
                 }else {
-                    $('.container').append('<p id="errorMessage">There was an error processing your request, please contact the system administrator.</p>');
+                    $('form').before('<p id="errorMessage">There was an error processing your request, please contact the system administrator.</p>');
                 }
             }
         });
