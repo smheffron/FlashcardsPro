@@ -66,7 +66,7 @@ function initSetsList() {
                     $('#setsList').empty();
                     if(data.sets.length != 0) {
                         $.each(data.sets, function(index, set) {
-                            $('#setsList').append('<div class="setWrapper" onclick="window.location=\'?set=' + set.setId + '\'"><p>' + set.setName + '</p></div><button class="btn btn-danger deleteCardBtn" onclick="deleteSet(' + set.setId + ')">Delete</button><br>');
+                            $('#setsList').append('<div class="setWrapper" onclick="window.location=\'?set=' + set.setId + '\'"><p>' + set.setName + '</p></div><button class="btn btn-danger deleteCardBtn" onclick="deleteSet(' + set.setId + ')">Delete</button><button class="btn btn-danger editCardBtn" onclick="initEditSet(' + set.setId + ')">Rename</button><br>');
                         });
                     }else {
                         $('#setsList').append('<p>You have no sets!</p>');
@@ -291,37 +291,33 @@ function deleteSet(id) {
 }
 
 function initEditSet(id) {
-    $('#editSet').after($('<input>', {
+    $('.editSet').after($('<input>', {
         type: 'text',
         placeholder: 'Set Name...',
         id: 'existingSetName'
     }));
-    var setName = $('#existingSetName').val($('#editSet').prev().prev().children('span')[0].val());
-    $('#existingCardFront').before('<label for=existingCardFront>Front Text:</label>');
-    $('#existingCardBack').before('<label for=existingCardBack>Back Text:&nbsp;</label>');
-    $('#existingCardFront').after('<br>');
-    $('#existingCardBack').after('<br><button class="btn btn-primary editCardBtn" onclick="editCard(' + cards[id].cardId + ')">Update</button>');
-    $('#editCard, .nextCard, .prevCard').addClass('disabled');
+    $('#existingSetName').val($('.editSet').prev().prev().children('span')[0].val());
+    $('#existingSetName').after('<button class="btn btn-primary editSetBtn" onclick="editSet(' + cards[id].cardId + ')">Update</button>');
 }
 
 function editSet(id) {
-    $.ajax({
-        url: 'http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/deleteCardSet.php',
-        type: 'get',
-        data: {'id': id},
-        dataType: 'json',
-        success: function(data) {
-            if(data.status === 'succeeded') {
-                initSetsList();
-            }else {
-                $('#newSetWrapper').before('<p class="text-danger">Failed to delete set</p>');
-            }
-        },
-        error: function(data) {
-            $('#newSetWrapper').before('<p class="text-danger">Failed to delete set</p>');
-            console.dir(data);
-        }
-    });
+//    $.ajax({
+//        url: 'http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/updateSetName.php',
+//        type: 'get',
+//        data: {'id': id},
+//        dataType: 'json',
+//        success: function(data) {
+//            if(data.status === 'succeeded') {
+//                initSetsList();
+//            }else {
+//                $('#newSetWrapper').before('<p class="text-danger">Failed to delete set</p>');
+//            }
+//        },
+//        error: function(data) {
+//            $('#newSetWrapper').before('<p class="text-danger">Failed to delete set</p>');
+//            console.dir(data);
+//        }
+//    });
 }
 
 async function flipCard() {
