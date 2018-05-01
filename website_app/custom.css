@@ -50,6 +50,7 @@ body {
 }
 
 #cardsList {
+    position: relative;
     width: 30vw;
     height: 20vh;
     text-align: center;
@@ -65,8 +66,9 @@ body {
 
 #cardsList span {
 /*    margin: 0 auto;*/
-    min-width: 100%;
-    min-height: 100%;
+    position: absolute;
+    width: 100%;
+    height: 100%;
     vertical-align: middle;
     cursor: pointer;
 /*    display: inline-block;*/
