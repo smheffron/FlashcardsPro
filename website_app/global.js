@@ -285,7 +285,7 @@ function deleteSet(id) {
     });
 }
 
-function flipCard() {
+async function flipCard() {
     var id = $('#currentCard').val();
     
     if($('#cardsList').css("transform") == 'none'){
