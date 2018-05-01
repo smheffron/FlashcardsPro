@@ -65,7 +65,7 @@ function initSetsList() {
                 if(data.status === 'succeeded') {
                     if(data.sets.length != 0) {
                         $.each(data.sets, function(index, set) {
-                            $('#setsList').append('<div class="setWrapper" onclick="window.location=\'?set=' + set.setId + '\'"><p>' + set.setName + '</p></div>');
+                            $('#setsList').append('<div class="setWrapper" onclick="window.location=\'?set=' + set.setId + '\';$(\'#title\').text(\'' + set.setName + '\')"><p>' + set.setName + '</p></div>');
                         });
                     }else {
                         $('#setsList').append('<p>You have no sets!</p>');
