@@ -70,7 +70,7 @@ body {
     margin-left: 10px;
     margin-right: 10px;
     cursor: pointer;
-    transition: transform 0.5s;
+    transition: transform 1s;
 }
 
 #cardsList p {
@@ -85,7 +85,7 @@ body {
 }
 
 #cardsList:active {
-    transform: rotateX(180deg);
+    transform: rotateX(90deg);
 }
 
 .btn.nextCard, .btn.prevCard {
