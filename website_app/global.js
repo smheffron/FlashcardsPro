@@ -107,7 +107,7 @@ function initSetsList() {
 }
 
 function initNewSet() {
-    $('#setsList').hide();
+//    $('#setsList').hide();
     $('#newSetBtn').before($('<input>', {
         type: 'text',
         placeholder: 'New Set Name...',

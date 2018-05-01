@@ -87,6 +87,6 @@ body {
     display: inline;
 }
 
-#createNewSet {
-    display: none;
+#newSetName, #newSetBtn {
+    display: inline-block;
 }
