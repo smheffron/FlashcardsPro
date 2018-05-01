@@ -51,6 +51,7 @@ function initLoginPage() {
 
 function initSetsList() {
     var setParam = $.urlParam('set');
+    var cards = [];
     console.log(setParam);
     if(setParam === 0) {
         $.ajax({
@@ -76,6 +77,13 @@ function initSetsList() {
             data: {'setId': setParam},
             success: function(data) {
                 console.dir(data);
+                if(data.status === 'succeeded') {
+                    $('#setsList').append('<ul></ul>');
+                    $.each(data.sets, function(index, card) {
+                        $('#setsList ul').append('<li value="' + card.id + '">' + card.frontText + '</li>');
+                        cards[index] = card;
+                    });
+                }
             },
             error: function(data) {
                 console.dir(data);
