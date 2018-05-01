@@ -104,4 +104,5 @@ body {
 #deleteCard, #editCard {
     display: inline;
     margin-left: 10px;
+    margin-top: 10px;
 }
