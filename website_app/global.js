@@ -11,6 +11,10 @@ function verifyLogin() {
     }
 }
 
+function logout() {
+    if(Cookies.remove('logged_in')) {window.location = '/index.html';}
+}
+
 function initLoginPage() {
     $('form').submit(function(e) {
         e.preventDefault();
@@ -315,11 +319,13 @@ function editSet(id) {
                 $('.editSetBtn, #existingSetName, label[for=existingSetName]').remove();
                 initSetsList();
             }else {
-                $('#newSetWrapper').before('<p class="text-danger">Failed to delete set</p>');
+                $('#newSetWrapper').before('<p class="text-danger">Failed to rename set</p>');
+                initSetsList();
             }
         },
         error: function(data) {
-            $('#newSetWrapper').before('<p class="text-danger">Failed to delete set</p>');
+            $('#newSetWrapper').before('<p class="text-danger">Failed to rename set</p>');
+            initSetsList();
             console.dir(data);
         }
     });
