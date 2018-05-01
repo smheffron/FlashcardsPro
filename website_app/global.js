@@ -141,12 +141,14 @@ function initNewCard() {
 
 function newCard() {
     var setParam = $.urlParam('set');
-    var id = Cookies.get('logged_in');
+    var cardFront = $('#newCardFront').val();
+    var cardBack = $('#newCardBack').val();
+    
     if(setParam != -1) {
         $.ajax({
-            url: 'http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/newCardSet.php?id=' + id,
+            url: 'http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/newFlashcard.php?setId=' + setParam,
             type: 'post',
-            data: {'title': setName},
+            data: {'newCardFront': cardFront, 'newCardBack': cardBack},
             dataType: 'json',
             success: function(data) {
                 if(data.status === 'succeeded') {
