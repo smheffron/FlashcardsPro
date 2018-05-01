@@ -62,11 +62,12 @@ body {
 
 #cardsList p {
 /*    margin: 0 auto;*/
-    width: 100%;
-    height: 100%;
+    position: absolute;
+    display: inline;
     vertical-align: middle;
     cursor: pointer;
-    display: inline;
+    width: 100%;
+    height: 100%;
 }
 
 .btn.nextCard, .btn.prevCard {
