@@ -53,7 +53,7 @@ function initSetsList() {
         success: function(data) {
             console.dir(data);
             if(data.status === 'succeeded') {
-                $('#setsList').append($('ul'));
+                $('#setsList').append('<ul></ul>');
                 $.each(data.sets, function(index, set) {
                     $('#setsList ul').append('<li value="' + set.setId + '">' + set.setName + '</li>');
                 });
