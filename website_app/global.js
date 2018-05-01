@@ -150,12 +150,14 @@ function initEditCard(id) {
         id: 'existingCardBack',
         value: cards[id].backText
     }));
+    $('#existingCardBack').after('<br>');
     $('#editDeleteWrapper').after($('<input>', {
         type: 'text',
         placeholder: 'Front Text...',
         id: 'existingCardFront',
         value: cards[id].frontText
     }));
+    $('#existingCardFront').after('<br>');
     $('#existingCardBack').after('<button class="btn btn-primary editCardBtn" onclick="editCard(' + cards[id].cardId + ')">Update</button>');
     $('#editCard').addClass('disabled');
 }
