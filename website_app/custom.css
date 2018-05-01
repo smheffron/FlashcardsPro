@@ -41,6 +41,7 @@ body {
     background-color: lightgrey;
     border: 3px solid #4095a5;
     border-radius: 10px;
+    margin-bottom: 10px;
 }
 
 #cardsList {

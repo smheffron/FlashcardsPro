@@ -64,7 +64,7 @@ function initSetsList() {
                 console.dir(data);
                 if(data.status === 'succeeded') {
                     $.each(data.sets, function(index, set) {
-                        $('#setsList').append('<div class="setWrapper"><a href="?set=' + set.setId + '">' + set.setName + '</a></div>');
+                        $('#setsList').append('<div class="setWrapper" onclick="window.location="?set=' + set.setId + '">' + set.setName + '</div>');
                     });
                 }
             }
