@@ -122,6 +122,8 @@ function newSet() {
     var setName = $('#newSetName').val();
     var id = Cookies.get('logged_in');
     
+    console.log(setName + ' ' + id);
+    
     $.ajax({
         url: 'http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/newCardSet.php',
         type: 'get',
