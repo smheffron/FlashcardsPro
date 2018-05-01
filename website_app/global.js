@@ -160,8 +160,29 @@ function initEditCard(id) {
     $('#editCard').addClass('disabled');
 }
 
-function editCard() {
+function editCard(id) {
+    var cardFront = $('#existingCardFront').val();
+    var cardBack = $('#existingCardBack').val();
     
+    $.ajax({
+        url: 'http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/updateFlashcard.php?cardId=' + id,
+        type: 'post',
+        data: {'newFront': cardFront, 'newBack': cardBack},
+        dataType: 'json',
+        success: function(data) {
+            if(data.status === 'succeeded') {
+                $('#editCard').removeClass('disabled');
+                $('#existingCardFront, #existingCardBack, #editCardBtn').remove();
+                initSetsList();
+            }else {
+                $('#newCardWrapper').before('<p class="text-danger">Failed to edit flashcard</p>');
+            }
+        },
+        error: function(data) {
+            $('#newCardWrapper').before('<p class="text-danger">Failed to edit flashcard</p>');
+            console.dir(data);
+        }
+    });
 }
 
 function deleteCard(id) {
