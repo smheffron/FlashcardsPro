@@ -86,3 +86,7 @@ body {
 .btn.nextCard, .btn.prevCard {
     display: inline;
 }
+
+#createNewSet {
+    display: none;
+}

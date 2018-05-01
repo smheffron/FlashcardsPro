@@ -106,6 +106,16 @@ function initSetsList() {
     }
 }
 
+function initNewSet() {
+    $('#setsList').hide();
+    $('#newSetBtn').before($('<input>', {
+        type: 'text',
+        placeholder: 'New Set Name...',
+        id: 'newSetName'
+    }));
+    $('#newSetBtn span').text('Create');
+}
+
 function flipCard() {
     var id = $('#currentCard').val();
     
