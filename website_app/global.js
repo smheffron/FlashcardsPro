@@ -66,7 +66,7 @@ function initSetsList() {
                     $('#setsList').empty();
                     if(data.sets.length != 0) {
                         $.each(data.sets, function(index, set) {
-                            $('#setsList').append('<div class="setWrapper" onclick="window.location=\'?set=' + set.setId + '\'"><p>' + set.setName + '</p></div><button class="btn btn-danger deleteSetBtn" onclick="deleteSet(' + set.setId + ')">Delete</button><button class="btn btn-primary editSetBtn" onclick="initEditSet(' + set.setId + ')">Rename</button><br>');
+                            $('#setsList').append('<div class="setWrapper" onclick="window.location=\'?set=' + set.setId + '\'"><p>' + set.setName + '</p></div><button class="btn btn-danger deleteSetBtn" onclick="deleteSet(' + set.setId + ')">Delete</button><button class="btn btn-primary editSetBtn" onclick="initEditSet(' + set.setId + ', this)">Rename</button><br>');
                         });
                     }else {
                         $('#setsList').append('<p>You have no sets!</p>');
@@ -290,13 +290,13 @@ function deleteSet(id) {
     });
 }
 
-function initEditSet(id) {
+function initEditSet(id, obj) {
     $('.editSet').after($('<input>', {
         type: 'text',
         placeholder: 'Set Name...',
         id: 'existingSetName'
     }));
-    $('#existingSetName').val($('.editSet').prev().prev().children('span')[0].val());
+    $('#existingSetName').val($(obj).prev().prev().children()[0].textContent);
     $('#existingSetName').after('<button class="btn btn-primary editSetBtn" onclick="editSet(' + cards[id].cardId + ')">Update</button>');
 }
 
