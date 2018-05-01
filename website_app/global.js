@@ -12,7 +12,8 @@ function verifyLogin() {
 }
 
 function logout() {
-    if(Cookies.remove('logged_in')) {window.location = '/index.html';}
+    Cookies.remove('logged_in');
+    window.location = '/index.html';
 }
 
 function initLoginPage() {
