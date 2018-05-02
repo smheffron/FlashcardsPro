@@ -17,10 +17,13 @@
 ##### Sets ![sets schema](https://github.com/smheffron/FlashcardsPro/blob/master/Assets/set_schema.png)
 
 ## ERD (Entity Relationship Diagram):
-
+![ERD diagram](https://github.com/smheffron/FlashcardsPro/blob/master/Assets/ERD.png)
 
 ## CRUD Locations:
-
+##### Create: The app and website both create data for the database whenever a user signs up, creates a set, or creates a card
+##### Read: The app and website both read data from the database to retain card and set information between sessions
+##### Update: The app and website both update data in the database when the update button is clicked and the user types in new information
+##### Delete: The app and website both delete data from the database when the delete button is clicked next to a card, set, or user account
 
 ## Videos:
 ##### [Android app Video](https://www.youtube.com/watch?v=K8JtEnKH8pQ&feature=youtu.be): https://www.youtube.com/watch?v=K8JtEnKH8pQ&feature=youtu.be
