@@ -6,5 +6,6 @@ function verifyLogin() {
 
 function logout() {
     Cookies.remove('logged_in');
+    Cookies.remove('username');
     window.location = '/index.html';
 }
