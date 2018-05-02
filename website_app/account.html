@@ -11,81 +11,54 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <link rel="stylesheet" type="text/css" href="custom.css" />
-
-
-        <script type="text/javascript">
-          
-         function changeUsername(){
-
-            document.getElementById("account").innerHTML = '<br><br><form action="">Enter New Username <input type="text"><br><button type="submit">Submit</button></form>';
-          }
-
-          function changePassword(){
-
-            document.getElementById("account").innerHTML = '<br><br><form action="">Enter Current Password <input type="text"><br>Enter New Password <input type="text"><br>Re-Enter Password <input type="text"><br><button type="submit">Submit</button></form>';
-          }
-
-          function deleteAccount(){
-
-            document.getElementById("account").innerHTML = '<br><br><form action="">Are you sure?<br><button type="submit">Yes</button></form>';
-          }
-
-
+        
+        <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+        <script src="global.js"></script>
+        <script src="account.js"></script>
+        
+        <script>
+            verifyLogin();
         </script>
     </head>
+    <body>
+        <div class="container-fluid">
+            <nav class="navbar navbar-inverse navbar-fixed-top">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">FlashCards Pro</a>
+                </div>
+                <ul class="nav navbar-nav" height="25px" width="25px">
+                    <li><a href="home.html"><img src="fcp.png" height="25px" width="25px"></a></li>
+                    <li ><a href="home.html" class="">Sets</a></li>
+                    <li class="float-left"><a href="account.html">Account</a></li>
+                </ul>
+            </nav>
+            <div class="jumbotron">
+                <center>
+                    <h1>Account</h1>
+                </center>
+                <div class="container">
+                    <center>
+                        <div class="row" >
+                            <div id="userDataWrapper" class="well well-md">
+                              <div><b>Username:</b> ILoveDale</div>
+                            </div>
+                            <button id="editUsernameBtn" onclick="initEditUsername()" class="btn btn-primary">Change Username</button>
+                            <br>
+                            <button id="editPasswordBtn" onclick="initEditPassword()" class="btn btn-primary">Change Password</button>
+                            <br>
+                            <button id="deleteUserBtn" onclick="initDeleteAccount()" class="btn btn-danger">Delete Account</button>
 
-<body>
-
-<div class="container-fluid">
-<nav class="navbar navbar-inverse navbar-fixed-top">
-   
-    <div class="navbar-header">
-    <a class="navbar-brand" href="#">FlashCards Pro</a>
-    </div>
-    <ul class="nav navbar-nav" height="25px" width="25px">
-    <li><a href="home.html"><img src="fcp.png" height="25px" width="25px"></a></li>
-    <li ><a href="home.html" class="">Sets</a></li>
-    <li class="float-left"><a href="account.html">Account</a></li>
-    </ul>
-    </div>
-
-</nav>
-
-<div class="jumbotron">
-    <center>
-        <div >
-        <h1>Account</h1>
-      </center>
-</div>
-
-<div class="container">
-  
-
-
-<br>
-
-<center>
-<div class="row" >
-
-  <div class = "well well-md">
-      <div><b>Username:</b> ILoveDale</div>
-      
-      <div><b>Email:</b> Dalethealphamale@swagmail.yolo</div>
-  </div>
-  <button onclick="changeUsername()" class="btn btn-primary">Change Username</button>
-  <br>
-  <button onclick="changePassword()" class="btn btn-primary">Change Password</button>
-  <br>
-  <button onclick="deleteAccount()" class="btn btn-danger">Delete Account</button>
-   
-   <div id="account"></div>
- 
-</div>
-</center>
-
-
-
-
-   
+                            <div id="account"></div>
+                        </div>
+                    </center>
+                </div>
+            </div>
+        </div>
+        
+        <script>
+            $(document).ready(function() {
+                
+            });
+        </script>
     </body>
 </html>
