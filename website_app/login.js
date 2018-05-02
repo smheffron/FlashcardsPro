@@ -12,7 +12,8 @@ function initLoginPage() {
             success: function(data) {
                 if(data.userId != null && data.status === 'succeeded' && data.login === 'succeeded') {
                     Cookies.set('logged_in', data.userId);
-                    window.location = 'home.html';
+                    Cookies.set('username', $('#username').val());
+                    window.location = '/home.html';
                 }else if(data.status === 'succeeded' && data.login === 'failed') {
                     if($('.errorMessage').length > 0) {
                         $('.errorMessage').text('Incorrect credentials. Please try again.')

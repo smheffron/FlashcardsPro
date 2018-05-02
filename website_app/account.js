@@ -1,7 +1,15 @@
+function initUserData() {
+    var username = Cookies.get('username');
+    
+    $('#userDataWrapper div').html('<b>Username:</b> ' + username);
+}
+
 function initEditUsername() {
     var id = Cookies.get('logged_in');
+    var username = Cookies.get('username');
+    
     var formSkeleton = '<label for="newUsername">New Username: </label><br>'
-                     + '<input type="text" id="newUsername" placeholder="New Username..." /><br>'
+                     + '<input type="text" id="newUsername" placeholder="New Username..." value="' + username + '"/><br>'
                      + '<input type="password" id="password" placeholder="Password..." /><br>'
                      + '<button class="btn btn-primary" onclick="editUsername(' + id + ')">Update</button>';
     $('#account').html(formSkeleton);
@@ -20,6 +28,7 @@ function editUsername(id) {
         success: function(data) {
             console.dir(data);
             if(data.status === 'succeeded') {
+                Cookies.set('username', newUsername);
                 $('#userDataWrapper').before('<p class="text-success">Successfully changed username to "' + newUsername + '"!</p>');
                 $('#account').empty();
                 $('#editPasswordBtn, #editUsernameBtn, #deleteUserBtn').removeClass('disabled');
