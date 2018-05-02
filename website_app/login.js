@@ -78,7 +78,8 @@ function initLoginPage() {
     });
 }
 
-function initCreateAccount() {
+function initCreateAccount(obj) {
     $('#loginForm').hide();
     $('#createAccountForm').show();
+    $(obj).hide();
 }
