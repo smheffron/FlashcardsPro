@@ -1,5 +1,5 @@
 function initLoginPage() {
-    $('#loginForm').submit(function(e) {
+    $('#loginForm form').submit(function(e) {
         e.preventDefault();
         $.ajax({
             url: 'http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/verifyLogin.php',
@@ -38,7 +38,7 @@ function initLoginPage() {
         });
     });
     
-    $('#createAccountForm').submit(function(e) {
+    $('#createAccountForm form').submit(function(e) {
         e.preventDefault();
         $.ajax({
             url: 'http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/newUser.php',
