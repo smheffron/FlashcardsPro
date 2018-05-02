@@ -14,7 +14,6 @@ function initEditUsername() {
                      + '<input type="password" id="password" placeholder="Password..." /><br>'
                      + '<button class="btn btn-primary" onclick="editUsername(' + id + ')">Update</button>';
     $('#account').html(formSkeleton);
-//    $('#editPasswordBtn, #editUsernameBtn, #deleteUserBtn').addClass('disabled');
 }
 
 function editUsername(id) {
@@ -30,19 +29,34 @@ function editUsername(id) {
             console.dir(data);
             if(data.status === 'succeeded') {
                 Cookies.set('username', newUsername);
-                $('#userDataWrapper').before('<p class="text-success">Successfully changed username to "' + newUsername + '"!</p>');
+                if($('#message').length > 0) {
+                    $('#message').html('Successfully changed username to "' + newUsername + '"!');
+                }else {
+                    $('#userDataWrapper').before('<p class="text-success">Successfully changed username to "' + newUsername + '"!</p>');
+                }
                 $('#account').empty();
-//                $('#editPasswordBtn, #editUsernameBtn, #deleteUserBtn').removeClass('disabled');
                 initUserData();
             }else if(data.reason === 'authentication failure'){
-                $('#account').prepend('<p class="text-danger">Incorrect password provided!</p>');
+                if($('#error').length > 0) {
+                    $('#error').html('Incorrect password provided!');
+                }else {
+                    $('#account').prepend('<p class="text-danger">Incorrect password provided!</p>');
+                }
             }else {
-                $('#account').prepend('<p class="text-danger">There was an error updating your username.</p>');
+                if($('#error').length > 0) {
+                    $('#error').html('There was an error updating your username.');
+                }else {
+                    $('#account').prepend('<p class="text-danger">There was an error updating your username.</p>');
+                }
             }
         },
         error: function(data) {
             console.dir(data);
-            $('#account').prepend('<p class="text-danger">There was an error updating your username.</p>');
+            if($('#error').length > 0) {
+                $('#error').html('There was an error updating your username.');
+            }else {
+                $('#account').prepend('<p class="text-danger">There was an error updating your username.</p>');
+            }
         }
     });
 }
@@ -57,7 +71,6 @@ function initEditPassword() {
                      + '<input type="password" id="confirmNewPassword" /><br>'
                      + '<button class="btn btn-primary" onclick="editPassword(' + id + ')">Update</button>';
     $('#account').html(formSkeleton);
-//    $('#editPasswordBtn, #editUsernameBtn, #deleteUserBtn').addClass('disabled');
 }
 
 function editPassword(id) {
@@ -74,20 +87,35 @@ function editPassword(id) {
             success: function(data) {
                 console.dir(data);
                 if(data.status === 'succeeded') {
-                    $('#userDataWrapper').before('<p class="text-success">Successfully changed password!</p>');
+                    if($('#message').length > 0) {
+                        $('#message').html('Successfully changed password!');
+                    }else {
+                        $('#userDataWrapper').before('<p id="message" class="text-success">Successfully changed password!</p>');
+                    }
                     $('#account').empty();
-//                    $('#editPasswordBtn, #editUsernameBtn, #deleteUserBtn').removeClass('disabled');
                 }else if(data.reason === 'authentication failure'){
-                    $('#account').prepend('<p class="text-danger">Incorrect password provided!</p>');
+                    if('#error').length > 0) {
+                        $('#error').html('Incorrect password provided!');
+                    }else {
+                        $('#account').prepend('<p id="error" class="text-danger">Incorrect password provided!</p>');
+                    }
                     $('#currentPassword, #newPassword, #confirmNewPassword').val('');
                 }else {
-                    $('#account').prepend('<p class="text-danger">There was an error updating your password.</p>');
+                    if('#error').length > 0) {
+                        $('#error').html('There was an error updating your password.');
+                    }else {
+                        $('#account').prepend('<p class="text-danger">There was an error updating your password.</p>');
+                    }
                     $('#currentPassword, #newPassword, #confirmNewPassword').val('');
                 }
             },
             error: function(data) {
                 console.dir(data);
-                $('#account').prepend('<p class="text-danger">There was an error updating your password.</p>');
+                if('#error').length > 0) {
+                    $('#error').html('There was an error updating your password.');
+                }else {
+                    $('#account').prepend('<p class="text-danger">There was an error updating your password.</p>');
+                }
                 $('#currentPassword, #newPassword, #confirmNewPassword').val('');
             }
         });
@@ -119,14 +147,26 @@ function deleteUser(id) {
             if(data.status === 'succeeded') {
                 logout();
             }else if(data.reason === 'authentication failure'){
-                $('#account').prepend('<p class="text-danger">Incorrect password provided!</p>');
+                if('#error').length > 0) {
+                    $('#error').html('Incorrect password provided!');
+                }else {
+                    $('#account').prepend('<p class="text-danger">Incorrect password provided!</p>');
+                }
             }else {
-                $('#account').prepend('<p class="text-danger">There was an error deleting your user.</p>');
+                if('#error').length > 0) {
+                    $('#error').html('There was an error deleting your user.');
+                }else {
+                    $('#account').prepend('<p class="text-danger">There was an error deleting your user.</p>');
+                }
             }
         },
         error: function(data) {
             console.dir(data);
-            $('#account').prepend('<p class="text-danger">There was an error deleting your user.</p>');
+            if('#error').length > 0) {
+                $('#error').html('There was an error deleting your user.');
+            }else {
+                $('#account').prepend('<p class="text-danger">There was an error deleting your user.</p>');
+            }
         }
     });
 }
