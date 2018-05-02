@@ -60,6 +60,7 @@ function initLoginPage() {
                         $('#createUserAccountForm').before('<p class="errorMessage">Username taken. Please try a different one.</p>');
                     }
                 }else {
+                    console.dir(data);
                     if($('.errorMessage').length > 0) {
                         $('.errorMessage').text('There was an error processing your request, please contact the system administrator.')
                     }else {
@@ -68,6 +69,7 @@ function initLoginPage() {
                 }
             },
             error: function(data) {
+                console.dir(data);
                 if($('.errorMessage').length > 0) {
                     $('.errorMessage').text('There was an error processing your request, please contact the system administrator.')
                 }else {
