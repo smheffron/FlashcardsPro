@@ -42,12 +42,14 @@ function editUsername(id) {
                 }else {
                     $('#account').prepend('<p class="text-danger">Incorrect password provided!</p>');
                 }
+                $('#password').val('');
             }else {
                 if($('#error').length > 0) {
                     $('#error').html('There was an error updating your username.');
                 }else {
                     $('#account').prepend('<p class="text-danger">There was an error updating your username.</p>');
                 }
+                $('#password').val('');
             }
         },
         error: function(data) {
@@ -57,6 +59,7 @@ function editUsername(id) {
             }else {
                 $('#account').prepend('<p class="text-danger">There was an error updating your username.</p>');
             }
+            $('#password').val('');
         }
     });
 }
