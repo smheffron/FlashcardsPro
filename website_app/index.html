@@ -29,7 +29,7 @@
                       <img src="fcp.png">  
                     </div>
                 </div>
-                <div class="row">
+                <div id="loginForm" class="row">
                     <form action="">
                         <div class="input-group mb-3">
                             <input type="text" id="username" name="username" placeholder="Username" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default"> 
@@ -43,9 +43,27 @@
                      </form>
                 </div>
                 <br>
-                <div class="row">
-                    <a href="createaccount.html">Create Account</a>
+                <div id="createAccountForm" class="row">
+                    <form action="">
+                        <div class="input-group mb-3">
+                            <input type="text" id="NewUserUsername" name="username" placeholder="Username" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default"> 
+                        </div>
+                        <br>
+                        <div class="input-group mb-3">
+                            <input id="newUserPassword" name="password" type="password" placeholder="Password" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default"> 
+                        </div>
+                        <br>
+                        <div class="input-group mb-3">
+                            <input id="newUserConfirmPassword" name="password" type="password" placeholder="Password" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default"> 
+                        </div>
+                        <br>
+                        <button class="btn btn-primary" type="submit">Create Account</button>
+                     </form>
                 </div>
+                <div class="row">
+                    <button class="btn btn-primary" onclick="initCreateAccount()">Create Account</button>
+                </div>
+                <br>
             </div>
         </center>
         

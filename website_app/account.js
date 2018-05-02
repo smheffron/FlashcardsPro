@@ -14,7 +14,7 @@ function initEditUsername() {
                      + '<input type="password" id="password" placeholder="Password..." /><br>'
                      + '<button class="btn btn-primary" onclick="editUsername(' + id + ')">Update</button>';
     $('#account').html(formSkeleton);
-    $('#editPasswordBtn, #editUsernameBtn, #deleteUserBtn').addClass('disabled');
+//    $('#editPasswordBtn, #editUsernameBtn, #deleteUserBtn').addClass('disabled');
 }
 
 function editUsername(id) {
@@ -32,7 +32,7 @@ function editUsername(id) {
                 Cookies.set('username', newUsername);
                 $('#userDataWrapper').before('<p class="text-success">Successfully changed username to "' + newUsername + '"!</p>');
                 $('#account').empty();
-                $('#editPasswordBtn, #editUsernameBtn, #deleteUserBtn').removeClass('disabled');
+//                $('#editPasswordBtn, #editUsernameBtn, #deleteUserBtn').removeClass('disabled');
                 initUserData();
             }else if(data.reason === 'authentication failure'){
                 $('#account').prepend('<p class="text-danger">Incorrect password provided!</p>');
@@ -57,7 +57,7 @@ function initEditPassword() {
                      + '<input type="password" id="confirmNewPassword" /><br>'
                      + '<button class="btn btn-primary" onclick="editPassword(' + id + ')">Update</button>';
     $('#account').html(formSkeleton);
-    $('#editPasswordBtn, #editUsernameBtn, #deleteUserBtn').addClass('disabled');
+//    $('#editPasswordBtn, #editUsernameBtn, #deleteUserBtn').addClass('disabled');
 }
 
 function editPassword(id) {
@@ -76,7 +76,7 @@ function editPassword(id) {
                 if(data.status === 'succeeded') {
                     $('#userDataWrapper').before('<p class="text-success">Successfully changed password!</p>');
                     $('#account').empty();
-                    $('#editPasswordBtn, #editUsernameBtn, #deleteUserBtn').removeClass('disabled');
+//                    $('#editPasswordBtn, #editUsernameBtn, #deleteUserBtn').removeClass('disabled');
                 }else if(data.reason === 'authentication failure'){
                     $('#account').prepend('<p class="text-danger">Incorrect password provided!</p>');
                     $('#currentPassword, #newPassword, #confirmNewPassword').val('');

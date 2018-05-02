@@ -1,5 +1,5 @@
 function initLoginPage() {
-    $('form').submit(function(e) {
+    $('#loginForm').submit(function(e) {
         e.preventDefault();
         $.ajax({
             url: 'http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/verifyLogin.php',
@@ -32,9 +32,53 @@ function initLoginPage() {
                 if($('.errorMessage').length > 0) {
                     $('.errorMessage').text('There was an error processing your request, please contact the system administrator.')
                 }else {
+                    $('#loginForm').before('<p class="errorMessage">There was an error processing your request, please contact the system administrator.</p>');
+                }
+            }
+        });
+    });
+    
+    $('#createAccountForm').submit(function(e) {
+        e.preventDefault();
+        $.ajax({
+            url: 'http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/createUser.php',
+            type: 'post',
+            dataType: 'json',
+            data: {
+                    'username': $('#newUserUsername').val(),
+                    'password': $('#newUserPassword').val()
+                  },
+            success: function(data) {
+                if(data.userId != null && data.status === 'succeeded') {
+                    Cookies.set('logged_in', data.userId);
+                    Cookies.set('username', $('#newUserUsername').val());
+                    window.location = '/home.html';
+                }else if(data.reason === 'name taken') {
+                    if($('.errorMessage').length > 0) {
+                        $('.errorMessage').text('Username taken. Please try a different one.')
+                    }else {
+                        $('#createUserAccountForm').before('<p class="errorMessage">Username taken. Please try a different one.</p>');
+                    }
+                }else {
+                    if($('.errorMessage').length > 0) {
+                        $('.errorMessage').text('There was an error processing your request, please contact the system administrator.')
+                    }else {
+                        $('form').before('<p class="errorMessage">There was an error processing your request, please contact the system administrator.</p>');
+                    }
+                }
+            },
+            error: function(data) {
+                if($('.errorMessage').length > 0) {
+                    $('.errorMessage').text('There was an error processing your request, please contact the system administrator.')
+                }else {
                     $('form').before('<p class="errorMessage">There was an error processing your request, please contact the system administrator.</p>');
                 }
             }
         });
     });
+}
+
+function initCreateAccount() {
+    $('#loginForm').hide();
+    $('#createAccountForm').show();
 }
