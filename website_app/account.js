@@ -89,7 +89,7 @@ function editPassword(id) {
 function initDeleteUser() {
     var id = Cookies.get('logged_in');
     var formSkeleton = '<p>Please enter your password to confirm the deletion of your account. <b>THIS CANNOT BE UNDONE!</b></p><br>'
-                     + '<label for="password">Current Password: </label><br>''
+                     + '<label for="password">Current Password: </label><br>'
                      + '<input type="password" id="password" placeholder="Password..." /><br>'
                      + '<button class="btn btn-danger onclick="deleteUser(' + id + ')">Permanently Delete</button>';
     $('#account').html(formSkeleton);
