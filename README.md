@@ -23,5 +23,6 @@
 
 
 ## Videos:
-[Android app Video](https://www.youtube.com/watch?v=K8JtEnKH8pQ&feature=youtu.be)
-[Website Video](https://www.youtube.com/watch?v=K8JtEnKH8pQ&feature=youtu.be)
+##### [Android app Video](https://www.youtube.com/watch?v=K8JtEnKH8pQ&feature=youtu.be): https://www.youtube.com/watch?v=K8JtEnKH8pQ&feature=youtu.be
+
+##### [Website Video](https://www.youtube.com/watch?v=Iy_qrF1beMs&feature=youtu.be): https://www.youtube.com/watch?v=Iy_qrF1beMs&feature=youtu.be
