@@ -40,14 +40,14 @@ function editUsername(id) {
                 if($('#error').length > 0) {
                     $('#error').html('Incorrect password provided!');
                 }else {
-                    $('#account').prepend('<p class="text-danger">Incorrect password provided!</p>');
+                    $('#account').prepend('<p id="error" class="text-danger">Incorrect password provided!</p>');
                 }
                 $('#password').val('');
             }else {
                 if($('#error').length > 0) {
                     $('#error').html('There was an error updating your username.');
                 }else {
-                    $('#account').prepend('<p class="text-danger">There was an error updating your username.</p>');
+                    $('#account').prepend('<p id="error" class="text-danger">There was an error updating your username.</p>');
                 }
                 $('#password').val('');
             }
@@ -57,7 +57,7 @@ function editUsername(id) {
             if($('#error').length > 0) {
                 $('#error').html('There was an error updating your username.');
             }else {
-                $('#account').prepend('<p class="text-danger">There was an error updating your username.</p>');
+                $('#account').prepend('<p id="error" class="text-danger">There was an error updating your username.</p>');
             }
             $('#password').val('');
         }
@@ -107,7 +107,7 @@ function editPassword(id) {
                     if($('#error').length > 0) {
                         $('#error').html('There was an error updating your password.');
                     }else {
-                        $('#account').prepend('<p class="text-danger">There was an error updating your password.</p>');
+                        $('#account').prepend('<p id="error" class="text-danger">There was an error updating your password.</p>');
                     }
                     $('#currentPassword, #newPassword, #confirmNewPassword').val('');
                 }
@@ -117,13 +117,13 @@ function editPassword(id) {
                 if($('#error').length > 0) {
                     $('#error').html('There was an error updating your password.');
                 }else {
-                    $('#account').prepend('<p class="text-danger">There was an error updating your password.</p>');
+                    $('#account').prepend('<p id="error" class="text-danger">There was an error updating your password.</p>');
                 }
                 $('#currentPassword, #newPassword, #confirmNewPassword').val('');
             }
         });
     }else {
-        $('#account').prepend('<p class="text-danger">The passwords did not match.</p>');
+        $('#account').prepend('<p id="error" class="text-danger">The passwords did not match.</p>');
         $('#currentPassword, #newPassword, #confirmNewPassword').val('');
     }
 }
@@ -153,13 +153,13 @@ function deleteUser(id) {
                 if($('#error').length > 0) {
                     $('#error').html('Incorrect password provided!');
                 }else {
-                    $('#account').prepend('<p class="text-danger">Incorrect password provided!</p>');
+                    $('#account').prepend('<p id="error" class="text-danger">Incorrect password provided!</p>');
                 }
             }else {
                 if($('#error').length > 0) {
                     $('#error').html('There was an error deleting your user.');
                 }else {
-                    $('#account').prepend('<p class="text-danger">There was an error deleting your user.</p>');
+                    $('#account').prepend('<p id="error" class="text-danger">There was an error deleting your user.</p>');
                 }
             }
         },
@@ -168,7 +168,7 @@ function deleteUser(id) {
             if($('#error').length > 0) {
                 $('#error').html('There was an error deleting your user.');
             }else {
-                $('#account').prepend('<p class="text-danger">There was an error deleting your user.</p>');
+                $('#account').prepend('<p id="error" class="text-danger">There was an error deleting your user.</p>');
             }
         }
     });
