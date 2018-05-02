@@ -123,7 +123,11 @@ function editPassword(id) {
             }
         });
     }else {
-        $('#account').prepend('<p id="error" class="text-danger">The passwords did not match.</p>');
+        if($('#error').length > 0) {
+            $('#error').html('The passwords did not match.');
+        }else {
+            $('#account').prepend('<p id="error" class="text-danger">The passwords did not match.</p>');
+        }
         $('#currentPassword, #newPassword, #confirmNewPassword').val('');
     }
 }
