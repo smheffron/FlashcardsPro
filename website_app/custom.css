@@ -134,3 +134,7 @@ label[for=existingSetName] {
 #editUsernameBtn, #editPasswordBtn, #deleteUserBtn {
     margin-bottom: 10px;
 }
+
+#account button {
+    margin-top: 10px;
+}

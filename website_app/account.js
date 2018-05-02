@@ -10,6 +10,7 @@ function initEditUsername() {
     
     var formSkeleton = '<label for="newUsername">New Username: </label><br>'
                      + '<input type="text" id="newUsername" placeholder="New Username..." value="' + username + '"/><br>'
+                     + '<label for="password">Current Password: </label><br>'
                      + '<input type="password" id="password" placeholder="Password..." /><br>'
                      + '<button class="btn btn-primary" onclick="editUsername(' + id + ')">Update</button>';
     $('#account').html(formSkeleton);
