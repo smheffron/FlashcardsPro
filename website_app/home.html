@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>Flashcards Pro</title>
+        <script src="jslibs/jquery3-3-1.js"></script>
+        <script src="jslibs/angular1-6-9.js"></script>
+        <script src="behavior.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="custom.css" />
+        
+        <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+        <script src="global.js"></script>
+        <script src="home.js"></script>
+        
+        <script>
+            verifyLogin();
+        </script>
+    </head>
+
+    <body>
+        <div class="container-fluid">
+            <nav class="navbar navbar-inverse navbar-fixed-top">
+
+                <div class="navbar-header">
+                <a class="navbar-brand" href="#">FlashCards Pro</a>
+                </div>
+                <ul class="nav navbar-nav" height="25px" width="25px">
+                    <li><a href="home.html"><img src="fcp.png" height="25px" width="25px"></a></li>
+                    <li ><a href="home.html" class="">Sets</a></li>
+                    <li class="float-left"><a href="account.html">Account</a></li>
+                </ul>
+                <div id="logoutBtn" class="btn btn-default navbar-btn pull-right" onclick="logout()">Logout</div>
+            </nav>
+
+            <div class="jumbotron">
+                <center>
+                    <h1 id="title">Sets</h1>
+                </center>
+
+                <div class="container">
+
+                    <div class="row">
+                        <div id="newSetWrapper">
+                            <span>New Set: </span>
+                            <button class="btn btn-default" id="newSetBtn" onclick="initNewSet()"><span class="glyphicon">&#xe081;</span></button>
+                        </div>
+                    </div>
+                    <br><br>
+                    <center>
+                        <div id="setsList" class="row" >
+                            
+                        </div>
+                        <div id="editDeleteWrapper" class="row">
+                            <button class="btn btn-primary" id="editCard">Edit Card</button>
+                            <button class="btn btn-danger" id="deleteCard">Delete Card</button>
+                        </div>
+                    </center>
+                </div>
+            </div>
+        </div>
+        
+        <script>
+            $(document).ready(function() {
+                initSetsList();
+            });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,144 @@
+.navbar {
+	background-color: #4095a5;
+	
+}
+
+.navbar-nav ul li a {
+
+	color: #EBEBEB;
+}
+
+.navbar-inverse .navbar-nav>li>a {
+    color: #EBEBEB;
+}
+
+.navbar-inverse .navbar-brand {
+    color: #EBEBEB;
+}
+body {
+	background-color: #EBEBEB;
+}
+
+#login {
+
+}
+
+.firstcolor {
+	background-color: #4095a5;
+}
+.secondcolor{
+	background-color: #EBEBEB;
+}
+
+.errorMessage {
+    color: red;
+}
+
+.setWrapper {
+    width: 20vw;
+    height: 10vh;
+    text-align: center;
+    background-color: lightgrey;
+    border: 3px solid #4095a5;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    vertical-align: middle;
+    display: inline-flex;
+}
+
+.setWrapper p {
+    margin: auto;
+    cursor: pointer;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+
+#cardsList {
+    width: 30vw;
+    height: 20vh;
+    text-align: center;
+    background-color: lightgrey;
+    border: 3px solid #4095a5;
+    border-radius: 10px;
+    display: inline-flex;
+    vertical-align: middle;
+    margin-left: 10px;
+    margin-right: 10px;
+    cursor: pointer;
+    transition: transform 1s;
+}
+
+#cardsList p {
+    margin: auto;
+    cursor: pointer;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+    transition: transform 0.75s;
+}
+
+.btn.nextCard, .btn.prevCard {
+    display: inline;
+}
+
+#newSetName, #newSetBtn {
+    display: inline;
+    margin-right: 5px;
+}
+
+.btn.deleteSetBtn, .btn.editSetBtn {
+    display: inline;
+    margin-left: 15px;
+}
+
+#newCardFront, #newCardBack, #newCardBtn {
+    margin-left: 5px;
+}
+
+#deleteCard, #editCard {
+    display: inline;
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+#existingCardFront, #existingCardBack, .editCardBtn {
+    display: inline-block;
+    margin-top: 10px;
+}
+
+#editDeleteWrapper {
+    display: none;
+}
+
+label[for=existingCardFront], label[for=existingCardBack] {
+    margin-right: 5px;
+}
+
+label[for=existingSetName] {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+#logoutBtn {
+    margin-right: 10px;
+}
+
+#editUsernameBtn, #editPasswordBtn, #deleteUserBtn {
+    margin-bottom: 10px;
+}
+
+#account button {
+    margin-top: 10px;
+}
+
+#createAccountForm {
+    display: none;
+}
