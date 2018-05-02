@@ -32,7 +32,7 @@ function editUsername(id) {
                 if($('#message').length > 0) {
                     $('#message').html('Successfully changed username to "' + newUsername + '"!');
                 }else {
-                    $('#userDataWrapper').before('<p class="text-success">Successfully changed username to "' + newUsername + '"!</p>');
+                    $('#userDataWrapper').before('<p id="message" class="text-success">Successfully changed username to "' + newUsername + '"!</p>');
                 }
                 $('#account').empty();
                 initUserData();
