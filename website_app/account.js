@@ -3,7 +3,7 @@ function initEditUsername() {
     var formSkeleton = '<label for="newUsername">New Username: </label><br>'
                      + '<input type="text" id="newUsername" placeholder="New Username..." /><br>'
                      + '<input type="password" id="password" placeholder="Password..." /><br>'
-                     + '<button class="btn btn-primary onclick="editUsername(' + id + ')">Update</button>';
+                     + '<button class="btn btn-primary" onclick="editUsername(' + id + ')">Update</button>';
     $('#account').html(formSkeleton);
     $('#editPasswordBtn, #editUsernameBtn, #deleteUserBtn').addClass('disabled');
 }
@@ -44,7 +44,7 @@ function initEditPassword() {
                      + '<input type="password" id="newPassword" /><br>'
                      + '<label for="repeatNewPassword">Confirm New Password: </label><br>'
                      + '<input type="password" id="confirmNewPassword" /><br>'
-                     + '<button class="btn btn-primary onclick="editPassword(' + id + ')">Update</button>';
+                     + '<button class="btn btn-primary" onclick="editPassword(' + id + ')">Update</button>';
     $('#account').html(formSkeleton);
     $('#editPasswordBtn, #editUsernameBtn, #deleteUserBtn').addClass('disabled');
 }
@@ -91,7 +91,7 @@ function initDeleteUser() {
     var formSkeleton = '<p>Please enter your password to confirm the deletion of your account. <b>THIS CANNOT BE UNDONE!</b></p><br>'
                      + '<label for="password">Current Password: </label><br>'
                      + '<input type="password" id="password" placeholder="Password..." /><br>'
-                     + '<button class="btn btn-danger onclick="deleteUser(' + id + ')">Permanently Delete</button>';
+                     + '<button class="btn btn-danger" onclick="deleteUser(' + id + ')">Permanently Delete</button>';
     $('#account').html(formSkeleton);
 }
 
