@@ -41,7 +41,7 @@ function initLoginPage() {
     $('#createAccountForm').submit(function(e) {
         e.preventDefault();
         $.ajax({
-            url: 'http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/createUser.php',
+            url: 'http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/newUser.php',
             type: 'post',
             dataType: 'json',
             data: {
