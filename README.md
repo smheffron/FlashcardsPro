@@ -9,18 +9,23 @@
 ---
 ## Schemas:
 ---
+
 #### Cards Table
 ![cards schema](https://github.com/smheffron/FlashcardsPro/blob/master/Assets/card_schema.png)
 ---
+
 #### Users Table
 ![users schema](https://github.com/smheffron/FlashcardsPro/blob/master/Assets/user_schema.png)
 ---
+
 #### Sets Table
 ![sets schema](https://github.com/smheffron/FlashcardsPro/blob/master/Assets/set_schema.png)
 ---
+
 ## ERD (Entity Relationship Diagram):
 ![ERD diagram](https://github.com/smheffron/FlashcardsPro/blob/master/Assets/ERD.png)
 ---
+
 ## CRUD Locations:
 ##### Create: The app and website both create data for the database whenever a user signs up, creates a set, or creates a card
 ##### Read: The app and website both read data from the database to retain card and set information between sessions
