@@ -138,3 +138,7 @@ label[for=existingSetName] {
 #account button {
     margin-top: 10px;
 }
+
+#createAccountForm {
+    display: none;
+}
