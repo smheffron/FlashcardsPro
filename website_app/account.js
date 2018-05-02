@@ -94,14 +94,14 @@ function editPassword(id) {
                     }
                     $('#account').empty();
                 }else if(data.reason === 'authentication failure'){
-                    if('#error').length > 0) {
+                    if($('#error').length > 0) {
                         $('#error').html('Incorrect password provided!');
                     }else {
                         $('#account').prepend('<p id="error" class="text-danger">Incorrect password provided!</p>');
                     }
                     $('#currentPassword, #newPassword, #confirmNewPassword').val('');
                 }else {
-                    if('#error').length > 0) {
+                    if($('#error').length > 0) {
                         $('#error').html('There was an error updating your password.');
                     }else {
                         $('#account').prepend('<p class="text-danger">There was an error updating your password.</p>');
@@ -111,7 +111,7 @@ function editPassword(id) {
             },
             error: function(data) {
                 console.dir(data);
-                if('#error').length > 0) {
+                if($('#error').length > 0) {
                     $('#error').html('There was an error updating your password.');
                 }else {
                     $('#account').prepend('<p class="text-danger">There was an error updating your password.</p>');
@@ -147,13 +147,13 @@ function deleteUser(id) {
             if(data.status === 'succeeded') {
                 logout();
             }else if(data.reason === 'authentication failure'){
-                if('#error').length > 0) {
+                if($('#error').length > 0) {
                     $('#error').html('Incorrect password provided!');
                 }else {
                     $('#account').prepend('<p class="text-danger">Incorrect password provided!</p>');
                 }
             }else {
-                if('#error').length > 0) {
+                if($('#error').length > 0) {
                     $('#error').html('There was an error deleting your user.');
                 }else {
                     $('#account').prepend('<p class="text-danger">There was an error deleting your user.</p>');
@@ -162,7 +162,7 @@ function deleteUser(id) {
         },
         error: function(data) {
             console.dir(data);
-            if('#error').length > 0) {
+            if($('#error').length > 0) {
                 $('#error').html('There was an error deleting your user.');
             }else {
                 $('#account').prepend('<p class="text-danger">There was an error deleting your user.</p>');
