@@ -24,7 +24,7 @@ function editUsername(id) {
                 $('#account').empty();
                 $('#editPasswordBtn, #editUsernameBtn, #deleteUserBtn').removeClass('disabled');
             }else if(data.reason === 'authentication failure'){
-                $('#userDataWrapper').before('<p class="text-danger">Incorrect password provided!</p>');
+                $('#account').prepend('<p class="text-danger">Incorrect password provided!</p>');
             }else {
                 $('#account').prepend('<p class="text-danger">There was an error updating your username.</p>');
             }
