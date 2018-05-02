@@ -18,13 +18,13 @@ function initLoginPage() {
                     if($('.errorMessage').length > 0) {
                         $('.errorMessage').text('Incorrect credentials. Please try again.')
                     }else {
-                        $('form').before('<p class="errorMessage">Incorrect credentials. Please try again.</p>');
+                        $('#loginForm').before('<p class="errorMessage">Incorrect credentials. Please try again.</p>');
                     }
                 }else {
                     if($('.errorMessage').length > 0) {
                         $('.errorMessage').text('There was an error processing your request, please contact the system administrator.')
                     }else {
-                        $('form').before('<p class="errorMessage">There was an error processing your request, please contact the system administrator.</p>');
+                        $('#loginForm').before('<p class="errorMessage">There was an error processing your request, please contact the system administrator.</p>');
                     }
                 }
             },
@@ -57,14 +57,14 @@ function initLoginPage() {
                     if($('.errorMessage').length > 0) {
                         $('.errorMessage').text('Username taken. Please try a different one.')
                     }else {
-                        $('#createUserAccountForm').before('<p class="errorMessage">Username taken. Please try a different one.</p>');
+                        $('#createAccountForm').before('<p class="errorMessage">Username taken. Please try a different one.</p>');
                     }
                 }else {
                     console.dir(data);
                     if($('.errorMessage').length > 0) {
                         $('.errorMessage').text('There was an error processing your request, please contact the system administrator.')
                     }else {
-                        $('form').before('<p class="errorMessage">There was an error processing your request, please contact the system administrator.</p>');
+                        $('#createAccountForm').before('<p class="errorMessage">There was an error processing your request, please contact the system administrator.</p>');
                     }
                 }
             },
@@ -73,7 +73,7 @@ function initLoginPage() {
                 if($('.errorMessage').length > 0) {
                     $('.errorMessage').text('There was an error processing your request, please contact the system administrator.')
                 }else {
-                    $('form').before('<p class="errorMessage">There was an error processing your request, please contact the system administrator.</p>');
+                    $('#createAccountForm').before('<p class="errorMessage">There was an error processing your request, please contact the system administrator.</p>');
                 }
             }
         });
