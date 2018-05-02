@@ -32,6 +32,7 @@ function editUsername(id) {
                 $('#userDataWrapper').before('<p class="text-success">Successfully changed username to "' + newUsername + '"!</p>');
                 $('#account').empty();
                 $('#editPasswordBtn, #editUsernameBtn, #deleteUserBtn').removeClass('disabled');
+                initUserData();
             }else if(data.reason === 'authentication failure'){
                 $('#account').prepend('<p class="text-danger">Incorrect password provided!</p>');
             }else {

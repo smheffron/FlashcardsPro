@@ -130,3 +130,7 @@ label[for=existingSetName] {
 #logoutBtn {
     margin-right: 10px;
 }
+
+#editUsernameBtn, #editPasswordBtn, #deleteUserBtn {
+    margin-bottom: 10px;
+}
