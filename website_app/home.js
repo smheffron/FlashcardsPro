@@ -10,12 +10,11 @@ $.urlParam = function(name){
 function initSetsList() {
     var setParam = $.urlParam('set');
     if(setParam === -1) {
-        //if new user with no sets
+        //if no set is specified in URL, get user's sets (R)
         $.ajax({
             url: 'http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/getSets.php',
             type: 'get',
             dataType: 'json',
-            //check to see if user is logged in
             data: {'id': Cookies.get('logged_in')},
             success: function(data) {
                 if(data.status === 'succeeded') {
@@ -32,7 +31,7 @@ function initSetsList() {
         });
     }else {
         $.ajax({
-            //re-generating cards from db (R)
+            //if a set is specified in the URL, get the flashcards from the specified set (R)
             url: 'http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/getFlashcards.php',
             type: 'get',
             dataType: 'json',
