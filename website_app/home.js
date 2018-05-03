@@ -1,3 +1,5 @@
+//Searching for CRUD with "(C)" "(R)" "(U)" "(D)" will take you to exact functions where each is happening
+
 var cards = [];
 
 $.urlParam = function(name){
@@ -7,15 +9,15 @@ $.urlParam = function(name){
 
 function initSetsList() {
     var setParam = $.urlParam('set');
-//    console.log(setParam);
     if(setParam === -1) {
+        //if new user with no sets
         $.ajax({
             url: 'http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/getSets.php',
             type: 'get',
             dataType: 'json',
+            //check to see if user is logged in
             data: {'id': Cookies.get('logged_in')},
             success: function(data) {
-//                console.dir(data);
                 if(data.status === 'succeeded') {
                     $('#setsList').empty();
                     if(data.sets.length != 0) {
@@ -30,12 +32,12 @@ function initSetsList() {
         });
     }else {
         $.ajax({
+            //re-generating cards from db (R)
             url: 'http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/getFlashcards.php',
             type: 'get',
             dataType: 'json',
             data: {'setId': setParam},
             success: function(data) {
-//                console.dir(data);
                 if(data.status === 'succeeded') {
                     cards = data.cards;
                     $('#setsList').attr('id', 'cardsList');
@@ -122,6 +124,7 @@ function editCard(id) {
     var cardFront = $('#existingCardFront').val();
     var cardBack = $('#existingCardBack').val();
     
+    //editing card in db (U)
     $.ajax({
         url: 'http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/updateFlashcard.php?cardId=' + id,
         type: 'post',
@@ -146,6 +149,7 @@ function editCard(id) {
 }
 
 function deleteCard(id) {
+    //deleting card in db (D)
     $.ajax({
         url: 'http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/deleteFlashcard.php',
         type: 'get',
@@ -170,6 +174,7 @@ function newCard() {
     var cardFront = $('#newCardFront').val();
     var cardBack = $('#newCardBack').val();
     
+    //creating new card in db (C)
     if(setParam != -1) {
         $.ajax({
             url: 'http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/newFlashcard.php?setId=' + setParam,
@@ -201,6 +206,7 @@ function newSet() {
     var setName = $('#newSetName').val();
     var id = Cookies.get('logged_in');
     
+    //ajax request done to create set in database (C)
     $.ajax({
         url: 'http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/newCardSet.php?id=' + id,
         type: 'post',
@@ -225,6 +231,7 @@ function newSet() {
 }
 
 function deleteSet(id) {
+    //ajax request done so that we can delete data from database (D)
     $.ajax({
         url: 'http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/deleteCardSet.php',
         type: 'get',
@@ -258,7 +265,7 @@ function initEditSet(id, obj) {
 
 function editSet(id) {
     var setName = $('#existingSetName').val();
-    
+    //ajax request done so that we can updated post data to database (U)
     $.ajax({
         url: 'http://ec2-18-188-60-72.us-east-2.compute.amazonaws.com/FlashcardsPro/updateSetName.php?id=' + id,
         type: 'post',
